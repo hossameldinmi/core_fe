@@ -9,8 +9,9 @@ void main() {
 
     void intilizeValidatableObject(String input) {
       validatableObject = ValidatableObject<String>(input);
-      requiredValidationCommand =
-          RequiredValidationCommand<String>([validatableObject]);
+      requiredValidationCommand = RequiredValidationCommand<String>(
+          [validatableObject],
+          validationMessage: '');
       requiredValidationCommand.excute();
     }
 

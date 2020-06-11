@@ -1,5 +1,5 @@
-name: corefeflutter
-description: Shared Flutter specific utilites
+name: core_fe_flutter
+description: Shared Flutter specific utilities
 version: 0.0.1
 author:
 homepage:
@@ -14,6 +14,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  core_fe_dart:
+    path: ../core_fe_dart
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

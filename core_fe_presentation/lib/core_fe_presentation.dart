@@ -1,4 +1,4 @@
-library corefeinfrastructure;
+library core_fe_presentation;
 
 /// A Calculator.
 class Calculator {

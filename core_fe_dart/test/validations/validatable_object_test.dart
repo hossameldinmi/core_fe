@@ -5,7 +5,6 @@ import 'package:mockito/mockito.dart';
 import 'package:matcher/matcher.dart';
 import '../mocks/validations.dart';
 
-
 void main() {
   ValidatableObject<String> validatableObject;
   MockValidationRule<String> mockValidationRule;
@@ -90,8 +89,7 @@ void main() {
       expect(validatableObject.value, _value); // verify value not changed
     });
 
-
-     test('expected Fist Exception if only one Object rule NOT passed', () {
+    test('expected Fist Exception if only one Object rule NOT passed', () {
       //aggregate
       final mockValidationRule2 = MockValidationRule<String>();
       final mockValidationRule3 = MockValidationRule<String>();

@@ -4,16 +4,13 @@ import 'package:core_fe_dart/src/exceptions/validation_exception.dart';
 import 'package:core_fe_dart/src/validations/i_validation.dart';
 
 class ValidatableObject<T> {
-  ValidatableObject(T value)
-      : _value = value,
-        _errors = <ValidationException>[],
-        _validations = <IValidationRule<T>>[];
+  ValidatableObject(T value) : _value = value;
 
-  List<IValidationRule<T>> _validations;
+  List<IValidationRule<T>> _validations = <IValidationRule<T>>[];
   UnmodifiableListView<IValidationRule<T>> get validations =>
       UnmodifiableListView<IValidationRule<T>>(_validations);
 
-  List<ValidationException> _errors;
+  List<ValidationException> _errors = <ValidationException>[];
   UnmodifiableListView<ValidationException> get errors =>
       UnmodifiableListView<ValidationException>(_errors);
 
@@ -39,7 +36,7 @@ class ValidatableObject<T> {
   }
 
   void clear() {
-    _errors = <ValidationException>[];
-    _validations = <IValidationRule<T>>[];
+    _errors.clear();
+    _validations.clear();
   }
 }

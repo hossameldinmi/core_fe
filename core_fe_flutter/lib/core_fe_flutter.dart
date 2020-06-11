@@ -1,4 +1,4 @@
-library corefepresentation;
+library core_fe_flutter;
 
 /// A Calculator.
 class Calculator {

@@ -1,4 +1,4 @@
-# corefeflutter
+# core_fe_flutter
 
 Shared Flutter specific utilites
 

@@ -1,4 +1,4 @@
-library corefeflutter;
+library core_fe_infrastructure;
 
 /// A Calculator.
 class Calculator {

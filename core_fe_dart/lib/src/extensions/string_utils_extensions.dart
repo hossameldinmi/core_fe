@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 
 extension StringUtilsExtension on String {
   /// formate string:
@@ -17,7 +16,6 @@ String _formatText(String text, Map<String, dynamic> args) {
   args ??= {};
   args?.forEach((key, value) {
     text = text.replaceAll('{$key}', value != null ? value.toString() : '');
-    debugPrint(text);
   });
   return text;
 }
