@@ -9,10 +9,10 @@ variables:
   coreFeInfrastructureDir: core_fe_infrastructure
   coreFePresentationDir: core_fe_presentation
 
-trigger:
-  - master
-  - develop
-  - azure-pipelines/*
+# trigger:
+#   - master
+#   - develop
+#   - azure-pipelines/*
 
 pool:
   vmImage: "windows-latest"
