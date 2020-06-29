@@ -1,5 +1,4 @@
-abstract class Enum<T> {
-  final T value;
-  final String key;
-  const Enum(this.key, this.value);
+abstract class Enum<TKey,TValue> {
+  final TKey key;
+  const Enum(this.key);
 }
