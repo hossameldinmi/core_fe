@@ -8,8 +8,8 @@ void _format(DateTime date, DateTimeFormat format, String expectedDateStr,
   expect(date.format(format: format, language: language), expectedDateStr);
 }
 
-void _parse(DateTime date, DateTimeFormat format, String dateStr) {
-  expect(dateStr.parseToDateTime(formatIn: format), date);
+void _parse(DateTime expectedDate, DateTimeFormat format, String dateStr) {
+  expect(dateStr.parseToDateTime(formatIn: format), expectedDate);
 }
 
 void main() {
@@ -31,8 +31,8 @@ void main() {
 
     group('Parsing', () {
       test('expected UTC isoFormat EN parsing ', () {
-        _parse(date, _dateTimeFormat, '2020-12-13T14:15:16.170180Z');
-        _parse(date2, _dateTimeFormat, '2020-06-06T06:06:06.006006Z');
+        _parse(date.toLocal(), _dateTimeFormat, '2020-12-13T14:15:16.170180Z');
+        _parse(date2.toLocal(), _dateTimeFormat, '2020-06-06T06:06:06.006006Z');
       });
     });
   });
