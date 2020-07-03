@@ -3,7 +3,7 @@ import 'package:core_fe_infrastructure/src/providers/json_model_provider.dart';
 
 class CoreFeInfrastructureTest extends BaseModule {
   CoreFeInfrastructureTest() {
-    instance.reset();
+    reset();
     setupSerializables();
   }
 
@@ -18,7 +18,7 @@ class CoreFeInfrastructureTest extends BaseModule {
 
   @override
   void setupSerializables() {
-    instance.registerSingleton<IJsonModelProvider>(TestJsonModelProvider());
+    registerSingleton<IJsonModelProvider>(TestJsonModelProvider());
   }
 
   @override

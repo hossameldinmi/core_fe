@@ -1,5 +1,7 @@
 import 'package:core_fe_dart/core_fe_dart.dart';
+import 'package:meta/meta.dart';
 
+@immutable
 class Language extends Enum<String, Language> {
   const Language(String code, this.name, [this.isRtl = false]) : super(code);
   final bool isRtl;
