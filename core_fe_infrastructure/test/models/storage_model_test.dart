@@ -1,6 +1,6 @@
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_flutter/src/utils/base_module.dart';
+import 'package:core_fe_flutter/src/utils/base_factory.dart';
 import 'package:core_fe_flutter/src/extenstions/date_time_extensions.dart';
 import '../core_fe_infrastructure.dart';
 
@@ -13,7 +13,7 @@ const kExpiryDate = 'expiry_date';
 const kData = 'data';
 
 void main() {
-  BaseModule.init(CoreFeInfrastructureTest());
+  BaseFactory.init(CoreFeInfrastructureTest());
 
   group('init', () {
     test('validate key if null', () {
