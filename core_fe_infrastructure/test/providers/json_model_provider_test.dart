@@ -1,11 +1,11 @@
-import 'package:core_fe_infrastructure/src/providers/json_model_provider.dart';
+import 'package:core_fe_infrastructure/src/providers/json_model_factory.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_flutter/src/utils/base_module.dart';
+import 'package:core_fe_flutter/src/utils/base_factory.dart';
 import '../core_fe_infrastructure.dart';
 import 'package:matcher/matcher.dart';
 
 void main() {
-  BaseModule.init(CoreFeInfrastructureTest());
+  BaseFactory.init(CoreFeInfrastructureTest());
   group('int', () {
     test('expected succeeded serialization & deserialization', () {
       const value = 1;

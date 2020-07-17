@@ -1,4 +1,4 @@
-import 'package:core_fe_infrastructure/src/providers/json_model_provider.dart';
+import 'package:core_fe_infrastructure/src/providers/json_model_factory.dart';
 import 'package:meta/meta.dart';
 import 'package:core_fe_flutter/src/extenstions/date_time_extensions.dart';
 import 'package:core_fe_dart/src/extensions/iterable_extensions.dart';

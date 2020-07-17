@@ -1,12 +1,12 @@
 import 'package:get_it/get_it.dart';
 
 /// initialize it in app start
-BaseModule moduleInstance;
+BaseFactory factoryInstance;
 
-abstract class BaseModule {
+abstract class BaseFactory {
   final _instance = GetIt.instance;
-  static void init(BaseModule instance) {
-    moduleInstance = instance;
+  static void init(BaseFactory instance) {
+    factoryInstance = instance;
   }
 
   T call<T>({String instanceName}) => _instance<T>(instanceName: instanceName);

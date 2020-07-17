@@ -1,30 +1,30 @@
 import 'package:core_fe_flutter/src/models/types.dart';
 import 'package:core_fe_infrastructure/src/models/json_model.dart';
 import 'package:meta/meta.dart';
-import 'package:core_fe_flutter/src/utils/base_module.dart';
+import 'package:core_fe_flutter/src/utils/base_factory.dart';
 
-abstract class IJsonModelProvider {
+abstract class IJsonModelFactory {
   JsonModel<TEntity> call<TEntity>();
   JsonModel<Iterable<TEntity>> iterable<TEntity>();
   JsonModel<Map<String, TEntity>> map<TEntity>();
 }
 
-abstract class JsonModelProvider implements IJsonModelProvider {
-  JsonModelProvider() {
+abstract class JsonModelFactory implements IJsonModelFactory {
+  JsonModelFactory() {
     register<int>(
-      fromJson: (map) => map as int,
+      fromJson: (json) => json as int,
       toJson: (value) => value,
     );
     register<String>(
-      fromJson: (map) => map as String,
+      fromJson: (json) => json as String,
       toJson: (value) => value,
     );
     register<num>(
-      fromJson: (map) => map as num,
+      fromJson: (json) => json as num,
       toJson: (value) => value,
     );
     register<double>(
-      fromJson: (map) => map as double,
+      fromJson: (json) => json as double,
       toJson: (value) => value,
     );
     register<dynamic>(
@@ -68,4 +68,4 @@ abstract class JsonModelProvider implements IJsonModelProvider {
   }
 }
 
-final jsonUtil = moduleInstance<IJsonModelProvider>();
+final jsonUtil = factoryInstance<IJsonModelFactory>();

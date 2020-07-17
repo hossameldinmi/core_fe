@@ -1,7 +1,7 @@
-import 'package:core_fe_flutter/src/utils/base_module.dart';
-import 'package:core_fe_infrastructure/src/providers/json_model_provider.dart';
+import 'package:core_fe_infrastructure/src/providers/json_model_factory.dart';
+import 'package:core_fe_flutter/src/utils/base_factory.dart';
 
-class CoreFeInfrastructureTest extends BaseModule {
+class CoreFeInfrastructureTest extends BaseFactory {
   CoreFeInfrastructureTest() {
     reset();
     setupSerializables();
@@ -18,11 +18,11 @@ class CoreFeInfrastructureTest extends BaseModule {
 
   @override
   void setupSerializables() {
-    registerSingleton<IJsonModelProvider>(TestJsonModelProvider());
+    registerSingleton<IJsonModelFactory>(TestJsonModelProvider());
   }
 
   @override
   void setupStatesWithRoutes() {}
 }
 
-class TestJsonModelProvider extends JsonModelProvider {}
+class TestJsonModelProvider extends JsonModelFactory {}
