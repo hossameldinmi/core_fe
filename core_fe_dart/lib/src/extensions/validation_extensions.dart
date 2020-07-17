@@ -4,12 +4,13 @@ extension ObjectExtension on Object {
   /// - empty
   /// - whitespace string.
   bool isNullEmptyOrWhitespace() {
-    if (this is String) {
-      return (this as String).isNullEmptyOrWhitespace();
-    } else if (this is Iterable) {
-      return (this as Iterable).isEmpty;
+    var value=this;
+    if (value is String) {
+      return value.isNullEmptyOrWhitespace();
+    } else if (value is Iterable) {
+      return value.isEmpty;
     } else {
-      return this == null;
+      return value == null;
     }
   }
 }
