@@ -11,11 +11,26 @@ abstract class IJsonModelProvider {
 
 abstract class JsonModelProvider implements IJsonModelProvider {
   JsonModelProvider() {
-    register<int>(fromJson: (map) => map as int, toJson: (value) => value);
+    register<int>(
+      fromJson: (map) => map as int,
+      toJson: (value) => value,
+    );
     register<String>(
-        fromJson: (map) => map as String, toJson: (value) => value);
-    register<num>(fromJson: (map) => map as num, toJson: (value) => value);
-    register<double>(fromJson: (map) => map as num, toJson: (value) => value);
+      fromJson: (map) => map as String,
+      toJson: (value) => value,
+    );
+    register<num>(
+      fromJson: (map) => map as num,
+      toJson: (value) => value,
+    );
+    register<double>(
+      fromJson: (map) => map as double,
+      toJson: (value) => value,
+    );
+    register<dynamic>(
+      fromJson: (json) => json,
+      toJson: (value) => value,
+    );
   }
 
   final Map<Type, JsonModel> _localContext = {};
@@ -27,7 +42,7 @@ abstract class JsonModelProvider implements IJsonModelProvider {
   }
 
   void register<TEntity>(
-      {@required fromJsonDef<TEntity> fromJson, toJsonDef<TEntity> toJson}) {
+      {@required FromJsonFunc<TEntity> fromJson, ToJsonFunc<TEntity> toJson}) {
     _localContext[TEntity] =
         JsonModel<TEntity>(fromJson: fromJson, toJson: toJson);
   }
@@ -35,19 +50,21 @@ abstract class JsonModelProvider implements IJsonModelProvider {
   @override
   JsonModel<Iterable<TEntity>> iterable<TEntity>() {
     return JsonModel<Iterable<TEntity>>(
-        fromJson: (json) => (json as Iterable)
-            ?.map<TEntity>(jsonUtil<TEntity>().fromJson)
-            ?.toList(),
-        toJson: (list) => list?.map((jsonUtil<TEntity>().toJson)));
+      fromJson: (json) => (json as Iterable)
+          ?.map<TEntity>(jsonUtil<TEntity>().fromJson)
+          ?.toList(),
+      toJson: (list) => list?.map(jsonUtil<TEntity>().toJson),
+    );
   }
 
   @override
   JsonModel<Map<String, TEntity>> map<TEntity>() {
     return JsonModel<Map<String, TEntity>>(
-        fromJson: (map) => (map as Map).map<String, TEntity>((k, v) =>
-            MapEntry<String, TEntity>(k, jsonUtil<TEntity>().toJson(v))),
-        toJson: (map) => map.map<String, dynamic>((k, v) =>
-            MapEntry<String, dynamic>(k, jsonUtil<TEntity>().toJson(v))));
+      fromJson: (map) => (map as Map).map<String, TEntity>((k, v) =>
+          MapEntry<String, TEntity>(k, jsonUtil<TEntity>().toJson(v))),
+      toJson: (map) => map.map<String, dynamic>((k, v) =>
+          MapEntry<String, dynamic>(k, jsonUtil<TEntity>().toJson(v))),
+    );
   }
 }
 

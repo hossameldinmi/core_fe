@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:core_fe_flutter/src/extenstions/date_time_extensions.dart';
 import 'package:core_fe_dart/src/extensions/iterable_extensions.dart';
 import 'package:core_fe_dart/src/extensions/validation_extensions.dart';
-import 'dart:collection';
+import 'package:core_fe_flutter/src/models/types.dart';
 
 @immutable
 class StorageModel<T> {
@@ -28,24 +28,26 @@ class StorageModel<T> {
   String toString() =>
       'StorageModel<$T>\n$kKey:$key\ndata:$data\ncreatedDate:$createdDate\nupdatedDate:$updatedDate\nexpiryDate:$expiryDate\n$kTags:$tags\n-----';
 
-  factory StorageModel.fromJson(Map<String, dynamic> map) {
+  factory StorageModel.fromJson(Map<String, dynamic> map,
+      [FromJsonFunc<T> dataFromJsonFunc]) {
     if (map == null) {
       return null;
     }
     return StorageModel<T>(
         key: map[kKey],
-        data: jsonUtil<T>().fromJson(
-          (map[_kData]),
-        ),
+        data: dataFromJsonFunc ??
+            jsonUtil<T>().fromJson(
+              (map[_kData]),
+            ),
         createdDate: (map[_kCreatedDate] as String)?.parseToDateTime(),
         updatedDate: (map[_kUpdatedDate] as String)?.parseToDateTime(),
         expiryDate: (map[_kExpiryDate] as String)?.parseToDateTime(),
         tags: (map[kTags] as List)?.map((model) => model as String)?.toList());
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson([ToJsonFunc<T> dataToJsonFunc]) => {
         kKey: key,
-        _kData: jsonUtil<T>().toJson(data),
+        _kData: dataToJsonFunc ?? jsonUtil<T>().toJson(data),
         _kCreatedDate: createdDate.format(),
         _kUpdatedDate: updatedDate.format(),
         _kExpiryDate: expiryDate != null ? expiryDate.format() : null,

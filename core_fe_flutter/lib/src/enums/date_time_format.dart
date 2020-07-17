@@ -5,8 +5,8 @@ import 'package:core_fe_flutter/src/models/types.dart';
 
 class DateTimeFormat extends Enum<int, DateTimeFormat> {
   final String format;
-  final toDateTimeDef toDateTimeCallback;
-  final formatterDef formatter;
+  final ToDateTimeFunc toDateTimeCallback;
+  final FormatterFunc formatter;
 
   const DateTimeFormat(
       int key, this.format, this.toDateTimeCallback, this.formatter)

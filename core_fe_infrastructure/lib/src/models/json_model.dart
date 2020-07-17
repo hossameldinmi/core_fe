@@ -3,8 +3,8 @@ import 'package:meta/meta.dart';
 
 @immutable
 class JsonModel<T> {
-  final toJsonDef<T> toJson;
-  final fromJsonDef<T> fromJson;
+  final ToJsonFunc<T> toJson;
+  final FromJsonFunc<T> fromJson;
 
   JsonModel({@required this.fromJson, @required this.toJson});
 }
