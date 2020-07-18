@@ -71,7 +71,10 @@ class SembastStorageProvider extends INoSqlStorageProvider {
   }
 
   @override
-  Future<StorageModel<T>> get<T>(String key) async {
+  Future<StorageModel<T>> get<T>(
+    String key, {
+    bool shared = false,
+  }) async {
     var record = await _store.record(key).get(
           await _db,
         ) as Map;
