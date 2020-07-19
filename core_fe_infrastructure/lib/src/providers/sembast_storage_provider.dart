@@ -31,17 +31,17 @@ class SembastStorageProvider extends INoSqlStorageProvider {
   final _store = StoreRef.main();
 
   @override
-  Future<void> add<T>(StorageModel<T> object) async {
+  Future<void> add<T>(StorageModel<T> object, {bool shared = false}) async {
     await _store.record(object.key).add(await _db, object.toJson());
   }
 
   @override
-  Future<void> delete(String key) async {
+  Future<void> delete(String key, {shared = false}) async {
     return _store.record(key).delete(await _db);
   }
 
   @override
-  Future<void> deleteAll({List<String> tags}) async {
+  Future<void> deleteAll({List<String> tags, shared = false}) async {
     if (tags.isNullEmptyOrWhitespace()) {
       return _store.drop(await _db);
     } else {
@@ -83,7 +83,7 @@ class SembastStorageProvider extends INoSqlStorageProvider {
   }
 
   @override
-  Future<void> update<T>(StorageModel<T> object) async {
+  Future<void> update<T>(StorageModel<T> object, {bool shared = false}) async {
     await _store.record(object.key).put(await _db, object.toJson());
   }
 
