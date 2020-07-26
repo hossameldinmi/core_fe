@@ -38,7 +38,7 @@ jobs:
         # Path to coverage file to upload
         file: # optional
         # Comma-separated list of files to upload
-        files: core_fe_dart/
+        files: core_fe_dart/coverage/
         # Directory to search for coverage reports.
         directory: # optional
         # Flag upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
