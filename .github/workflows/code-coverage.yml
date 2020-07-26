@@ -26,7 +26,7 @@ jobs:
       uses: subosito/flutter-action@v1.3.2
     - run: flutter pub get
       working-directory: ./core_fe_dart/
-    - run: flutter test
+    - run: flutter test --coverage
       working-directory: ./core_fe_dart/
     - name: Codecov
       uses: codecov/codecov-action@v1.0.12
