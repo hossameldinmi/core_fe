@@ -1,11 +1,7 @@
-import 'package:core_fe_infrastructure/src/interfaces/i_noSql_storage.dart';
 import 'package:core_fe_infrastructure/src/managers/noSql_storage_manager.dart';
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_flutter/src/utils/base_factory.dart';
 import 'package:mockito/mockito.dart';
-import '../core_fe_infrastructure.dart';
 import '../mocks/providers_mocks.dart';
 import '../mocks/utils.dart';
 
@@ -13,15 +9,10 @@ MockINoSqlStorageProvider _mockINoSqlStorageProvider =
     MockINoSqlStorageProvider();
 MockIDateTimeWrapper _mockDateTimeWrapper = MockIDateTimeWrapper();
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  BaseFactory.init(CoreFeInfrastructureTest());
-  INoSqlStorageManager getInstance(String dbPath) {
-    return NoSqlStorageManager(
-        _mockINoSqlStorageProvider, _mockDateTimeWrapper);
-  }
-
-  var _noSqlStorageManager = getInstance('App1');
+  var _noSqlStorageManager =
+      NoSqlStorageManager(_mockINoSqlStorageProvider, _mockDateTimeWrapper);
   final nowDate = DateTime.now();
+  final beforeNowDate = nowDate.subtract(Duration(seconds: 1));
   final tomorrowDate = DateTime.now().add(Duration(days: 1));
 
   tearDown(_noSqlStorageManager.deleteAll);
@@ -169,7 +160,7 @@ void main() async {
         data: 'app3',
         createdDate: nowDate,
         updatedDate: nowDate,
-        expiryDate: nowDate.subtract(Duration(seconds: 1)),
+        expiryDate: beforeNowDate,
       );
 
       when(_mockDateTimeWrapper.now()).thenReturn(nowDate);
@@ -195,7 +186,7 @@ void main() async {
         data: 'app3',
         createdDate: nowDate,
         updatedDate: nowDate,
-        expiryDate: nowDate.subtract(Duration(seconds: 1)),
+        expiryDate: beforeNowDate,
       );
       when(_mockDateTimeWrapper.now()).thenReturn(nowDate);
       when(_mockINoSqlStorageProvider.get<String>(record.key, shared: false))
