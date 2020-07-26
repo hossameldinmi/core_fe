@@ -34,7 +34,7 @@ jobs:
         # User defined upload name. Visible in Codecov UI
         name: # optional
         # Repository upload token - get it from codecov.io. Required only for private repositories
-        token: # optional
+        token: ${{secrets.CODECOV_TOKEN}}
         # Path to coverage file to upload
         file: # optional
         # Comma-separated list of files to upload
