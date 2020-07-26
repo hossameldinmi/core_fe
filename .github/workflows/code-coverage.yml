@@ -32,9 +32,9 @@ jobs:
         # List of files to ignore, separated by comma
         ignore: # optional, default is 
         # Path, relative to directory root
-        path: # optional, default is lib
+        path: core_fe_dart/test/
         # Path to test file that will be created, relative to directory root
-        test_file: core_fe_dart/test/
+        # test_file: core_fe_dart/test/
     - name: Codecov
       uses: codecov/codecov-action@v1.0.12
       with:
