@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: code_fe_status
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -24,17 +24,10 @@ jobs:
 
     - name: Flutter action
       uses: subosito/flutter-action@v1.3.2
-    - name: Dart Full Coverage
-      uses: stelynx/dart-full-coverage@v1.0.3
-      with:
-        # Package name as used in imports
-        package: 
-        # List of files to ignore, separated by comma
-        ignore: # optional, default is 
-        # Path, relative to directory root
-        path: core_fe_dart/test/
-        # Path to test file that will be created, relative to directory root
-        # test_file: core_fe_dart/test/
+    - run: flutter pub get
+      working-directory: ./core_fe_dart/
+    - run: flutter test
+      working-directory: ./core_fe_dart/
     - name: Codecov
       uses: codecov/codecov-action@v1.0.12
       with:
