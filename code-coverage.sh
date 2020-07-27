@@ -26,15 +26,35 @@ requires code_coverage package
 runTests () {
   cd $1;
   if [ -f "pubspec.yaml" ] && [ -d "test" ]; then
-    echo "collecting code coverage from $1"
+    echo "running tests in $1"
+    flutter packages get
    # check if build_runner needs to be run
+    if grep build_runner pubspec.yaml > /dev/null ; then
+      flutter packages pub run build_runner build --delete-conflicting-outputs
+    fi
+
+    escapedPath="$(echo $1 | sed 's/\//\\\//g')"
+
+    # run tests with coverage
     if grep flutter pubspec.yaml > /dev/null; then
-      echo "combine code coverage"
+      echo "run flutter tests"
+      if [ -f "test/all_tests.dart" ]; then
+        flutter test --coverage test/all_tests.dart || error=true
+      else
+        flutter test --coverage || error=true
+      fi
+      if [ -d "coverage" ]; then
         # combine line coverage info from package tests to a common file
         sed "s/^SF:lib/SF:$escapedPath\/lib/g" coverage/lcov.info >> $2/lcov.info
         rm -rf "coverage"
+      fi
     else
       # pure dart
+      echo "run dart tests"
+      pub get
+      pub global run coverage:collect_coverage --port=8111 -o coverage.json --resume-isolates --wait-paused &
+      dart --pause-isolates-on-exit --enable-vm-service=8111 "test/all_tests.dart" || error=true
+      pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out lcov.info
       if [ -f "lcov.info" ]; then
         # combine line coverage info from package tests to a common file
         sed "s/^SF:.*lib/SF:$escapedPath\/lib/g" lcov.info >> $2/lcov.info
@@ -53,7 +73,7 @@ runReport() {
     fi
 }
 
-# if ! [ -d .git ]; then printf "\nError: not in root of repo"; show_help; fi
+if ! [ -d .git ]; then printf "\nError: not in root of repo"; show_help; fi
 
 case $1 in
     --help)
