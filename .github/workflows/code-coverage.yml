@@ -1,7 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
 name: code_fe_status
-
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
@@ -26,24 +25,24 @@ jobs:
       uses: subosito/flutter-action@v1.3.2
     
     - run: flutter pub get
-      working-directory: $core_fe_dart
+      working-directory: ./core_fe_dart/
     - run: flutter test --coverage
-      working-directory: $core_fe_dart
+      working-directory: ./core_fe_dart/
     
     - run: flutter pub get
-      working-directory: $core_fe_flutter
+      working-directory: ./core_fe_flutter/
     - run: flutter test --coverage
-      working-directory: $core_fe_flutter
+      working-directory: ./core_fe_flutter/
     
     - run: flutter pub get
-      working-directory: $core_fe_infra
+      working-directory: ./core_fe_infrastructure/
     - run: flutter test --coverage
-      working-directory: $core_fe_infra
+      working-directory: ./core_fe_infrastructure/
     
     - run: flutter pub get
-      working-directory: $core_fe_presentation
+      working-directory: ./core_fe_presentation/
     - run: flutter test --coverage
-      working-directory: $core_fe_presentation
+      working-directory: ./core_fe_presentation/
     
     - name: Codecov
       uses: codecov/codecov-action@v1.0.12
@@ -66,8 +65,3 @@ jobs:
         env_vars: # optional
         # Specify whether or not CI build should fail if Codecov runs into an error during upload
         fail_ci_if_error: # optional
-    env:
-    core_fe_dart: ./core_fe_dart/
-    core_fe_flutter:  ./core_fe_flutter/
-    core_fe_infra:  ./core_fe_infrastructure/
-    core_fe_presentation:  ./core_fe_presentation/
