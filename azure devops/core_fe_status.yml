@@ -37,3 +37,7 @@ jobs:
       displayName: Core.FE.Presentation tests
       inputs:
         projectDirectory: $(coreFePresentationDir)
+    - task: Bash@3
+      displayName: Code Coverage
+      inputs:
+      filePath: '$(System.DefaultWorkingDirectory)/code-coverage.sh'
