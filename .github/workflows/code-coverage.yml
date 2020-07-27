@@ -28,22 +28,30 @@ jobs:
       working-directory: ./core_fe_dart/
     - run: flutter test --coverage
       working-directory: ./core_fe_dart/
+    - run: flutter analyze
+      working-directory: ./core_fe_dart/
     
     - run: flutter pub get
       working-directory: ./core_fe_flutter/
     - run: flutter test --coverage
       working-directory: ./core_fe_flutter/
-    
+    - run: flutter analyze
+      working-directory: ./core_fe_flutter/
+
     - run: flutter pub get
       working-directory: ./core_fe_infrastructure/
     - run: flutter test --coverage
       working-directory: ./core_fe_infrastructure/
-    
+    - run: flutter analyze
+      working-directory: ./core_fe_infrastructure/
+
     - run: flutter pub get
       working-directory: ./core_fe_presentation/
     - run: flutter test --coverage
       working-directory: ./core_fe_presentation/
-    
+    - run: flutter analyze
+      working-directory: ./core_fe_presentation/
+
     - name: Codecov
       uses: codecov/codecov-action@v1.0.12
       with:

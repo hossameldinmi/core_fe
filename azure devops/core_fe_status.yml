@@ -40,4 +40,4 @@ jobs:
     - task: Bash@3
       displayName: Code Coverage
       inputs:
-      filePath: '$(System.DefaultWorkingDirectory)/code-coverage.sh'
+        filePath: '/code-coverage.sh'
