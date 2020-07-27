@@ -1,11 +1,7 @@
 # This is a basic workflow to help you get started with Actions
 
 name: code_fe_status
-env:
-    core_fe_dart: ./core_fe_dart/
-    core_fe_flutter:  ./core_fe_flutter/
-    core_fe_infra:  ./core_fe_infrastructure/
-    core_fe_presentation:  ./core_fe_presentation/
+
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
@@ -70,3 +66,8 @@ jobs:
         env_vars: # optional
         # Specify whether or not CI build should fail if Codecov runs into an error during upload
         fail_ci_if_error: # optional
+    env:
+    core_fe_dart: ./core_fe_dart/
+    core_fe_flutter:  ./core_fe_flutter/
+    core_fe_infra:  ./core_fe_infrastructure/
+    core_fe_presentation:  ./core_fe_presentation/
