@@ -2,11 +2,10 @@
 
 name: code_fe_status
 env:
-    solutionDir: .
-    core_fe_dart: $solutionDir/core_fe_dart/
-    core_fe_flutter:  $solutionDir/core_fe_flutter/
-    core_fe_infra:  $solutionDir/core_fe_infrastructure/
-    core_fe_presentation:  $solutionDir/core_fe_presentation/
+    core_fe_dart: ./core_fe_dart/
+    core_fe_flutter:  ./core_fe_flutter/
+    core_fe_infra:  ./core_fe_infrastructure/
+    core_fe_presentation:  ./core_fe_presentation/
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
@@ -62,7 +61,7 @@ jobs:
         # Comma-separated list of files to upload
         # files: core_fe_dart/coverage/
         # Directory to search for coverage reports.
-        directory: solutionDir/
+        directory: ./
         # Flag upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
         flags: # optional
         # Write upload file to path before uploading
