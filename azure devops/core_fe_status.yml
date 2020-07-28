@@ -42,6 +42,7 @@ jobs:
       inputs:
         filePath: '$(System.DefaultWorkingDirectory)/code-coverage.sh'
     - task: Bash@3
+      displayName: upload test reports to codecov
       inputs:
         targetType: 'inline'
         script: 'bash <(curl -s https://codecov.io/bash) -t $(CORE_FE_COV)'
