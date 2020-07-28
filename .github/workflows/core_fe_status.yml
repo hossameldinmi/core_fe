@@ -5,14 +5,14 @@ name: code_fe_status
 # events but only for the master branch
 on:
   push:
-    branches: [ RnD/code-coverage]
+    branches: [ RnD/pipelines/* ]
   pull_request:
     branches: [ develop, master, ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
