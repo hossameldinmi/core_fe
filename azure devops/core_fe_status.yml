@@ -9,10 +9,10 @@ variables:
   coreFeInfrastructureDir: core_fe_infrastructure
   coreFePresentationDir: core_fe_presentation
 
-# trigger:
-#   - master
-#   - develop
-#   - azure-pipelines/*
+trigger:
+  - master
+  - develop
+  - azure-pipelines/*
 
 pool:
   vmImage: "windows-latest"
@@ -37,3 +37,12 @@ jobs:
       displayName: Core.FE.Presentation tests
       inputs:
         projectDirectory: $(coreFePresentationDir)
+    # - task: Bash@3
+    #   displayName: Code Coverage
+    #   inputs:
+    #     filePath: '$(System.DefaultWorkingDirectory)/code-coverage.sh'
+    # - task: Bash@3
+    #   displayName: Upload test reports to codecov
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: 'bash <(curl -s https://codecov.io/bash) -t $(CORE_FE_COV)'
