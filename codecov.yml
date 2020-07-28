@@ -1,18 +1,39 @@
   
 # https://docs.codecov.io/docs/commit-status
+codecov:
+  token: "75237020-1d90-42f1-93fe-3be75bc792e7"
+  bot: "codecov-io"
+  ci:
+    - "github.org"
+    - "dev.azure.com"
+  strict_yaml_branch: "yaml-config"
+  max_report_age: 24
+  disable_default_path_fixes: no
+  require_ci_to_pass: yes
+  notify:
+    after_n_builds: 2
+    wait_for_ci: yes
 coverage:
+  round: up
+  range: 90..100
   status:
     project:
-      default:
-        # basic
-        target: 0%
-        threshold: 0%
-        base: 0%
-        # advanced
-        branches: null
+      default: # This can be anything, but it needs to exist as the name
+        # basic settings
+        target: auto
+        threshold: 5%
+        base: auto 
+        # advanced settings
+        branches: 
+          - master
+          - develop
+          - releases/*
+          - azure-pipelines/*
         if_no_uploads: error
         if_not_found: success
         if_ci_failed: error
         only_pulls: false
-        flags: null
-        paths: null
+        flags: 
+          - frontend
+        paths: 
+          - src/frontend
