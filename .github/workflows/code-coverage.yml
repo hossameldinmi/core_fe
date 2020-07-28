@@ -56,7 +56,7 @@ jobs:
       uses: codecov/codecov-action@v1.0.12
       with:
         # User defined upload name. Visible in Codecov UI
-        name: # optional
+        name: Core.FE
         # Repository upload token - get it from codecov.io. Required only for private repositories
         token: ${{secrets.CODECOV_TOKEN}}
         # Path to coverage file to upload
