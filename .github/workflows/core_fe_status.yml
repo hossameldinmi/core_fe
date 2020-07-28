@@ -66,7 +66,7 @@ jobs:
         # Directory to search for coverage reports.
         directory: ./
         # Flag upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
-        flags: unittests | mobile | flutter
+        flags: unittests-mobile-flutter
         # Write upload file to path before uploading
         path_to_write_report: # optional
         # Environment variables to tag the upload with (e.g. PYTHON | OS,PYTHON)
