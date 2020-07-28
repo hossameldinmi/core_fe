@@ -27,7 +27,7 @@ runTests () {
   cd $1;
   if [ -f "pubspec.yaml" ] && [ -d "test" ]; then
     echo "running tests in $1"
-    flutter packages get
+    flutter pub get
    # check if build_runner needs to be run
     if grep build_runner pubspec.yaml > /dev/null ; then
       flutter packages pub run build_runner build --delete-conflicting-outputs
