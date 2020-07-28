@@ -9,4 +9,6 @@ class Language extends Enum<String, Language> {
 
   static const Language en_US = Language('en_US', 'English-US');
   static const Language ar_EG = Language('ar_EG', 'عربي-مصر', true);
+
+  String toLocale() => key;
 }

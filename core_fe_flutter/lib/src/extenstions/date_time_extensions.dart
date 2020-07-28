@@ -5,7 +5,14 @@ import 'package:core_fe_flutter/src/enums/language.dart';
 extension DateTimeExtension on DateTime {
   String format({DateTimeFormat format, Language language = Language.en_US}) {
     format ??= DateTimeFormat.isoFormat;
-    return format.formatter(this, language);
+    return format.formatterFunc(this, language);
+  }
+
+  DateTime toDate() {
+    if (isUtc) {
+      return DateTime.utc(year, month, day);
+    }
+    return DateTime(year, month, day);
   }
 }
 
@@ -16,7 +23,7 @@ extension StringDateTimeFormatExtension on String {
   }
 
   DateTime _parseToDateTime(String dateStr, DateTimeFormat formatIn) {
-    var date = formatIn.toDateTimeCallback(dateStr);
+    var date = formatIn.toDateTimeFunc(dateStr);
     return date;
   }
 
