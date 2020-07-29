@@ -12,7 +12,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  test:
+  analyze-and-test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -66,7 +66,7 @@ jobs:
         # Directory to search for coverage reports.
         directory: ./
         # Flag upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
-        flags: # optional
+        flags: unittests,mobile,flutter
         # Write upload file to path before uploading
         path_to_write_report: # optional
         # Environment variables to tag the upload with (e.g. PYTHON | OS,PYTHON)
