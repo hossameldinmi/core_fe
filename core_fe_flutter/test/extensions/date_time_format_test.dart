@@ -63,12 +63,19 @@ void main() async {
       _dateTimeFormat = DateTimeFormat.shortDateFormat;
     });
     final dateStr = '2020-12-13';
+    final dateStrAr = '٢٠٢٠-١٢-١٣';
     final date2Str = '2020-06-06';
+    final date2StrAr = '٢٠٢٠-٠٦-٠٦';
 
     group('Formatting', () {
       test('expected shortDateFormat EN formatting ', () {
         _format(date, _dateTimeFormat, dateStr);
         _format(date2, _dateTimeFormat, date2Str);
+      });
+
+      test('expected shortDateFormat Ar formatting ', () {
+        _format(date, _dateTimeFormat, dateStrAr, Language.ar_EG);
+        _format(date2, _dateTimeFormat, date2StrAr, Language.ar_EG);
       });
     });
     group('Parsing', () {
@@ -76,15 +83,6 @@ void main() async {
         _parse(date.toDate(), _dateTimeFormat, dateStr);
         _parse(date2.toDate(), _dateTimeFormat, date2Str);
       });
-    });
-  });
-  group('reformating', () {
-    test('reformating from isoFormat to shortDateFormat', () {
-      final dateStr = '2020-12-13T14:15:16.170180Z';
-      final expected = '2020-12-13';
-      var actual =
-          dateStr.reformatDate(dateFormatOut: DateTimeFormat.shortDateFormat);
-      expect(actual, expected);
     });
   });
 }
