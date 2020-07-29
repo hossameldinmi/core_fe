@@ -21,9 +21,10 @@ extension DateTimeExtension on DateTime {
   /// If the DateTime is Utc, this method will also return Utc and reset duration.
   /// ```
   ///     var date=DateTime(2020, 12, 13, 14, 15, 16, 170, 180);
+  ///     date.toDate(); => [DateTime(2020, 12, 13, 0, 0, 0, 0, 0)]
+  ///
   ///     var dateUtc=DateTime.utc(2020, 12, 13, 14, 15, 16, 170, 180);
-  ///     date.toDate();  // 'DateTime(2020, 12, 13, 0, 0, 0, 0, 0)'
-  ///     dateUtc.toDate(); // 'DateTime.utc(2020, 12, 13, 0, 0, 0, 0, 0)'
+  ///     dateUtc.toDate(); => [DateTime.utc(2020, 12, 13, 0, 0, 0, 0, 0)]
   /// ```
   DateTime toDate() {
     if (isUtc) {
@@ -34,7 +35,8 @@ extension DateTimeExtension on DateTime {
 }
 
 extension StringDateTimeFormatExtension on String {
-  /// The [formattedString] must not be null. Throws a [FormatException] if the input string cannot be parsed.
+  /// parse string from certain format to DateTime object
+  /// [formatIn]: String input format, default is [DateTimeFormat.isoFormat]
   DateTime parseToDateTime({DateTimeFormat formatIn}) {
     formatIn ??= DateTimeFormat.isoFormat;
     var date = formatIn.toDateTimeFunc(this);
