@@ -13,7 +13,7 @@ void _parse(DateTime expectedDate, DateTimeFormat format, String dateStr) {
 }
 
 void main() async {
-  await initializeDateFormatting(Language.en_US.toLocale());
+  await initializeDateFormatting(Language.en_US.locale);
   final date = DateTime(2020, 12, 13, 14, 15, 16, 170, 180);
   final date2 = DateTime(2020, 6, 6, 6, 6, 6, 6, 6);
   final dateUtc = DateTime.utc(2020, 12, 13, 14, 15, 16, 170, 180);

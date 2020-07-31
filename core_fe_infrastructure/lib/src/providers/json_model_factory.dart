@@ -1,4 +1,5 @@
 import 'package:core_fe_flutter/models.dart';
+import 'package:core_fe_flutter/utils.dart';
 import 'package:core_fe_infrastructure/src/models/json_model.dart';
 import 'package:meta/meta.dart';
 
