@@ -1,4 +1,4 @@
-import 'package:core_fe_flutter/src/models/types.dart';
+import 'package:core_fe_flutter/models.dart';
 import 'package:meta/meta.dart';
 
 @immutable

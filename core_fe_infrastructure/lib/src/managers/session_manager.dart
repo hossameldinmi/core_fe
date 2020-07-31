@@ -1,8 +1,8 @@
-import 'package:core_fe_dart/src/extensions/validation_extensions.dart';
+import 'package:core_fe_dart/extensions.dart';
 import 'package:core_fe_infrastructure/src/interfaces/i_session_manager.dart';
 import 'package:core_fe_infrastructure/src/models/user_session.dart';
 import 'package:meta/meta.dart';
-import 'package:core_fe_dart/src/enums/user_role.dart';
+import 'package:core_fe_dart/enums.dart';
 
 class SessionManager implements ISessionManager {
   final ISessionProvider _sessionProvider;

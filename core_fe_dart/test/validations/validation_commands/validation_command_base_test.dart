@@ -1,4 +1,4 @@
-import 'package:core_fe_dart/src/validations/_export.dart';
+import 'package:core_fe_dart/validations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../mocks/validations.dart';

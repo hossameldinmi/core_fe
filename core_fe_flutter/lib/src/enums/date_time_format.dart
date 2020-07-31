@@ -1,6 +1,6 @@
-import 'package:core_fe_dart/core_fe_dart.dart';
-import 'package:core_fe_flutter/src/enums/language.dart';
-import 'package:core_fe_flutter/src/models/types.dart';
+import 'package:core_fe_dart/enums.dart';
+import 'package:core_fe_flutter/enums.dart';
+import 'package:core_fe_flutter/models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 

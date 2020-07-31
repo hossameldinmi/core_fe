@@ -1,4 +1,4 @@
-import 'package:core_fe_dart/src/validations/_export.dart';
+import 'package:core_fe_dart/src/validations/validatable_object.dart';
 import 'package:meta/meta.dart';
 
 /// The validation Rule orchestrator that adds validations to the [_validatableObjectList]

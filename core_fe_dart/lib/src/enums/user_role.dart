@@ -1,4 +1,5 @@
-import 'package:core_fe_dart/core_fe_dart.dart';
+
+import 'enum.dart';
 
 class UserRole extends Enum<String, UserRole> {
   const UserRole(String code) : super(code);

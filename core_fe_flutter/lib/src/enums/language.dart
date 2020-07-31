@@ -1,4 +1,4 @@
-import 'package:core_fe_dart/core_fe_dart.dart';
+import 'package:core_fe_dart/enums.dart';
 import 'package:meta/meta.dart';
 
 @immutable

@@ -1,6 +1,6 @@
 import 'package:core_fe_infrastructure/src/models/user_session.dart';
 import 'package:meta/meta.dart';
-import 'package:core_fe_dart/src/enums/user_role.dart';
+import 'package:core_fe_dart/enums.dart';
 
 abstract class ISessionManager {
   Future<void> startSession({

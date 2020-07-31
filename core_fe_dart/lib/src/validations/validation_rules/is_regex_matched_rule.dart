@@ -1,5 +1,5 @@
 import 'package:core_fe_dart/src/exceptions/validation_exception.dart';
-import 'package:core_fe_dart/src/validations/_export.dart';
+import 'package:core_fe_dart/src/validations/i_validation.dart';
 import 'package:meta/meta.dart';
 
 class IsRegexMatchedRule implements IValidationRule<String> {

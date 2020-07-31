@@ -1,9 +1,9 @@
-import 'package:core_fe_infrastructure/src/interfaces/i_noSql_storage.dart';
-import 'package:core_fe_infrastructure/src/models/storage_model.dart';
-import 'package:core_fe_infrastructure/src/providers/sembast_storage_provider.dart';
+import 'package:core_fe_infrastructure/interfaces.dart';
+import 'package:core_fe_infrastructure/models.dart';
+import 'package:core_fe_infrastructure/providers.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_flutter/src/utils/base_factory.dart';
+import 'package:core_fe_flutter/utils.dart';
 import '../core_fe_infrastructure.dart';
 
 void main() async {

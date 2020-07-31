@@ -1,7 +1,7 @@
-import 'package:core_fe_infrastructure/src/models/user_session.dart';
+import 'package:core_fe_dart/enums.dart';
+import 'package:core_fe_infrastructure/models.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_dart/src/enums/user_role.dart';
-import 'package:core_fe_flutter/src/extenstions/date_time_extensions.dart';
+import 'package:core_fe_flutter/extensions.dart';
 
 void main() {
   final beforeNowDate = DateTime.now().subtract(Duration(seconds: 1));

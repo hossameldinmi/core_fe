@@ -1,5 +1,5 @@
-import 'package:core_fe_dart/src/exceptions/_export.dart';
-import 'package:core_fe_dart/src/validations/_export.dart';
+import 'package:core_fe_dart/exceptions.dart';
+import 'package:core_fe_dart/validations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:matcher/matcher.dart';

@@ -1,7 +1,6 @@
-import 'package:core_fe_flutter/src/models/types.dart';
+import 'package:core_fe_flutter/models.dart';
 import 'package:core_fe_infrastructure/src/models/json_model.dart';
 import 'package:meta/meta.dart';
-import 'package:core_fe_flutter/src/utils/base_factory.dart';
 
 abstract class IJsonModelFactory {
   JsonModel<TEntity> call<TEntity>();

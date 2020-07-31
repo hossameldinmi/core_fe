@@ -4,9 +4,7 @@ import 'package:core_fe_infrastructure/src/interfaces/i_noSql_storage.dart';
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
-import 'package:core_fe_dart/src/extensions/_export.dart';
-import 'package:sembast/src/api/v2/sembast.dart';
-import 'package:core_fe_dart/src/extensions/iterable_extensions.dart';
+import 'package:core_fe_dart/extensions.dart';
 import 'package:sembast/sembast_memory.dart';
 
 class SembastStorageProvider extends INoSqlStorageProvider {

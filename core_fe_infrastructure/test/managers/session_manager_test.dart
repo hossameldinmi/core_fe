@@ -1,9 +1,9 @@
-import 'package:core_fe_infrastructure/src/managers/session_manager.dart';
-import 'package:core_fe_infrastructure/src/models/user_session.dart';
+import 'package:core_fe_dart/enums.dart';
+import 'package:core_fe_infrastructure/managers.dart';
+import 'package:core_fe_infrastructure/models.dart';
 import 'package:mockito/mockito.dart';
 import '../mocks/providers_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_dart/src/enums/user_role.dart';
 
 MockISessionProvider _mockISessionProvider = MockISessionProvider();
 void main() {

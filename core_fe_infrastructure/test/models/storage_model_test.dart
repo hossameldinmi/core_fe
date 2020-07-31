@@ -1,7 +1,7 @@
-import 'package:core_fe_infrastructure/src/models/storage_model.dart';
+import 'package:core_fe_infrastructure/models.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_flutter/src/utils/base_factory.dart';
-import 'package:core_fe_flutter/src/extenstions/date_time_extensions.dart';
+import 'package:core_fe_flutter/utils.dart';
+import 'package:core_fe_flutter/extensions.dart';
 import '../core_fe_infrastructure.dart';
 
 final createdDate = DateTime(2020, 6, 1, 22, 5, 6);

@@ -1,8 +1,7 @@
-import 'package:core_fe_flutter/src/enums/date_time_format.dart';
-import 'package:core_fe_flutter/src/enums/language.dart';
+import 'package:core_fe_flutter/enums.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_flutter/src/extenstions/date_time_extensions.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:core_fe_flutter/extensions.dart';
 
 void _format(DateTime date, DateTimeFormat format, String expectedDateStr,
     [Language language = Language.en_US]) {

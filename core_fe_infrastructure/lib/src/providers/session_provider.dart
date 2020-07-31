@@ -12,12 +12,12 @@ class SessionProvider implements ISessionProvider {
     return Future.wait(
       [
         _cachedNoSqlStorageManager.addOrUpdate(
-            key: currentUserFolder,
+            key: kcurrentUserFolder,
             data: userSession,
             shared: true,
             expiryDate: userSession.expiryDate),
         _noSqlStorageManager.addOrUpdate(
-            key: currentUserFolder,
+            key: kcurrentUserFolder,
             data: userSession,
             shared: true,
             expiryDate: userSession.expiryDate)
@@ -28,17 +28,17 @@ class SessionProvider implements ISessionProvider {
   @override
   Future<UserSession> getCurrentSession() async {
     var result = await _cachedNoSqlStorageManager
-        .get<UserSession>(currentUserFolder, ignoreExpiry: true, shared: true);
+        .get<UserSession>(kcurrentUserFolder, ignoreExpiry: true, shared: true);
     return result ??
-        _noSqlStorageManager.get<UserSession>(currentUserFolder,
+        _noSqlStorageManager.get<UserSession>(kcurrentUserFolder,
             shared: true, ignoreExpiry: true);
   }
 
   @override
   Future<void> endSession() async {
     return Future.wait([
-      _cachedNoSqlStorageManager.delete(currentUserFolder, shared: true),
-      _noSqlStorageManager.delete(currentUserFolder, shared: true)
+      _cachedNoSqlStorageManager.delete(kcurrentUserFolder, shared: true),
+      _noSqlStorageManager.delete(kcurrentUserFolder, shared: true)
     ]);
   }
 
@@ -46,12 +46,12 @@ class SessionProvider implements ISessionProvider {
   Future<void> updateSession(UserSession userSession) async {
     return Future.wait([
       _cachedNoSqlStorageManager.addOrUpdate(
-          key: currentUserFolder,
+          key: kcurrentUserFolder,
           data: userSession,
           shared: true,
           expiryDate: userSession.expiryDate),
       _noSqlStorageManager.addOrUpdate(
-          key: currentUserFolder,
+          key: kcurrentUserFolder,
           data: userSession,
           shared: true,
           expiryDate: userSession.expiryDate)

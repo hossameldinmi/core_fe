@@ -12,3 +12,12 @@
 # specify a specific version of `analysis_options.yaml` instead.
 
 include: package:pedantic/analysis_options.yaml
+
+analyzer:
+  errors:
+    invalid_use_of_visible_for_testing_member: error
+    implementation_imports: error
+    
+linter:
+  rules:
+    - implementation_imports

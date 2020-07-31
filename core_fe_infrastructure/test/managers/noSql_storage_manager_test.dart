@@ -1,5 +1,5 @@
-import 'package:core_fe_infrastructure/src/managers/noSql_storage_manager.dart';
-import 'package:core_fe_infrastructure/src/models/storage_model.dart';
+import 'package:core_fe_infrastructure/models.dart';
+import 'package:core_fe_infrastructure/managers.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import '../mocks/providers_mocks.dart';
