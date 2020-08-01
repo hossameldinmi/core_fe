@@ -1,10 +1,10 @@
-import 'package:core_fe_dart/src/enums/user_role.dart';
+import 'package:core_fe_dart/enums.dart';
 import 'dart:convert';
-import 'package:core_fe_dart/src/extensions/validation_extensions.dart';
-import 'package:core_fe_flutter/src/extenstions/date_time_extensions.dart';
+import 'package:core_fe_dart/extensions.dart';
+import 'package:core_fe_dart/validations.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
-import 'package:core_fe_dart/src/validations/validation.dart';
+import 'package:core_fe_flutter/extensions.dart';
 
 @immutable
 class UserSession extends Equatable {
@@ -38,7 +38,7 @@ class UserSession extends Equatable {
         userRole = UserRole.fromCode(_decodeCredentials(secret)['usR']) {
     validate(!token.isNullEmptyOrWhitespace());
     validate(!userId.isNullEmptyOrWhitespace());
-    validate(expiryDate != null);
+    validate(!expiryDate.isNullEmptyOrWhitespace());
     validate(!userRole.isNullEmptyOrWhitespace());
     validate(!secret.isNullEmptyOrWhitespace());
   }

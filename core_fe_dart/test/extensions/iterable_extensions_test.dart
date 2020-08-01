@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_dart/src/extensions/iterable_extensions.dart';
 import 'package:collection/collection.dart';
+import 'package:core_fe_dart/extensions.dart';
 
 void main() {
   group('equals', () {

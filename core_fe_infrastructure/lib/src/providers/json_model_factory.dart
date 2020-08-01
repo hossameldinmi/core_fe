@@ -1,7 +1,7 @@
-import 'package:core_fe_flutter/src/models/types.dart';
+import 'package:core_fe_flutter/models.dart';
+import 'package:core_fe_flutter/utils.dart';
 import 'package:core_fe_infrastructure/src/models/json_model.dart';
 import 'package:meta/meta.dart';
-import 'package:core_fe_flutter/src/utils/base_factory.dart';
 
 abstract class IJsonModelFactory {
   JsonModel<TEntity> call<TEntity>();
@@ -9,7 +9,7 @@ abstract class IJsonModelFactory {
   JsonModel<Map<String, TEntity>> map<TEntity>();
 }
 
-abstract class JsonModelFactory implements IJsonModelFactory {
+class JsonModelFactory implements IJsonModelFactory {
   JsonModelFactory() {
     register<int>(
       fromJson: (json) => json as int,

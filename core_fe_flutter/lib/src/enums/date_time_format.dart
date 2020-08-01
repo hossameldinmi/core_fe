@@ -1,17 +1,17 @@
-import 'package:core_fe_dart/core_fe_dart.dart';
-import 'package:core_fe_flutter/src/enums/language.dart';
-import 'package:core_fe_flutter/src/models/types.dart';
+import 'package:core_fe_dart/enums.dart';
+import 'package:core_fe_flutter/enums.dart';
+import 'package:core_fe_flutter/models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
-class DateTimeFormat extends Enum<int, DateTimeFormat> {
+class DateTimeFormat extends Enum {
   final String format;
   final ToDateTimeFunc _toDateTimeFunc;
   ToDateTimeFunc get toDateTimeFunc => _toDateTimeFunc ?? _parseToDateTime;
   final FormatterFunc _formatterFunc;
   FormatterFunc get formatterFunc =>
       _formatterFunc ??
-      (DateTime date, Language lang) => _format(date, format, lang.toLocale());
+      (DateTime date, Language lang) => _format(date, format, lang.locale);
 
   const DateTimeFormat(int key,
       {@required this.format,
@@ -19,7 +19,7 @@ class DateTimeFormat extends Enum<int, DateTimeFormat> {
       FormatterFunc formatterFunc})
       : _toDateTimeFunc = toDateTimeFunc,
         _formatterFunc = formatterFunc,
-        super(key);
+        super();
 
   /// [yyyy-MM-ddTHH:mm:ss.mmmuuu[Z]
   /// non Localized format
@@ -44,4 +44,7 @@ class DateTimeFormat extends Enum<int, DateTimeFormat> {
   static DateTime _parseToDateTime(String dateTimeStr) {
     return DateTime.tryParse(dateTimeStr);
   }
+
+  @override
+  List<Object> get props => [format];
 }

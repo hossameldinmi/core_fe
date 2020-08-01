@@ -1,4 +1,4 @@
-import 'package:core_fe_dart/src/validations/validation_rules/is_valid_phone_number_rule.dart';
+import 'package:core_fe_dart/validations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matcher/matcher.dart';
 

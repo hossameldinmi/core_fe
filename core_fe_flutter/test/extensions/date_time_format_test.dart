@@ -1,8 +1,7 @@
-import 'package:core_fe_flutter/src/enums/date_time_format.dart';
-import 'package:core_fe_flutter/src/enums/language.dart';
+import 'package:core_fe_flutter/enums.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_flutter/src/extenstions/date_time_extensions.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:core_fe_flutter/extensions.dart';
 
 void _format(DateTime date, DateTimeFormat format, String expectedDateStr,
     [Language language = Language.en_US]) {
@@ -14,7 +13,7 @@ void _parse(DateTime expectedDate, DateTimeFormat format, String dateStr) {
 }
 
 void main() async {
-  await initializeDateFormatting(Language.en_US.toLocale());
+  await initializeDateFormatting(Language.en_US.locale);
   final date = DateTime(2020, 12, 13, 14, 15, 16, 170, 180);
   final date2 = DateTime(2020, 6, 6, 6, 6, 6, 6, 6);
   final dateUtc = DateTime.utc(2020, 12, 13, 14, 15, 16, 170, 180);

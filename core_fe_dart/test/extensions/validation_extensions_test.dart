@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_dart/src/extensions/_export.dart';
+import 'package:core_fe_dart/extensions.dart';
 
 void main() {
   group('isNullEmptyOrWhitespace on String', () {

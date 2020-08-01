@@ -1,6 +1,6 @@
 import 'package:core_fe_dart/src/exceptions/validation_exception.dart';
 import 'package:meta/meta.dart';
-import 'package:core_fe_dart/src/extensions/_export.dart';
+import 'package:core_fe_dart/extensions.dart';
 import '../i_validation.dart';
 
 class IsNotNullEmptyWhitespaceRule<T> implements IValidationRule<T> {

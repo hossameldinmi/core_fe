@@ -35,5 +35,4 @@ coverage:
         only_pulls: false
         flags: 
           - frontend
-        paths: 
-          - src/frontend
+        

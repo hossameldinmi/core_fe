@@ -1,5 +1,5 @@
 import 'package:logger/logger.dart';
-import 'package:core_fe_dart/src/utils/i_logger.dart';
+import 'package:core_fe_dart/utils.dart';
 
 class PrettyPrinterLogger implements ILogger {
   final _logger = Logger(printer: PrettyPrinter(methodCount: 0));

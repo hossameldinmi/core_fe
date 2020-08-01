@@ -1,6 +1,6 @@
-import 'package:core_fe_infrastructure/src/providers/json_model_factory.dart';
+import 'package:core_fe_infrastructure/providers.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_flutter/src/utils/base_factory.dart';
+import 'package:core_fe_flutter/utils.dart';
 import '../core_fe_infrastructure.dart';
 import 'package:matcher/matcher.dart';
 

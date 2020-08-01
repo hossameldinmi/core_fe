@@ -1,6 +1,6 @@
 import 'dart:core';
-import 'package:core_fe_flutter/src/enums/date_time_format.dart';
 import 'package:core_fe_flutter/src/enums/language.dart';
+import 'package:core_fe_flutter/src/enums/date_time_format.dart';
 
 extension DateTimeExtension on DateTime {
   /// format DateTime object to specific string format
@@ -8,8 +8,8 @@ extension DateTimeExtension on DateTime {
   /// [language] can be inserted to return the desired localized string default:[Language.en_US]
   /// ```
   ///     var date=DateTime(2020, 12, 13, 14, 15, 16, 170, 180);
-  ///     date.format();  // 2020-12-13T14:15:16.170180Z
-  ///     date.format(format:DateTimeFormat.shortDateFormat);  // 2020-12-13
+  ///     date.format();                                                               // 2020-12-13T14:15:16.170180Z
+  ///     date.format(format:DateTimeFormat.shortDateFormat);                          // 2020-12-13
   ///     date.format(format:DateTimeFormat.shortDateFormat,language:Language.ar_Eg);  //٢٠٢٠–١٢–١٣
   /// ```
   String format({DateTimeFormat format, Language language = Language.en_US}) {
@@ -21,10 +21,10 @@ extension DateTimeExtension on DateTime {
   /// If the DateTime is Utc, this method will also return Utc and reset duration.
   /// ```
   ///     var date=DateTime(2020, 12, 13, 14, 15, 16, 170, 180);
-  ///     date.toDate(); => [DateTime(2020, 12, 13, 0, 0, 0, 0, 0)]
+  ///     date.toDate(); => /// 'DateTime(2020, 12, 13, 0, 0, 0, 0, 0)'
   ///
   ///     var dateUtc=DateTime.utc(2020, 12, 13, 14, 15, 16, 170, 180);
-  ///     dateUtc.toDate(); => [DateTime.utc(2020, 12, 13, 0, 0, 0, 0, 0)]
+  ///     dateUtc.toDate(); => /// `DateTime.utc(2020, 12, 13, 0, 0, 0, 0, 0)`
   /// ```
   DateTime toDate() {
     if (isUtc) {

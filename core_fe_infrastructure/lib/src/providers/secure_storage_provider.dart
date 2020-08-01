@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'package:core_fe_infrastructure/src/interfaces/i_noSql_storage.dart';
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:core_fe_dart/src/extensions/iterable_extensions.dart';
-import 'package:core_fe_dart/src/extensions/validation_extensions.dart';
-
+import 'package:core_fe_dart/extensions.dart';
 class SecureStorageProvider extends INoSqlStorageProvider {
   final storage = FlutterSecureStorage();
   @override

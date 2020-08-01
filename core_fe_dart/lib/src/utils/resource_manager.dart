@@ -1,4 +1,4 @@
-import 'package:core_fe_dart/src/extensions/_export.dart';
+import 'package:core_fe_dart/extensions.dart';
 
 class ResourceManager {
   static Map<String, dynamic> _appResource;

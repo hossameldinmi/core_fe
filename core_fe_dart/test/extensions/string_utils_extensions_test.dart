@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_dart/src/extensions/string_utils_extensions.dart'; //
+import 'package:core_fe_dart/extensions.dart'; //
 
 void main() {
   group('String Format', () {

@@ -1,6 +1,6 @@
-import 'package:core_fe_infrastructure/src/models/user_session.dart';
-import 'package:core_fe_infrastructure/src/providers/json_model_factory.dart';
-import 'package:core_fe_flutter/src/utils/base_factory.dart';
+import 'package:core_fe_infrastructure/models.dart';
+import 'package:core_fe_infrastructure/providers.dart';
+import 'package:core_fe_flutter/utils.dart';
 
 class CoreFeInfrastructureTest extends BaseFactory {
   CoreFeInfrastructureTest() {

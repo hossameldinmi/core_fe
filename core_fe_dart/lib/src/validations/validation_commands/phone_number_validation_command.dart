@@ -1,4 +1,5 @@
-import 'package:core_fe_dart/src/validations/_export.dart';
+import 'package:core_fe_dart/src/validations/validatable_object.dart';
+import 'package:core_fe_dart/src/validations/validation_command_base.dart';
 import 'package:core_fe_dart/src/validations/validation_rules/is_not_null_empty_or_whitespace_rule.dart';
 import 'package:core_fe_dart/src/validations/validation_rules/is_valid_phone_number_rule.dart';
 

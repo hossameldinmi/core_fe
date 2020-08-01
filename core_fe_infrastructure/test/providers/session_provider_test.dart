@@ -1,10 +1,10 @@
-import 'package:core_fe_infrastructure/src/constants/storage_keys.dart';
-import 'package:core_fe_infrastructure/src/models/user_session.dart';
-import 'package:core_fe_infrastructure/src/providers/session_provider.dart';
+import 'package:core_fe_infrastructure/constants.dart';
+import 'package:core_fe_infrastructure/models.dart';
+import 'package:core_fe_infrastructure/providers.dart';
 import 'package:mockito/mockito.dart';
-import '../mocks/managers.dart';
+import '../mocks/managers_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_dart/src/enums/user_role.dart';
+import 'package:core_fe_dart/enums.dart';
 
 MockINoSqlStorageManager _mockCachedINoSqlStorageManager =
     MockINoSqlStorageManager();
@@ -22,14 +22,14 @@ void main() {
   test('valid session start', () async {
     when(
       _mockINoSqlStorageManager.addOrUpdate(
-          key: currentUserFolder,
+          key: StorageKey.kcurrentUserFolder,
           data: userSession,
           expiryDate: userSession.expiryDate,
           shared: true),
     ).thenAnswer((realInvocation) => Future.value());
     when(
       _mockCachedINoSqlStorageManager.addOrUpdate(
-          key: currentUserFolder,
+          key: StorageKey.kcurrentUserFolder,
           data: userSession,
           expiryDate: userSession.expiryDate,
           shared: true),
@@ -37,64 +37,64 @@ void main() {
 
     await _sessionProvider.startSession(userSession);
     verify(_mockINoSqlStorageManager.addOrUpdate(
-        key: currentUserFolder,
+        key: StorageKey.kcurrentUserFolder,
         data: userSession,
         expiryDate: userSession.expiryDate,
         shared: true));
     verify(_mockCachedINoSqlStorageManager.addOrUpdate(
-        key: currentUserFolder,
+        key: StorageKey.kcurrentUserFolder,
         data: userSession,
         expiryDate: userSession.expiryDate,
         shared: true));
   });
 
   test('end session', () async {
-    when(_mockINoSqlStorageManager.delete(currentUserFolder, shared: true))
+    when(_mockINoSqlStorageManager.delete(StorageKey.kcurrentUserFolder, shared: true))
         .thenAnswer((realInvocation) => Future.value());
-    when(_mockCachedINoSqlStorageManager.delete(currentUserFolder,
+    when(_mockCachedINoSqlStorageManager.delete(StorageKey.kcurrentUserFolder,
             shared: true))
         .thenAnswer((realInvocation) => Future.value());
 
     await _sessionProvider.endSession();
 
-    verify(_mockINoSqlStorageManager.delete(currentUserFolder, shared: true));
-    verify(_mockCachedINoSqlStorageManager.delete(currentUserFolder,
+    verify(_mockINoSqlStorageManager.delete(StorageKey.kcurrentUserFolder, shared: true));
+    verify(_mockCachedINoSqlStorageManager.delete(StorageKey.kcurrentUserFolder,
         shared: true));
   });
 
   test('get current sessoin from cached storage', () async {
-    when(_mockCachedINoSqlStorageManager.get<UserSession>(currentUserFolder,
+    when(_mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
             shared: true, ignoreExpiry: true))
         .thenAnswer((realInvocation) => Future.value(userSession));
     var currentSession = await _sessionProvider.getCurrentSession();
 
     verify(
-      _mockCachedINoSqlStorageManager.get<UserSession>(currentUserFolder,
+      _mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
           shared: true, ignoreExpiry: true),
     );
     verifyNever(
-      _mockINoSqlStorageManager.get<UserSession>(currentUserFolder,
+      _mockINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
           shared: true, ignoreExpiry: true),
     );
     expect(currentSession, userSession);
   });
 
   test('get current sessoin from disk storage', () async {
-    when(_mockCachedINoSqlStorageManager.get<UserSession>(currentUserFolder,
+    when(_mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
             shared: true, ignoreExpiry: true))
         .thenAnswer((realInvocation) => Future.value(null));
 
-    when(_mockINoSqlStorageManager.get<UserSession>(currentUserFolder,
+    when(_mockINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
             shared: true, ignoreExpiry: true))
         .thenAnswer((realInvocation) => Future.value(userSession));
     var currentSession = await _sessionProvider.getCurrentSession();
 
     verify(
-      _mockCachedINoSqlStorageManager.get<UserSession>(currentUserFolder,
+      _mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
           shared: true, ignoreExpiry: true),
     );
     verify(
-      _mockINoSqlStorageManager.get<UserSession>(currentUserFolder,
+      _mockINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
           shared: true, ignoreExpiry: true),
     );
     expect(currentSession, userSession);
@@ -102,13 +102,13 @@ void main() {
 
   test('update Credentials with valid Credentials', () async {
     when(_mockCachedINoSqlStorageManager.addOrUpdate<UserSession>(
-            key: currentUserFolder,
+            key: StorageKey.kcurrentUserFolder,
             data: userSession,
             shared: true,
             expiryDate: userSession.expiryDate))
         .thenAnswer((realInvocation) => Future.value());
     when(_mockINoSqlStorageManager.addOrUpdate<UserSession>(
-            key: currentUserFolder,
+            key: StorageKey.kcurrentUserFolder,
             data: userSession,
             shared: true,
             expiryDate: userSession.expiryDate))
@@ -117,12 +117,12 @@ void main() {
     await _sessionProvider.updateSession(userSession);
 
     verify(_mockCachedINoSqlStorageManager.addOrUpdate<UserSession>(
-        key: currentUserFolder,
+        key: StorageKey.kcurrentUserFolder,
         data: userSession,
         shared: true,
         expiryDate: userSession.expiryDate));
     verify(_mockINoSqlStorageManager.addOrUpdate<UserSession>(
-        key: currentUserFolder,
+        key: StorageKey.kcurrentUserFolder,
         data: userSession,
         shared: true,
         expiryDate: userSession.expiryDate));
