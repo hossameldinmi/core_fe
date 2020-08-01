@@ -32,54 +32,27 @@ class Language extends Enum {
       ? '$languageCode' '_' '$countryCode'
       : _locale;
 
-  /// English-US language
+  /// `English-US` language
   static const Language en_US = Language(
     name: 'English-US',
-    countryCode: 'US',
     languageCode: 'en',
+    countryCode: 'US',
   );
 
-  /// Arabic-Egypt language
+  /// `Arabic-Egypt` language
   static const Language ar_EG = Language(
       name: 'عربي - مصر',
-      countryCode: 'EG',
       languageCode: 'ar',
+      countryCode: 'EG',
       flowDirection: FlowDirection.rtl);
 
-  static Map<String, Language> get _hardCodedLangs =>
-      {en_US.locale: en_US, ar_EG.locale: ar_EG};
-
-  static final Map<String, Language> _languages = _hardCodedLangs;
-
-  @visibleForTesting
-  static void resetLangs() {
-    _languages.clear();
-    _languages.addAll(_hardCodedLangs);
-  }
-
-  static List<Language> get languages =>
-      _languages.entries.map((e) => e.value).toList();
-
-  /// add Language to the language list,
-  /// incase of inserting existing languag's key,
-  /// you can update it, but this [Language] `Will-NOT` affect the original language object in Language enum,
-  /// you will `Only` find it if you use `
-  /// Language.fromCode `
-  static void addLanguage(Language language, [bool updateIfExists = false]) {
-    if (_languages.containsKey(language.locale) && !updateIfExists) {
-      throw AssertionError(
-          'locale ${language.locale} already exists, you can set [updateIfExists]=true');
-    }
-
-    _languages[language.locale] = language;
-  }
+  static List<Language> get languages => [en_US, ar_EG];
 
   factory Language.fromLocale(String locale) {
     var lang =
         languages.firstWhere((l) => l.locale == locale, orElse: () => null);
     if (lang.isNullEmptyOrWhitespace()) {
-      throw AssertionError(
-          'locale $locale not exists, you can add it by using [Language.addLanguage]');
+      throw AssertionError('locale $locale not exists');
     }
     return lang;
   }
