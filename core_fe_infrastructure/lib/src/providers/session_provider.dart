@@ -12,12 +12,12 @@ class SessionProvider implements ISessionProvider {
     return Future.wait(
       [
         _cachedNoSqlStorageManager.addOrUpdate(
-            key: kcurrentUserFolder,
+            key: StorageKey.kcurrentUserFolder,
             data: userSession,
             shared: true,
             expiryDate: userSession.expiryDate),
         _noSqlStorageManager.addOrUpdate(
-            key: kcurrentUserFolder,
+            key: StorageKey.kcurrentUserFolder,
             data: userSession,
             shared: true,
             expiryDate: userSession.expiryDate)
@@ -28,17 +28,17 @@ class SessionProvider implements ISessionProvider {
   @override
   Future<UserSession> getCurrentSession() async {
     var result = await _cachedNoSqlStorageManager
-        .get<UserSession>(kcurrentUserFolder, ignoreExpiry: true, shared: true);
+        .get<UserSession>(StorageKey.kcurrentUserFolder, ignoreExpiry: true, shared: true);
     return result ??
-        _noSqlStorageManager.get<UserSession>(kcurrentUserFolder,
+        _noSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
             shared: true, ignoreExpiry: true);
   }
 
   @override
   Future<void> endSession() async {
     return Future.wait([
-      _cachedNoSqlStorageManager.delete(kcurrentUserFolder, shared: true),
-      _noSqlStorageManager.delete(kcurrentUserFolder, shared: true)
+      _cachedNoSqlStorageManager.delete(StorageKey.kcurrentUserFolder, shared: true),
+      _noSqlStorageManager.delete(StorageKey.kcurrentUserFolder, shared: true)
     ]);
   }
 
@@ -46,12 +46,12 @@ class SessionProvider implements ISessionProvider {
   Future<void> updateSession(UserSession userSession) async {
     return Future.wait([
       _cachedNoSqlStorageManager.addOrUpdate(
-          key: kcurrentUserFolder,
+          key: StorageKey.kcurrentUserFolder,
           data: userSession,
           shared: true,
           expiryDate: userSession.expiryDate),
       _noSqlStorageManager.addOrUpdate(
-          key: kcurrentUserFolder,
+          key: StorageKey.kcurrentUserFolder,
           data: userSession,
           shared: true,
           expiryDate: userSession.expiryDate)

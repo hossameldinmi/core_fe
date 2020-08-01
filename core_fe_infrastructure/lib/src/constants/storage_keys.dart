@@ -1,2 +1,4 @@
-const String kcurrentUserFolder = 'CURRENT_USER_SESSION';
-const String kSettingsStorageKey = 'SETTINGS';
+class StorageKey {
+  static const String kcurrentUserFolder = 'CURRENT_USER_SESSION';
+  static const String kSettingsStorageKey = 'SETTINGS';
+}

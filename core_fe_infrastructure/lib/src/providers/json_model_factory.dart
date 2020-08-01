@@ -9,7 +9,7 @@ abstract class IJsonModelFactory {
   JsonModel<Map<String, TEntity>> map<TEntity>();
 }
 
-abstract class JsonModelFactory implements IJsonModelFactory {
+class JsonModelFactory implements IJsonModelFactory {
   JsonModelFactory() {
     register<int>(
       fromJson: (json) => json as int,

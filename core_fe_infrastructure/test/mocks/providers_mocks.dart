@@ -4,3 +4,5 @@ import 'package:mockito/mockito.dart';
 class MockINoSqlStorageProvider extends Mock with INoSqlStorageProvider {}
 
 class MockISessionProvider extends Mock with ISessionProvider {}
+
+class MockISettingsProvider extends Mock with ISettingsProvider {}
