@@ -92,8 +92,8 @@ class HttpProvider implements INetwork {
         (dioOptions) => _dio.download(
               request.url,
               request.savePath,
-              onReceiveProgress: (count, total) => print(
-                  'progress:${(count / total * 100).toStringAsFixed(2)}%'),
+              // onReceiveProgress: (count, total) => print(
+              //     'progress:${(count / total * 100).toStringAsFixed(2)}%'),
               options: dioOptions,
             ),
         resolver: (Response response) =>
