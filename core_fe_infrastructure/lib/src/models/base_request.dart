@@ -53,10 +53,10 @@ class PostFileRequest extends BaseRequest {
   final int length;
   PostFileRequest(
       {@required String url,
-      @required this.queryParams,
       @required this.data,
+      this.queryParams,
       this.length})
-      : assert(!data.isNullEmptyOrWhitespace()),
+      : assert(!(data as Object).isNullEmptyOrWhitespace()),
         super(url);
 
   @override

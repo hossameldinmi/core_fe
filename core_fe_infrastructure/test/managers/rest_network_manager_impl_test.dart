@@ -8,7 +8,6 @@ import 'package:core_fe_infrastructure/src/models/base_request.dart';
 import 'package:core_fe_infrastructure/src/models/base_response.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart';
 import 'package:core_fe_infrastructure/src/models/request_options.dart';
-import 'package:core_fe_infrastructure/src/utils/i_http_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import '../mocks/mocks.dart';
@@ -247,6 +246,35 @@ void main() {
           .thenReturn(BaseResponse.fromHttpResponse(httpResponse));
       var response = await networkManager.delete<void>(
         request: putRequest,
+        options: options,
+      );
+
+      var expectedResponse = BaseResponse<void>(null, HttpStatus.ok, ok);
+      expect(response, equals(expectedResponse));
+    });
+  });
+
+  group('Post file', () {
+    test('valid post file request with valid 200 valid response', () async {
+      var postFileRequest = PostFileRequest(
+        url: 'https://jsonplaceholder.typicode.com/posts/2',
+        data: file1,
+      );
+      final options = RequestOptions(responseType: ResponseType.json);
+      final httpResponse = HttpResponse<void>(
+          headers: headers,
+          data: null,
+          statusCode: HttpStatus.ok,
+          statusMessage: ok);
+
+      when(
+        mockNetwork.postFile<void>(
+            request: anyNamed('request'), options: anyNamed('options')),
+      ).thenAnswer((realInvocation) => Future.value(httpResponse));
+      when(mockHttpHelper.resolveResponse(httpResponse))
+          .thenReturn(BaseResponse.fromHttpResponse(httpResponse));
+      var response = await networkManager.postFile<void>(
+        request: postFileRequest,
         options: options,
       );
 
