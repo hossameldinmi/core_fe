@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 class IsNotNullRule<T> extends IValidationRule<T> {
   IsNotNullRule({@required this.validationException});
   IsNotNullRule.fromMessage(
-      {@required String validationMessage, String errorCode})
+      {@required String validationMessage, int errorCode})
       : this(
             validationException: ValidationException(
                 validationMessage: validationMessage, errorCode: errorCode));

@@ -35,7 +35,7 @@ class StorageModel<T> {
     return StorageModel<T>(
         key: map[kKey],
         data: dataFromJsonFunc ??
-            jsonUtil<T>().fromJson(
+            jsonFactory<T>().fromJson(
               (map[_kData]),
             ),
         createdDate: (map[_kCreatedDate] as String)?.parseToDateTime(),
@@ -46,7 +46,7 @@ class StorageModel<T> {
 
   Map<String, dynamic> toJson([ToJsonFunc<T> dataToJsonFunc]) => {
         kKey: key,
-        _kData: dataToJsonFunc ?? jsonUtil<T>().toJson(data),
+        _kData: dataToJsonFunc ?? jsonFactory<T>().toJson(data),
         _kCreatedDate: createdDate.format(),
         _kUpdatedDate: updatedDate.format(),
         _kExpiryDate: expiryDate != null ? expiryDate.format() : null,

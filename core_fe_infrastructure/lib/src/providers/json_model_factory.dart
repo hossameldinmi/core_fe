@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 abstract class IJsonModelFactory {
   JsonModel<TEntity> call<TEntity>();
   JsonModel<Iterable<TEntity>> iterable<TEntity>();
-  JsonModel<Map<String, TEntity>> map<TEntity>();
+  JsonModel<Map<TKey, TEntity>> map<TKey, TEntity>();
 }
 
 class JsonModelFactory implements IJsonModelFactory {
@@ -51,21 +51,29 @@ class JsonModelFactory implements IJsonModelFactory {
   JsonModel<Iterable<TEntity>> iterable<TEntity>() {
     return JsonModel<Iterable<TEntity>>(
       fromJson: (json) => (json as Iterable)
-          ?.map<TEntity>(jsonUtil<TEntity>().fromJson)
+          ?.map<TEntity>(jsonFactory<TEntity>().fromJson)
           ?.toList(),
-      toJson: (list) => list?.map(jsonUtil<TEntity>().toJson),
+      toJson: (list) => list?.map(jsonFactory<TEntity>().toJson),
     );
   }
 
   @override
-  JsonModel<Map<String, TEntity>> map<TEntity>() {
-    return JsonModel<Map<String, TEntity>>(
-      fromJson: (map) => (map as Map).map<String, TEntity>((k, v) =>
-          MapEntry<String, TEntity>(k, jsonUtil<TEntity>().toJson(v))),
-      toJson: (map) => map.map<String, dynamic>((k, v) =>
-          MapEntry<String, dynamic>(k, jsonUtil<TEntity>().toJson(v))),
+  JsonModel<Map<TKey, TEntity>> map<TKey, TEntity>() {
+    return JsonModel<Map<TKey, TEntity>>(
+      fromJson: (map) => (map as Map).map<TKey, TEntity>(
+        (k, v) => MapEntry<TKey, TEntity>(
+          jsonFactory<TKey>().fromJson(k),
+          jsonFactory<TEntity>().fromJson(v),
+        ),
+      ),
+      toJson: (map) => map.map<TKey, dynamic>(
+        (k, v) => MapEntry<TKey, dynamic>(
+          jsonFactory<TKey>().toJson(k),
+          jsonFactory<TEntity>().toJson(v),
+        ),
+      ),
     );
   }
 }
 
-final jsonUtil = factoryInstance<IJsonModelFactory>();
+final jsonFactory = factoryInstance<IJsonModelFactory>();

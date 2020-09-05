@@ -6,7 +6,7 @@ import '../i_validation.dart';
 class IsNotNullEmptyWhitespaceRule<T> implements IValidationRule<T> {
   IsNotNullEmptyWhitespaceRule({@required this.validationException});
   IsNotNullEmptyWhitespaceRule.fromMessage(
-      {@required String validationMessage, String errorCode})
+      {@required String validationMessage, int errorCode})
       : this(
             validationException: ValidationException(
                 validationMessage: validationMessage, errorCode: errorCode));

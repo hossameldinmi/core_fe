@@ -11,8 +11,8 @@ void main() {
       const value = 1;
       var json = 1;
 
-      var actualValue = jsonUtil<int>().fromJson(json);
-      var actualJson = jsonUtil<int>().toJson(value);
+      var actualValue = jsonFactory<int>().fromJson(json);
+      var actualJson = jsonFactory<int>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -22,8 +22,8 @@ void main() {
       const int value = null;
       const json = value;
 
-      var actualValue = jsonUtil<int>().fromJson(json);
-      var actualJson = jsonUtil<int>().toJson(value);
+      var actualValue = jsonFactory<int>().fromJson(json);
+      var actualJson = jsonFactory<int>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -35,8 +35,8 @@ void main() {
       num value = 1.01;
       var json = 1.01;
 
-      var actualValue = jsonUtil<num>().fromJson(json);
-      var actualJson = jsonUtil<num>().toJson(value);
+      var actualValue = jsonFactory<num>().fromJson(json);
+      var actualJson = jsonFactory<num>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -44,7 +44,7 @@ void main() {
 
     test('expected failed deserialization', () {
       var value = '1.01';
-      expect(() => jsonUtil<num>().fromJson(value),
+      expect(() => jsonFactory<num>().fromJson(value),
           throwsA(const TypeMatcher<TypeError>()));
     });
 
@@ -52,8 +52,8 @@ void main() {
       const num value = null;
       const json = value;
 
-      var actualValue = jsonUtil<num>().fromJson(json);
-      var actualJson = jsonUtil<num>().toJson(value);
+      var actualValue = jsonFactory<num>().fromJson(json);
+      var actualJson = jsonFactory<num>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -65,8 +65,8 @@ void main() {
       var value = 1.01;
       var json = 1.01;
 
-      var actualValue = jsonUtil<double>().fromJson(json);
-      var actualJson = jsonUtil<double>().toJson(value);
+      var actualValue = jsonFactory<double>().fromJson(json);
+      var actualJson = jsonFactory<double>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -76,7 +76,7 @@ void main() {
         () {
       var json = 1.toDouble();
 
-      var actualJson = jsonUtil<double>().toJson(1);
+      var actualJson = jsonFactory<double>().toJson(1);
 
       expect(actualJson, json);
     });
@@ -85,8 +85,8 @@ void main() {
       const double value = null;
       const json = value;
 
-      var actualValue = jsonUtil<double>().fromJson(json);
-      var actualJson = jsonUtil<double>().toJson(value);
+      var actualValue = jsonFactory<double>().fromJson(json);
+      var actualJson = jsonFactory<double>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -98,8 +98,8 @@ void main() {
       var value = 'string';
       var json = 'string';
 
-      var actualValue = jsonUtil<String>().fromJson(json);
-      var actualJson = jsonUtil<String>().toJson(value);
+      var actualValue = jsonFactory<String>().fromJson(json);
+      var actualJson = jsonFactory<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -109,8 +109,8 @@ void main() {
       var value = '1.01';
       var json = '1.01';
 
-      var actualValue = jsonUtil<String>().fromJson(json);
-      var actualJson = jsonUtil<String>().toJson(value);
+      var actualValue = jsonFactory<String>().fromJson(json);
+      var actualJson = jsonFactory<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -120,8 +120,8 @@ void main() {
       const String value = null;
       const json = value;
 
-      var actualValue = jsonUtil<String>().fromJson(json);
-      var actualJson = jsonUtil<String>().toJson(value);
+      var actualValue = jsonFactory<String>().fromJson(json);
+      var actualJson = jsonFactory<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -133,8 +133,8 @@ void main() {
       var value = ['string1', 'string2', 'string3'];
       var json = value;
 
-      var actualValue = jsonUtil.iterable<String>().fromJson(json);
-      var actualJson = jsonUtil.iterable<String>().toJson(value);
+      var actualValue = jsonFactory.iterable<String>().fromJson(json);
+      var actualJson = jsonFactory.iterable<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -144,8 +144,8 @@ void main() {
       var value = <String>[];
       var json = value;
 
-      var actualValue = jsonUtil.iterable<String>().fromJson(json);
-      var actualJson = jsonUtil.iterable<String>().toJson(value);
+      var actualValue = jsonFactory.iterable<String>().fromJson(json);
+      var actualJson = jsonFactory.iterable<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -155,8 +155,8 @@ void main() {
       const List<String> value = null;
       var json = value;
 
-      var actualValue = jsonUtil.iterable<String>().fromJson(json);
-      var actualJson = jsonUtil.iterable<String>().toJson(value);
+      var actualValue = jsonFactory.iterable<String>().fromJson(json);
+      var actualJson = jsonFactory.iterable<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);

@@ -64,17 +64,17 @@ void main() {
 
       when(mockValidationRule.check(validatableObject.value)).thenReturn(false);
       when(mockValidationRule.validationException).thenReturn(
-          ValidationException(validationMessage: 'Not Valid', errorCode: '1'));
+          ValidationException(validationMessage: 'Not Valid', errorCode: 1));
 
       when(mockValidationRule2.check(validatableObject.value))
           .thenReturn(false);
       when(mockValidationRule2.validationException).thenReturn(
-          ValidationException(validationMessage: 'Not Valid', errorCode: '2'));
+          ValidationException(validationMessage: 'Not Valid', errorCode: 2));
 
       when(mockValidationRule3.check(validatableObject.value))
           .thenReturn(false);
       when(mockValidationRule3.validationException).thenReturn(
-          ValidationException(validationMessage: 'Not Valid', errorCode: '3'));
+          ValidationException(validationMessage: 'Not Valid', errorCode: 3));
       //act
       validatableObject.add(mockValidationRule);
       validatableObject.add(mockValidationRule2);
@@ -83,7 +83,7 @@ void main() {
       expect(
           () => validatableObject.isValid(throwException: true),
           throwsA(const TypeMatcher<ValidationException>()
-              .having((e) => e.errorCode, 'error-code', equals('1'))));
+              .having((e) => e.errorCode, 'error-code', equals(1))));
       expect(validatableObject.errors.length, 3);
       expect(validatableObject.validations.length, 3);
       expect(validatableObject.value, _value); // verify value not changed
@@ -96,17 +96,17 @@ void main() {
 
       when(mockValidationRule.check(validatableObject.value)).thenReturn(true);
       when(mockValidationRule.validationException).thenReturn(
-          ValidationException(validationMessage: 'Not Valid', errorCode: '1'));
+          ValidationException(validationMessage: 'Not Valid', errorCode: 1));
 
       when(mockValidationRule2.check(validatableObject.value))
           .thenReturn(false);
       when(mockValidationRule2.validationException).thenReturn(
-          ValidationException(validationMessage: 'Not Valid', errorCode: '2'));
+          ValidationException(validationMessage: 'Not Valid', errorCode: 2));
 
       when(mockValidationRule3.check(validatableObject.value))
           .thenReturn(false);
       when(mockValidationRule3.validationException).thenReturn(
-          ValidationException(validationMessage: 'Not Valid', errorCode: '3'));
+          ValidationException(validationMessage: 'Not Valid', errorCode: 3));
       //act
       validatableObject.add(mockValidationRule);
       validatableObject.add(mockValidationRule2);
@@ -115,7 +115,7 @@ void main() {
       expect(
           () => validatableObject.isValid(throwException: true),
           throwsA(const TypeMatcher<ValidationException>()
-              .having((e) => e.errorCode, 'error-code', equals('2'))));
+              .having((e) => e.errorCode, 'error-code', equals(2))));
       expect(validatableObject.errors.length, 2);
       expect(validatableObject.validations.length, 3);
       expect(validatableObject.value, _value); // verify value not changed
