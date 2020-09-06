@@ -10,7 +10,7 @@ class IsRegexMatchedRule implements IValidationRule<String> {
   IsRegexMatchedRule.fromMessage(
       {@required String validationMessage,
       @required String pattern,
-      String errorCode})
+      int errorCode})
       : this(
           validationException: ValidationException(
               validationMessage: validationMessage, errorCode: errorCode),

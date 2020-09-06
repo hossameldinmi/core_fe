@@ -13,11 +13,11 @@ void main() {
   test('init settings', () async {
     await settingsProvider.initSettings(settings);
     verify(mockINoSqlStorageManager.addOrUpdate(
-        key: StorageKey.kSettingsStorageKey, data: settings));
+        key: StorageKey.settingsStorageKey, data: settings));
   });
 
   test('get settings', () async {
-    when(mockINoSqlStorageManager.get<Settings>(StorageKey.kSettingsStorageKey))
+    when(mockINoSqlStorageManager.get<Settings>(StorageKey.settingsStorageKey))
         .thenAnswer((realInvocation) => Future.value(settings));
     var actualSettings = await settingsProvider.getSettings();
     expect(actualSettings, settings);
@@ -26,11 +26,11 @@ void main() {
   test('update settings', () async {
     await settingsProvider.updateSettings(settings);
     verify(mockINoSqlStorageManager.addOrUpdate(
-        key: StorageKey.kSettingsStorageKey, data: settings));
+        key: StorageKey.settingsStorageKey, data: settings));
   });
 
   test('delete settings', () async {
     await settingsProvider.deleteSettings();
-    verify(mockINoSqlStorageManager.delete(StorageKey.kSettingsStorageKey));
+    verify(mockINoSqlStorageManager.delete(StorageKey.settingsStorageKey));
   });
 }

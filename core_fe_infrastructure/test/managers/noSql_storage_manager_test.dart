@@ -3,7 +3,7 @@ import 'package:core_fe_infrastructure/managers.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import '../mocks/providers_mocks.dart';
-import '../mocks/utils.dart';
+import '../mocks/mocks.dart';
 
 MockINoSqlStorageProvider _mockINoSqlStorageProvider =
     MockINoSqlStorageProvider();

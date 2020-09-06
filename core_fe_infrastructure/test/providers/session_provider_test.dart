@@ -22,14 +22,14 @@ void main() {
   test('valid session start', () async {
     when(
       _mockINoSqlStorageManager.addOrUpdate(
-          key: StorageKey.kcurrentUserFolder,
+          key: StorageKey.currentUserFolder,
           data: userSession,
           expiryDate: userSession.expiryDate,
           shared: true),
     ).thenAnswer((realInvocation) => Future.value());
     when(
       _mockCachedINoSqlStorageManager.addOrUpdate(
-          key: StorageKey.kcurrentUserFolder,
+          key: StorageKey.currentUserFolder,
           data: userSession,
           expiryDate: userSession.expiryDate,
           shared: true),
@@ -37,64 +37,64 @@ void main() {
 
     await _sessionProvider.startSession(userSession);
     verify(_mockINoSqlStorageManager.addOrUpdate(
-        key: StorageKey.kcurrentUserFolder,
+        key: StorageKey.currentUserFolder,
         data: userSession,
         expiryDate: userSession.expiryDate,
         shared: true));
     verify(_mockCachedINoSqlStorageManager.addOrUpdate(
-        key: StorageKey.kcurrentUserFolder,
+        key: StorageKey.currentUserFolder,
         data: userSession,
         expiryDate: userSession.expiryDate,
         shared: true));
   });
 
   test('end session', () async {
-    when(_mockINoSqlStorageManager.delete(StorageKey.kcurrentUserFolder, shared: true))
+    when(_mockINoSqlStorageManager.delete(StorageKey.currentUserFolder, shared: true))
         .thenAnswer((realInvocation) => Future.value());
-    when(_mockCachedINoSqlStorageManager.delete(StorageKey.kcurrentUserFolder,
+    when(_mockCachedINoSqlStorageManager.delete(StorageKey.currentUserFolder,
             shared: true))
         .thenAnswer((realInvocation) => Future.value());
 
     await _sessionProvider.endSession();
 
-    verify(_mockINoSqlStorageManager.delete(StorageKey.kcurrentUserFolder, shared: true));
-    verify(_mockCachedINoSqlStorageManager.delete(StorageKey.kcurrentUserFolder,
+    verify(_mockINoSqlStorageManager.delete(StorageKey.currentUserFolder, shared: true));
+    verify(_mockCachedINoSqlStorageManager.delete(StorageKey.currentUserFolder,
         shared: true));
   });
 
   test('get current sessoin from cached storage', () async {
-    when(_mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
+    when(_mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
             shared: true, ignoreExpiry: true))
         .thenAnswer((realInvocation) => Future.value(userSession));
     var currentSession = await _sessionProvider.getCurrentSession();
 
     verify(
-      _mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
+      _mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
           shared: true, ignoreExpiry: true),
     );
     verifyNever(
-      _mockINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
+      _mockINoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
           shared: true, ignoreExpiry: true),
     );
     expect(currentSession, userSession);
   });
 
   test('get current sessoin from disk storage', () async {
-    when(_mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
+    when(_mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
             shared: true, ignoreExpiry: true))
         .thenAnswer((realInvocation) => Future.value(null));
 
-    when(_mockINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
+    when(_mockINoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
             shared: true, ignoreExpiry: true))
         .thenAnswer((realInvocation) => Future.value(userSession));
     var currentSession = await _sessionProvider.getCurrentSession();
 
     verify(
-      _mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
+      _mockCachedINoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
           shared: true, ignoreExpiry: true),
     );
     verify(
-      _mockINoSqlStorageManager.get<UserSession>(StorageKey.kcurrentUserFolder,
+      _mockINoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
           shared: true, ignoreExpiry: true),
     );
     expect(currentSession, userSession);
@@ -102,13 +102,13 @@ void main() {
 
   test('update Credentials with valid Credentials', () async {
     when(_mockCachedINoSqlStorageManager.addOrUpdate<UserSession>(
-            key: StorageKey.kcurrentUserFolder,
+            key: StorageKey.currentUserFolder,
             data: userSession,
             shared: true,
             expiryDate: userSession.expiryDate))
         .thenAnswer((realInvocation) => Future.value());
     when(_mockINoSqlStorageManager.addOrUpdate<UserSession>(
-            key: StorageKey.kcurrentUserFolder,
+            key: StorageKey.currentUserFolder,
             data: userSession,
             shared: true,
             expiryDate: userSession.expiryDate))
@@ -117,12 +117,12 @@ void main() {
     await _sessionProvider.updateSession(userSession);
 
     verify(_mockCachedINoSqlStorageManager.addOrUpdate<UserSession>(
-        key: StorageKey.kcurrentUserFolder,
+        key: StorageKey.currentUserFolder,
         data: userSession,
         shared: true,
         expiryDate: userSession.expiryDate));
     verify(_mockINoSqlStorageManager.addOrUpdate<UserSession>(
-        key: StorageKey.kcurrentUserFolder,
+        key: StorageKey.currentUserFolder,
         data: userSession,
         shared: true,
         expiryDate: userSession.expiryDate));

@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 class IsValidPhoneNumberRule implements IValidationRule<String> {
   IsValidPhoneNumberRule({@required this.validationException});
   IsValidPhoneNumberRule.fromMessage(
-      {@required String validationMessage, String errorCode})
+      {@required String validationMessage, int errorCode})
       : this(
             validationException: ValidationException(
                 validationMessage: validationMessage, errorCode: errorCode));

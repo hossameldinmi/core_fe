@@ -1,4 +1,4 @@
-import 'package:core_fe_infrastructure/src/constants/storage_keys.dart';
+import 'package:core_fe_infrastructure/src/constants/storage_key.dart';
 import 'package:core_fe_infrastructure/src/interfaces/i_noSql_storage.dart';
 import 'package:core_fe_infrastructure/src/interfaces/i_settings.dart';
 import 'package:core_fe_infrastructure/src/models/settings.dart';
@@ -7,28 +7,24 @@ class SettingsProvider implements ISettingsProvider {
   final INoSqlStorageManager _noSqlStorageManager;
   SettingsProvider(this._noSqlStorageManager);
   @override
-  Future<void> deleteSettings() async {
-    await _noSqlStorageManager.delete(StorageKey.kSettingsStorageKey);
-  }
+  Future<void> deleteSettings() =>
+      _noSqlStorageManager.delete(StorageKey.settingsStorageKey);
 
   @override
-  Future<Settings> getSettings() {
-    return _noSqlStorageManager.get<Settings>(StorageKey.kSettingsStorageKey);
-  }
+  Future<Settings> getSettings() =>
+      _noSqlStorageManager.get<Settings>(StorageKey.settingsStorageKey);
 
   @override
-  Future<void> initSettings(Settings settings) async {
-    return _noSqlStorageManager.addOrUpdate<Settings>(
-      key: StorageKey.kSettingsStorageKey,
-      data: settings,
-    );
-  }
+  Future<void> initSettings(Settings settings) =>
+      _noSqlStorageManager.addOrUpdate<Settings>(
+        key: StorageKey.settingsStorageKey,
+        data: settings,
+      );
 
   @override
-  Future<void> updateSettings(Settings settings) async {
-    return _noSqlStorageManager.addOrUpdate<Settings>(
-      key: StorageKey.kSettingsStorageKey,
-      data: settings,
-    );
-  }
+  Future<void> updateSettings(Settings settings) =>
+      _noSqlStorageManager.addOrUpdate<Settings>(
+        key: StorageKey.settingsStorageKey,
+        data: settings,
+      );
 }

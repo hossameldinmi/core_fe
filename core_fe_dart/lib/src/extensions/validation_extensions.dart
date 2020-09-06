@@ -25,6 +25,8 @@ extension ObjectExtension on Object {
       return value.isNullEmptyOrWhitespace();
     } else if (value is Iterable) {
       return value.isEmpty;
+    } else if (value is Map) {
+      return value.isEmpty;
     } else {
       return value == null;
     }
