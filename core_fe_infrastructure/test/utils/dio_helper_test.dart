@@ -168,310 +168,248 @@ void main() async {
       });
 
       group('toFileCollection', () {
-        // MultipartFile part2;
-        Stream<List<int>> stream2;
-
-        setUpAll(() async {
-          // part2 = await MultipartFile.fromFile(flutterLogo);
-          // stream2 = part2.finalize();
-          stream2 = file2.openRead();
-        });
         test('validation when value is null', () {
           expect(() => DioHelper.toFileCollection(null), throwsAssertionError);
         });
+      });
 
-        test('casting when value is File', () async {
-          final actualFile =
-              await DioHelper.toFileCollection(file1) as MultipartFile;
-          await expectStream(actualFile.finalize(), stream1);
+      group('toValidFileObject', () {
+        Future<void> equalsFormData(
+            FormData actualForm, FormData expectedForm) async {
+          expect(actualForm.fields, equals(expectedForm.fields));
+          expect(actualForm.length, expectedForm.length);
+          expect(actualForm.fields.length, expectedForm.fields.length);
+          expect(actualForm.files.length, expectedForm.files.length);
+          // expect(
+          //     actualForm.files.equals(expectedForm.files, elementEquality:
+          //         EqualityBy<MapEntry<String, MultipartFile>,
+          //             Future<Tuple2<String, Uint8List>>>((entry) async {
+          //       var bytes = await entry.value.finalize().toBytes();
+          //       var key = Tuple2(entry.key, bytes);
+          //       print(key.toString());
+          //       return key;
+          //     })),
+          //     true);
+          for (var i = 0; i < expectedForm.files.length; i++) {
+            var file = actualForm.files[i];
+            var expectedFile = expectedForm.files[i];
+            expect(file.key, expectedFile.key);
+            await expectMultiepartFile(file.value, expectedFile.value);
+          }
+        }
+
+        test('validate null value object', () {
+          expect(() => DioHelper.toValidFileObject(null), throwsAssertionError);
         });
 
-        test('casting when value is List of Files', () async {
-          final actualFiles =
-              (await DioHelper.toFileCollection([file1, file2]) as List)
-                  .cast<MultipartFile>();
-          var p1 = actualFiles[0];
-          var p2 = actualFiles[1];
-          await expectStream(p1.finalize(), stream1);
-          await expectStream(p2.finalize(), stream2);
-        }, timeout: Timeout.none);
-
-        test('casting when value is Map<String,File>', () async {
-          final actualFiles =
-              (await DioHelper.toFileCollection({'f1': file1, 'f2': file2})
-                      as Map)
-                  .cast<String, MultipartFile>();
-          var f1Stream = await actualFiles['f1'].finalize();
-          var f2Stream = await actualFiles['f2'].finalize();
-          print('get streams');
-          await expectStream(f1Stream, stream1);
-          await expectStream(f2Stream, stream2);
-        }, skip: 'Timout Proplem', timeout: Timeout.none);
-
-        test('casting when value is Map<String,List<File>>', () async {
-          final actualFiles = await DioHelper.toFileCollection({
-            'f1': [file1, file2],
+        test('expected casting when data is Map<String,List<File>>', () async {
+          var expectedFile = await MultipartFile.fromFile(file1.path);
+          var result = await DioHelper.toValidFileObject(file1);
+          await expectMultiepartFile(
+              result.item1 as MultipartFile, expectedFile);
+        }, skip: 'test list on dio');
+        test('expected casting when data is Map<String,List<File>>', () async {
+          var body = {
+            'f1': file1,
             'f2': [file1, file2]
-          }) as Map;
+          };
 
-          var list = (actualFiles['f1'] as List).cast<MultipartFile>();
-          var list2 = (actualFiles['f2'] as List).cast<MultipartFile>();
-          await expectStream(list[0].finalize(), stream1);
-          await expectStream(list[1].finalize(), stream2);
-          await expectStream(list2[0].finalize(), stream1);
-          await expectStream(list2[1].finalize(), stream2);
-        }, timeout: Timeout.none, skip: 'Timout Proplem');
+          var expectedBody = {
+            'f1': await MultipartFile.fromFile(file1.path),
+            'f2': [
+              await MultipartFile.fromFile(file1.path),
+              await MultipartFile.fromFile(file2.path)
+            ]
+          };
+          var result = await DioHelper.toValidFileObject(body);
+          var formData = result.item1 as FormData;
+          await equalsFormData(formData, FormData.fromMap(expectedBody));
+        });
 
-        test('casting when value is Map<String,dynamic>(List<File> & File)',
-            () async {
-          final actualFiles = (await DioHelper.toFileCollection({
-            'f1': [file1, file2],
-            'f2': file1
-          }) as Map);
-
-          var list = (actualFiles['f1'] as List).cast<MultipartFile>();
-          await expectStream(list[0].finalize(), stream1);
-          await expectStream(list[1].finalize(), stream2);
-          await expectStream(
-              (actualFiles['f2'] as MultipartFile).finalize(), stream1);
-        }, timeout: Timeout.none, skip: 'Timout Proplem');
+        test('expected casting when data is List<List<File>>', () async {},
+            skip: 'test list on dio');
       });
     });
 
-    group('toValidFileObject', () {
-      Future<void> equalsFormData(
-          FormData actualForm, FormData expectedForm) async {
-        expect(actualForm.fields, equals(expectedForm.fields));
-        expect(actualForm.length, expectedForm.length);
-        expect(actualForm.fields.length, expectedForm.fields.length);
-        expect(actualForm.files.length, expectedForm.files.length);
-        // expect(
-        //     actualForm.files.equals(expectedForm.files, elementEquality:
-        //         EqualityBy<MapEntry<String, MultipartFile>,
-        //             Future<Tuple2<String, Uint8List>>>((entry) async {
-        //       var bytes = await entry.value.finalize().toBytes();
-        //       var key = Tuple2(entry.key, bytes);
-        //       print(key.toString());
-        //       return key;
-        //     })),
-        //     true);
-        for (var i = 0; i < expectedForm.files.length; i++) {
-          var file = actualForm.files[i];
-          var expectedFile = expectedForm.files[i];
-          expect(file.key, expectedFile.key);
-          await expectMultiepartFile(file.value, expectedFile.value);
-        }
+    group('toHttpResponse', () {
+      BaseFactory.init(CoreFeInfrastructureTest());
+      void expectResponse(http_response.HttpResponse actual,
+          http_response.HttpResponse expected) {
+        expect(actual.extra, expected.extra);
+        expect(actual.headers, expected.headers);
+        expect(actual.isRedirect, expected.isRedirect);
+        expect(actual.statusCode, expected.statusCode);
+        expect(actual.statusMessage, expected.statusMessage);
       }
 
-      test('validate null value object', () {
-        expect(() => DioHelper.toValidFileObject(null), throwsAssertionError);
+      test('assertion error when data is null', () {
+        expect(() => DioHelper.toHttpResponse<int>(null), throwsAssertionError);
       });
 
-      test('expected casting when data is Map<String,List<File>>', () async {
-        var expectedFile = await MultipartFile.fromFile(file1.path);
-        var result = await DioHelper.toValidFileObject(file1);
-        await expectMultiepartFile(result.item1 as MultipartFile, expectedFile);
-      }, skip: 'test list on dio');
-      test('expected casting when data is Map<String,List<File>>', () async {
-        var body = {
-          'f1': file1,
-          'f2': [file1, file2]
-        };
+      test('response when data is int', () {
+        var httpResponse = DioHelper.toHttpResponse<int>(
+          Response(
+            data: 1,
+            isRedirect: false,
+            statusCode: HttpStatus.ok,
+            headers: Headers.fromMap({
+              HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
+            }),
+          ),
+        );
 
-        var expectedBody = {
-          'f1': await MultipartFile.fromFile(file1.path),
-          'f2': [
-            await MultipartFile.fromFile(file1.path),
-            await MultipartFile.fromFile(file2.path)
-          ]
-        };
-        var result = await DioHelper.toValidFileObject(body);
-        var formData = result.item1 as FormData;
-        await equalsFormData(formData, FormData.fromMap(expectedBody));
+        var expectedResponse = http_response.HttpResponse<int>(
+            data: 1,
+            statusCode: HttpStatus.ok,
+            headers: {
+              HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
+            });
+
+        expect(httpResponse, expectedResponse);
       });
 
-      test('expected casting when data is List<List<File>>', () async {},
-          skip: 'test list on dio');
-    });
-  });
+      test('response when data is map and TResponse is dynamic', () {
+        var data = {
+          'd1': 1,
+          'list': [2, 3, 5]
+        };
+        var httpResponse = DioHelper.toHttpResponse(
+          Response(
+            data: data,
+            isRedirect: false,
+            statusCode: HttpStatus.ok,
+            headers: Headers.fromMap({
+              HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
+            }),
+          ),
+        );
 
-  group('toHttpResponse', () {
-    BaseFactory.init(CoreFeInfrastructureTest());
-    void expectResponse(http_response.HttpResponse actual,
-        http_response.HttpResponse expected) {
-      expect(actual.extra, expected.extra);
-      expect(actual.headers, expected.headers);
-      expect(actual.isRedirect, expected.isRedirect);
-      expect(actual.statusCode, expected.statusCode);
-      expect(actual.statusMessage, expected.statusMessage);
-    }
+        var expectedResponse = http_response.HttpResponse(
+            data: data,
+            statusCode: HttpStatus.ok,
+            headers: {
+              HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
+            });
 
-    test('assertion error when data is null', () {
-      expect(() => DioHelper.toHttpResponse<int>(null), throwsAssertionError);
-    });
+        expect(httpResponse.data, isMap);
+        expect((httpResponse.data as Map).equals(expectedResponse.data), true);
+        expectResponse(httpResponse, expectedResponse);
+      });
 
-    test('response when data is int', () {
-      var httpResponse = DioHelper.toHttpResponse<int>(
-        Response(
-          data: 1,
-          isRedirect: false,
-          statusCode: HttpStatus.ok,
-          headers: Headers.fromMap({
-            HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
-          }),
-        ),
-      );
+      test('response when data is map and TResponse is void', () {
+        var data = {
+          'd1': 1,
+          'list': [2, 3, 5]
+        };
+        var httpResponse = DioHelper.toHttpResponse<void>(
+          Response(
+            data: data,
+            isRedirect: false,
+            statusCode: HttpStatus.ok,
+            headers: Headers.fromMap({
+              HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
+            }),
+          ),
+        );
 
-      var expectedResponse = http_response.HttpResponse<int>(
-          data: 1,
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
-          });
+        var expectedResponse = http_response.HttpResponse(
+            data: data,
+            statusCode: HttpStatus.ok,
+            headers: {
+              HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
+            });
 
-      expect(httpResponse, expectedResponse);
-    });
+        expect(httpResponse.data as Type, isNull);
+        expectResponse(httpResponse, expectedResponse);
+      });
 
-    test('response when data is map and TResponse is dynamic', () {
-      var data = {
-        'd1': 1,
-        'list': [2, 3, 5]
-      };
-      var httpResponse = DioHelper.toHttpResponse(
-        Response(
-          data: data,
-          isRedirect: false,
-          statusCode: HttpStatus.ok,
-          headers: Headers.fromMap({
-            HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
-          }),
-        ),
-      );
+      test('response when data is Stream and TResponse is Stream', () async {
+        var data = await getBytesResponseBody(
+            await file1.readAsBytes(), HttpStatus.ok);
+        var httpResponse = DioHelper.toHttpResponse<Stream>(
+          Response(
+            data: data,
+            isRedirect: false,
+            statusCode: HttpStatus.ok,
+            headers: Headers.fromMap({
+              HttpHeaders.contentTypeHeader: [
+                ContentType.parse('image/png').value
+              ]
+            }),
+          ),
+        );
 
-      var expectedResponse = http_response.HttpResponse(
-          data: data,
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
-          });
+        var expectedResponse = http_response.HttpResponse<Stream<List<int>>>(
+            data: file1.openRead(),
+            statusCode: HttpStatus.ok,
+            headers: {
+              HttpHeaders.contentTypeHeader: [
+                ContentType.parse('image/png').value
+              ]
+            });
 
-      expect(httpResponse.data, isMap);
-      expect((httpResponse.data as Map).equals(expectedResponse.data), true);
-      expectResponse(httpResponse, expectedResponse);
-    });
+        await expectStream(
+            httpResponse.data as Stream<List<int>>, expectedResponse.data);
+        expectResponse(httpResponse, expectedResponse);
+      }, timeout: Timeout.none);
 
-    test('response when data is map and TResponse is void', () {
-      var data = {
-        'd1': 1,
-        'list': [2, 3, 5]
-      };
-      var httpResponse = DioHelper.toHttpResponse<void>(
-        Response(
-          data: data,
-          isRedirect: false,
-          statusCode: HttpStatus.ok,
-          headers: Headers.fromMap({
-            HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
-          }),
-        ),
-      );
+      test(
+          'response when data is Stream with null value and TResponse is Stream',
+          () async {
+        var data = await getStreamResponseBody(null, HttpStatus.ok,
+            contentTypeHeader: ContentType.parse('image/png').value);
+        var httpResponse = DioHelper.toHttpResponse<Stream>(
+          Response(
+            data: data,
+            isRedirect: false,
+            statusCode: HttpStatus.ok,
+            headers: Headers.fromMap(data.headers),
+          ),
+        );
 
-      var expectedResponse = http_response.HttpResponse(
-          data: data,
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
-          });
+        var expectedResponse = http_response.HttpResponse<Stream<List<int>>>(
+            data: null,
+            statusCode: HttpStatus.ok,
+            headers: {
+              HttpHeaders.contentTypeHeader: [
+                ContentType.parse('image/png').value
+              ],
+              Headers.contentLengthHeader: [null],
+            });
 
-      expect(httpResponse.data as Type, isNull);
-      expectResponse(httpResponse, expectedResponse);
-    });
+        expect(httpResponse.data, isNull);
+        expectResponse(httpResponse, expectedResponse);
+      });
 
-    test('response when data is Stream and TResponse is Stream', () async {
-      var data =
-          await getBytesResponseBody(await file1.readAsBytes(), HttpStatus.ok);
-      var httpResponse = DioHelper.toHttpResponse<Stream>(
-        Response(
-          data: data,
-          isRedirect: false,
-          statusCode: HttpStatus.ok,
-          headers: Headers.fromMap({
-            HttpHeaders.contentTypeHeader: [
-              ContentType.parse('image/png').value
-            ]
-          }),
-        ),
-      );
+      test('response when data is Stream and TResponse is Stream<List<int>>',
+          () async {
+        var data = await getBytesResponseBody(
+            await file1.readAsBytes(), HttpStatus.ok);
+        var httpResponse = DioHelper.toHttpResponse<Stream<List<int>>>(
+          Response(
+            data: data,
+            isRedirect: false,
+            statusCode: HttpStatus.ok,
+            headers: Headers.fromMap({
+              HttpHeaders.contentTypeHeader: [
+                ContentType.parse('image/png').value
+              ]
+            }),
+          ),
+        );
 
-      var expectedResponse = http_response.HttpResponse<Stream<List<int>>>(
-          data: file1.openRead(),
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [
-              ContentType.parse('image/png').value
-            ]
-          });
+        var expectedResponse = http_response.HttpResponse<Stream<List<int>>>(
+            data: file1.openRead(),
+            statusCode: HttpStatus.ok,
+            headers: {
+              HttpHeaders.contentTypeHeader: [
+                ContentType.parse('image/png').value
+              ]
+            });
 
-      await expectStream(
-          httpResponse.data as Stream<List<int>>, expectedResponse.data);
-      expectResponse(httpResponse, expectedResponse);
-    }, timeout: Timeout.none);
-
-    test('response when data is Stream with null value and TResponse is Stream',
-        () async {
-      var data = await getStreamResponseBody(null, HttpStatus.ok,
-          contentTypeHeader: ContentType.parse('image/png').value);
-      var httpResponse = DioHelper.toHttpResponse<Stream>(
-        Response(
-          data: data,
-          isRedirect: false,
-          statusCode: HttpStatus.ok,
-          headers: Headers.fromMap(data.headers),
-        ),
-      );
-
-      var expectedResponse = http_response.HttpResponse<Stream<List<int>>>(
-          data: null,
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [
-              ContentType.parse('image/png').value
-            ],
-            Headers.contentLengthHeader: [null],
-          });
-
-      expect(httpResponse.data, isNull);
-      expectResponse(httpResponse, expectedResponse);
-    });
-
-    test('response when data is Stream and TResponse is Stream<List<int>>',
-        () async {
-      var data =
-          await getBytesResponseBody(await file1.readAsBytes(), HttpStatus.ok);
-      var httpResponse = DioHelper.toHttpResponse<Stream<List<int>>>(
-        Response(
-          data: data,
-          isRedirect: false,
-          statusCode: HttpStatus.ok,
-          headers: Headers.fromMap({
-            HttpHeaders.contentTypeHeader: [
-              ContentType.parse('image/png').value
-            ]
-          }),
-        ),
-      );
-
-      var expectedResponse = http_response.HttpResponse<Stream<List<int>>>(
-          data: file1.openRead(),
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [
-              ContentType.parse('image/png').value
-            ]
-          });
-
-      await expectStream(httpResponse.data, expectedResponse.data);
-      expectResponse(httpResponse, expectedResponse);
+        await expectStream(httpResponse.data, expectedResponse.data);
+        expectResponse(httpResponse, expectedResponse);
+      });
     });
   });
 }

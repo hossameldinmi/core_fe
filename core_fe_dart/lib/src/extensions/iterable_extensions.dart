@@ -38,6 +38,27 @@ extension MapExtensions<TKey, TValue> on Map<TKey, TValue> {
 }
 
 extension ItemFold on Object {
+  dynamic castAllInSync<T>(T Function(dynamic) castCallBack) {
+    print('Calling castAllInSync<&$T>');
+    var data = this;
+    if (data == null) return null;
+    if (data is Map) {
+      var map = {};
+      for (var key in data.keys) {
+        map[key] = (data[key] as Object).castAllInSync(castCallBack);
+      }
+      return map;
+    } else if (data is List) {
+      var list = [];
+      for (var element in data) {
+        list.add((element as Object).castAllInSync(castCallBack));
+      }
+      return list;
+    } else {
+      return castCallBack(data);
+    }
+  }
+
   Future<dynamic> castAllIn<T>(Future<T> Function(dynamic) castCallBack) async {
     print('Calling castAllIn<&$T>');
     var data = this;
@@ -45,21 +66,13 @@ extension ItemFold on Object {
     if (data is Map) {
       var map = {};
       for (var key in data.keys) {
-        if (data[key] is Map || data[key] is Iterable) {
-          map[key] = await (data[key] as Object).castAllIn(castCallBack);
-        } else {
-          map[key] = await castCallBack(data[key]);
-        }
+        map[key] = await (data[key] as Object).castAllIn(castCallBack);
       }
       return map;
     } else if (data is List) {
       var list = [];
       for (var element in data) {
-        if (element is Map || element is Iterable) {
-          list.add(await (element as Object).castAllIn(castCallBack));
-        } else {
-          list.add(await castCallBack(element));
-        }
+        list.add(await (element as Object).castAllIn(castCallBack));
       }
       return list;
     } else {
