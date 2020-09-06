@@ -1,0 +1,75 @@
+# This is a basic workflow to help you get started with Actions
+
+name: code_fe_status
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ RnD/pipelines/* ]
+  pull_request:
+    branches: [ develop, master, ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  analyze-and-test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: Flutter action
+      uses: subosito/flutter-action@v1.3.2
+    
+    - run: flutter pub get
+      working-directory: ./core_fe_dart/
+    - run: flutter test --coverage
+      working-directory: ./core_fe_dart/
+    - run: flutter analyze
+      working-directory: ./core_fe_dart/
+    
+    - run: flutter pub get
+      working-directory: ./core_fe_flutter/
+    - run: flutter test --coverage
+      working-directory: ./core_fe_flutter/
+    - run: flutter analyze
+      working-directory: ./core_fe_flutter/
+
+    - run: flutter pub get
+      working-directory: ./core_fe_infrastructure/
+    - run: flutter test --coverage
+      working-directory: ./core_fe_infrastructure/
+    - run: flutter analyze
+      working-directory: ./core_fe_infrastructure/
+
+    - run: flutter pub get
+      working-directory: ./core_fe_presentation/
+    - run: flutter test --coverage
+      working-directory: ./core_fe_presentation/
+    - run: flutter analyze
+      working-directory: ./core_fe_presentation/
+
+    - name: Codecov
+      uses: codecov/codecov-action@v1.0.12
+      with:
+        # User defined upload name. Visible in Codecov UI
+        name: Core.FE
+        # Repository upload token - get it from codecov.io. Required only for private repositories
+        token: ${{secrets.CODECOV_TOKEN}}
+        # Path to coverage file to upload
+        file: # optional
+        # Comma-separated list of files to upload
+        files: # core_fe_dart/coverage/
+        # Directory to search for coverage reports.
+        directory: ./
+        # Flag upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
+        flags: unittests,mobile,flutter
+        # Write upload file to path before uploading
+        path_to_write_report: # optional
+        # Environment variables to tag the upload with (e.g. PYTHON | OS,PYTHON)
+        env_vars: # optional
+        # Specify whether or not CI build should fail if Codecov runs into an error during upload
+        fail_ci_if_error: # optional
