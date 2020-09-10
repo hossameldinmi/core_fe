@@ -37,8 +37,11 @@ class JsonModelFactory implements IJsonModelFactory {
   // final  container; //Container
   @override
   JsonModel<TEntity> call<TEntity>() {
-    JsonModel<TEntity> result = _localContext[TEntity];
-    return result;
+    if (_localContext.containsKey(TEntity)) {
+      JsonModel<TEntity> result = _localContext[TEntity];
+      return result;
+    }
+    throw ArgumentError('Key [$TEntity] is not registerd in JsonFactory');
   }
 
   void register<TEntity>(
@@ -66,8 +69,8 @@ class JsonModelFactory implements IJsonModelFactory {
           jsonFactory<TEntity>().fromJson(v),
         ),
       ),
-      toJson: (map) => map.map<TKey, dynamic>(
-        (k, v) => MapEntry<TKey, dynamic>(
+      toJson: (map) => map.map<TKey, TEntity>(
+        (k, v) => MapEntry<TKey, TEntity>(
           jsonFactory<TKey>().toJson(k),
           jsonFactory<TEntity>().toJson(v),
         ),
