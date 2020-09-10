@@ -4,28 +4,14 @@ import 'package:core_fe_flutter/utils.dart';
 
 import 'mocks/mocks.dart';
 
-class CoreFeInfrastructureTest extends BaseFactory {
-  CoreFeInfrastructureTest() {
-    reset();
-    setupSerializables();
+class CoreFeInfrastructureTest extends BaseModule {
+  @override
+  Future<void> setUp() {
+    factoryInstance.reset();
+    factoryInstance
+        .registerSingleton<IJsonModelFactory>(TestJsonModelProvider());
+    return Future.value();
   }
-
-  @override
-  void setupDomainLogic() {}
-
-  @override
-  void setupInfrastucture() {}
-
-  @override
-  void setupPresentation() {}
-
-  @override
-  void setupSerializables() {
-    registerSingleton<IJsonModelFactory>(TestJsonModelProvider());
-  }
-
-  @override
-  void setupStatesWithRoutes() {}
 }
 
 class TestJsonModelProvider extends JsonModelFactory {

@@ -47,7 +47,9 @@ void addLoggerInterceptor(Dio dio) {
 }
 
 void main() async {
-  BaseFactory.init(CoreFeInfrastructureTest());
+  await Initer.addModule(
+      'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
+  await Initer.init();
   // EquatableConfig.stringify = true;
   final bytes1 = await file1.readAsBytes();
 

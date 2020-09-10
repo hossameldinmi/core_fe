@@ -16,6 +16,9 @@ import 'package:core_fe_infrastructure/src/models/http_response.dart'
     as http_response;
 
 void main() async {
+  await Initer.addModule(
+      'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
+  await Initer.init();
   group('Dio Helper Tests', () {
     test('toDioResponseType', () {
       expect(DioHelper.toDioResponseType(response_type.ResponseType.bytes),
@@ -129,13 +132,11 @@ void main() async {
     });
 
     group('File Conversion', () {
-      // final path = 'image.png';
-      // final file = File(path);
       // MultipartFile part1;
       Stream<List<int>> stream1;
 
       setUp(() async {
-        // part1 = await MultipartFile.fromFile(file1.path);
+        // part1 = MultipartFile.fromBytes(await file1.readAsBytes());
         // stream1 = part1.finalize();
         stream1 = file1.openRead();
       });
@@ -146,7 +147,7 @@ void main() async {
 
         test('casting when value is file', () async {
           var actualFile = await DioHelper.toMultipartFile(file1);
-          await expectStream(actualFile.finalize(), stream1);
+          await expectStream(await actualFile.finalize(), stream1);
         });
 
         test('casting when value is Stream', () async {
@@ -232,7 +233,6 @@ void main() async {
     });
 
     group('toHttpResponse', () {
-      BaseFactory.init(CoreFeInfrastructureTest());
       void expectResponse(http_response.HttpResponse actual,
           http_response.HttpResponse expected) {
         expect(actual.extra, expected.extra);
