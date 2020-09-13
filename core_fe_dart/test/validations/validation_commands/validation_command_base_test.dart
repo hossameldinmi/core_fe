@@ -4,31 +4,29 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../mocks/validations.dart';
 
 class TestAutoExcuteValidationCommand extends ValidationCommandBase<String> {
-  TestAutoExcuteValidationCommand(
-      Iterable<ValidatableObject<String>> validatableObjectList)
+  TestAutoExcuteValidationCommand(ValidatableObject<String> validatableObject)
       : super(
-            validatableObjectList: validatableObjectList,
-            isAutoExcute: true,
-            excuteCallBack: (v) {
-              v.clear();
+            validatableObject: validatableObject,
+            autoExcute: true,
+            excuteCallBack: () {
+              validatableObject.clear();
 
-              v.add(MockValidationRule<String>());
+              validatableObject.add(MockValidationRule<String>());
 
-              v.add(MockValidationRule<String>());
+              validatableObject.add(MockValidationRule<String>());
             });
 }
 
 class TestValidationCommand extends ValidationCommandBase<String> {
-  TestValidationCommand(
-      Iterable<ValidatableObject<String>> validatableObjectList)
+  TestValidationCommand(ValidatableObject<String> validatableObject)
       : super(
-            validatableObjectList: validatableObjectList,
-            excuteCallBack: (v) {
-              v.clear();
+            validatableObject: validatableObject,
+            excuteCallBack: () {
+              validatableObject.clear();
 
-              v.add(MockValidationRule<String>());
+              validatableObject.add(MockValidationRule<String>());
 
-              v.add(MockValidationRule<String>());
+              validatableObject.add(MockValidationRule<String>());
             });
 }
 
@@ -41,7 +39,7 @@ void main() {
     });
     test('expected 2 validations after command intialized', () {
       validationCommandBase =
-          TestAutoExcuteValidationCommand([validatableObject]);
+          TestAutoExcuteValidationCommand(validatableObject);
 
       expect(validatableObject.validations.length, 2);
 
@@ -50,7 +48,7 @@ void main() {
     });
 
     test('expected [ZERO] validations after command intialized', () {
-      validationCommandBase = TestValidationCommand([validatableObject]);
+      validationCommandBase = TestValidationCommand(validatableObject);
 
       expect(validatableObject.validations.length, 0);
 
