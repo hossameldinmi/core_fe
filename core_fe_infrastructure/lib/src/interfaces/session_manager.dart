@@ -2,7 +2,7 @@ import 'package:core_fe_infrastructure/src/models/user_session.dart';
 import 'package:meta/meta.dart';
 import 'package:core_fe_dart/enums.dart';
 
-abstract class ISessionManager {
+abstract class SessionManager {
   Future<void> startSession({
     @required String username,
     @required String token,
@@ -21,7 +21,7 @@ abstract class ISessionManager {
   });
 }
 
-abstract class ISessionProvider {
+abstract class SessionProvider {
   Future<void> startSession(UserSession userSession);
   Future<void> endSession();
   Future<UserSession> getCurrentSession();

@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:core_fe_infrastructure/src/interfaces/connectivity.dart';
 
-abstract class ConnectivityImpl implements Connectivity {
+class ConnectivityImpl implements Connectivity {
   final connectivity.Connectivity _connectivity = connectivity.Connectivity();
   final StreamController<bool> _connectivityChangedController =
       StreamController<bool>();

@@ -5,9 +5,9 @@ import 'package:mockito/mockito.dart';
 import '../mocks/providers_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-MockISessionProvider _mockISessionProvider = MockISessionProvider();
+MockSessionProvider _mockSessionProvider = MockSessionProvider();
 void main() {
-  var _sessionManager = SessionManager(_mockISessionProvider);
+  var _sessionManager = SessionManagerImpl(_mockSessionProvider);
   final nowDate = DateTime.now();
   final beforeNowDate = nowDate.subtract(Duration(seconds: 1));
   final tomorrowDate = DateTime.now().add(Duration(days: 1));
@@ -27,11 +27,11 @@ void main() {
       expiryDate: userSession.expiryDate,
       userRole: userSession.userRole,
     );
-    verify(_mockISessionProvider.startSession(userSession));
+    verify(_mockSessionProvider.startSession(userSession));
   });
   test('end session', () async {
     await _sessionManager.endSession();
-    verify(_mockISessionProvider.endSession());
+    verify(_mockSessionProvider.endSession());
   });
 
   group('isAnonymousSession', () {
@@ -43,7 +43,7 @@ void main() {
         username: 'UserName');
 
     test('isAnonymousSession when token is NOT empty', () async {
-      when(_mockISessionProvider.getCurrentSession())
+      when(_mockSessionProvider.getCurrentSession())
           .thenAnswer((realInvocation) => Future.value(userSession));
 
       var isAnonymous = await _sessionManager.isAnonymousSession();
@@ -51,7 +51,7 @@ void main() {
     });
 
     test('isAnonymousSession when token is empty', () async {
-      when(_mockISessionProvider.getCurrentSession()).thenAnswer(
+      when(_mockSessionProvider.getCurrentSession()).thenAnswer(
           (realInvocation) => Future.value(userSession.updateCredentials(
               token: null, expiryDate: userSession.expiryDate)));
 
@@ -70,10 +70,10 @@ void main() {
 
     test('get current session', () async {
       await _sessionManager.getCurrentSession();
-      verify(_mockISessionProvider.getCurrentSession());
+      verify(_mockSessionProvider.getCurrentSession());
     });
     test('Get session', () async {
-      when(_mockISessionProvider.getCurrentSession())
+      when(_mockSessionProvider.getCurrentSession())
           .thenAnswer((realInvocation) => Future.value(userSession));
 
       var session = await _sessionManager.getCurrentSession();
@@ -81,7 +81,7 @@ void main() {
     });
 
     test('get current session when token is empty', () async {
-      when(_mockISessionProvider.getCurrentSession()).thenAnswer(
+      when(_mockSessionProvider.getCurrentSession()).thenAnswer(
           (realInvocation) => Future.value(userSession.updateCredentials(
               token: null, expiryDate: userSession.expiryDate)));
 
@@ -99,13 +99,13 @@ void main() {
         username: 'UserName');
 
     test('isSessionExpired when date is Not passed ', () async {
-      when(_mockISessionProvider.getCurrentSession())
+      when(_mockSessionProvider.getCurrentSession())
           .thenAnswer((realInvocation) => Future.value(userSession));
       var isExpired = await _sessionManager.isSessionExpired();
       expect(isExpired, false);
     });
     test('isSessionExpired when date is Not passed ', () async {
-      when(_mockISessionProvider.getCurrentSession()).thenAnswer(
+      when(_mockSessionProvider.getCurrentSession()).thenAnswer(
           (realInvocation) => Future.value(userSession.updateCredentials(
               token: userSession.token, expiryDate: beforeNowDate)));
       var isExpired = await _sessionManager.isSessionExpired();
@@ -124,15 +124,15 @@ void main() {
     test('update Credentials with valid Credentials', () async {
       var updatedSession = userSession.updateCredentials(
           token: 'TOKEN2', expiryDate: tomorrowDate);
-      when(_mockISessionProvider.getCurrentSession())
+      when(_mockSessionProvider.getCurrentSession())
           .thenAnswer((realInvocation) => Future.value(userSession));
       await _sessionManager.updateCredentials(
           token: 'TOKEN2', expiryDate: tomorrowDate);
-      verify(_mockISessionProvider.getCurrentSession());
-      verify(_mockISessionProvider.updateSession(updatedSession));
+      verify(_mockSessionProvider.getCurrentSession());
+      verify(_mockSessionProvider.updateSession(updatedSession));
     });
     test('update Credentials with Invalid Credentials ', () async {
-      when(_mockISessionProvider.getCurrentSession())
+      when(_mockSessionProvider.getCurrentSession())
           .thenAnswer((realInvocation) => Future.value(userSession));
       ;
       expect(

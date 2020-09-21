@@ -2,7 +2,7 @@ import 'package:core_fe_dart/exceptions.dart';
 import 'package:core_fe_dart/validations.dart';
 import 'package:meta/meta.dart';
 
-class IsValidPhoneNumberRule implements IValidationRule<String> {
+class IsValidPhoneNumberRule implements ValidationRule<String> {
   IsValidPhoneNumberRule({@required this.validationException});
   IsValidPhoneNumberRule.fromMessage(
       {@required String validationMessage, int errorCode})

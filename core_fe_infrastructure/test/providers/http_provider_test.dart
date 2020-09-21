@@ -57,7 +57,7 @@ void main() async {
   // addLoggerInterceptor(dio);
   final mockHttpClientAdapter = MockHttpClientAdapter();
   dio.httpClientAdapter = mockHttpClientAdapter;
-  final httpProvider = HttpProvider(dio: dio);
+  final httpProvider = DioHttpProvider(dio: dio);
   group('HTTP get', () {
     test('valid GET request with valid 200 valid response', () async {
       var todo = Todo(

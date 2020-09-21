@@ -7,14 +7,14 @@ import 'mocks/mocks.dart';
 class CoreFeInfrastructureTest extends BaseModule {
   @override
   Future<void> setUp() {
-    factoryInstance.reset();
-    factoryInstance
-        .registerSingleton<IJsonModelFactory>(TestJsonModelProvider());
+    iocInstance.reset();
+    iocInstance
+        .registerSingleton<JsonModelFactory>(TestJsonModelProvider());
     return Future.value();
   }
 }
 
-class TestJsonModelProvider extends JsonModelFactory {
+class TestJsonModelProvider extends JsonModelFactoryImpl {
   TestJsonModelProvider() {
     register<UserSession>(
       fromJson: (json) => UserSession.fromMap(json),

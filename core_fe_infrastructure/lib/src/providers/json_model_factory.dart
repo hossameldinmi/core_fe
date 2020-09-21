@@ -3,14 +3,14 @@ import 'package:core_fe_flutter/utils.dart';
 import 'package:core_fe_infrastructure/src/models/json_model.dart';
 import 'package:meta/meta.dart';
 
-abstract class IJsonModelFactory {
+abstract class JsonModelFactory {
   JsonModel<TEntity> call<TEntity>();
   JsonModel<Iterable<TEntity>> iterable<TEntity>();
   JsonModel<Map<TKey, TEntity>> map<TKey, TEntity>();
 }
 
-class JsonModelFactory implements IJsonModelFactory {
-  JsonModelFactory() {
+class JsonModelFactoryImpl implements JsonModelFactory {
+  JsonModelFactoryImpl() {
     register<int>(
       fromJson: (json) => json as int,
       toJson: (value) => value,
@@ -79,4 +79,4 @@ class JsonModelFactory implements IJsonModelFactory {
   }
 }
 
-final jsonFactory = factoryInstance<IJsonModelFactory>();
+JsonModelFactory get jsonFactory => iocInstance<JsonModelFactory>();

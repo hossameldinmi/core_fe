@@ -1,13 +1,13 @@
-import 'package:core_fe_infrastructure/src/interfaces/i_noSql_storage.dart';
+import 'package:core_fe_infrastructure/src/interfaces/noSql_storage.dart';
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
 import 'package:core_fe_dart/utils.dart';
 import 'package:core_fe_dart/extensions.dart';
 
-class NoSqlStorageManager implements INoSqlStorageManager {
-  final INoSqlStorageProvider _storageProvider;
-  final IDateTimeWrapper _dateTime;
-  NoSqlStorageManager(
-      INoSqlStorageProvider storageProvider, IDateTimeWrapper dateTime)
+class NoSqlStorageManagerImpl implements NoSqlStorageManager {
+  final NoSqlStorageProvider _storageProvider;
+  final DateTimeWrapper _dateTime;
+  NoSqlStorageManagerImpl(
+      NoSqlStorageProvider storageProvider, DateTimeWrapper dateTime)
       : assert(storageProvider != null),
         assert(dateTime != null),
         _storageProvider = storageProvider,

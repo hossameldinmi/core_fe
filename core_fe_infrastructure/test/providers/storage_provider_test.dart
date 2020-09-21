@@ -13,8 +13,8 @@ void main() async {
       'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
   await Initer.init();
 
-  INoSqlStorageProvider getInstance(String dbPath) {
-    return SembastStorageProvider(dbPath, isInMemoryDb: true);
+  NoSqlStorageProvider getInstance(String dbPath) {
+    return SembastStorageProviderImpl(dbPath, isInMemoryDb: true);
   }
 
   var _iNoSqlStorageProvider = getInstance('App1');
@@ -56,7 +56,7 @@ void main() async {
     });
 
     test('validate dbPath', () async {
-      expect(() => SembastStorageProvider(''), throwsAssertionError);
+      expect(() => SembastStorageProviderImpl(''), throwsAssertionError);
     });
   });
   group('adding records', () {

@@ -6,7 +6,7 @@ import 'package:core_fe_presentation/test_lib/mocks/page1.dart';
 class TestModule extends BaseModule {
   @override
   Future<void> setUp() {
-    factoryInstance.registerSingleton<NavigationService>(
+    iocInstance.registerSingleton<NavigationService>(
         NavigationServiceImpl(Page1.route));
     return Future.value();
   }

@@ -1,17 +1,17 @@
 import 'package:core_fe_infrastructure/constants.dart';
 import 'package:core_fe_infrastructure/models.dart';
-import 'package:core_fe_infrastructure/providers.dart';
+import 'package:core_fe_infrastructure/src/providers/session_provider.dart';
 import 'package:mockito/mockito.dart';
 import '../mocks/managers_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:core_fe_dart/enums.dart';
 
-MockINoSqlStorageManager _mockCachedINoSqlStorageManager =
-    MockINoSqlStorageManager();
-MockINoSqlStorageManager _mockINoSqlStorageManager = MockINoSqlStorageManager();
+MockNoSqlStorageManager _mockCachedINoSqlStorageManager =
+    MockNoSqlStorageManager();
+MockNoSqlStorageManager _mockNoSqlStorageManager = MockNoSqlStorageManager();
 void main() {
-  var _sessionProvider = SessionProvider(
-      _mockINoSqlStorageManager, _mockCachedINoSqlStorageManager);
+  var _sessionProvider = SessionProviderImpl(
+      _mockNoSqlStorageManager, _mockCachedINoSqlStorageManager);
   final tomorrowDate = DateTime.now().add(Duration(days: 1));
   var userSession = UserSession(
       expiryDate: tomorrowDate,
@@ -21,7 +21,7 @@ void main() {
       username: 'UserName');
   test('valid session start', () async {
     when(
-      _mockINoSqlStorageManager.addOrUpdate(
+      _mockNoSqlStorageManager.addOrUpdate(
           key: StorageKey.currentUserFolder,
           data: userSession,
           expiryDate: userSession.expiryDate,
@@ -36,7 +36,7 @@ void main() {
     ).thenAnswer((realInvocation) => Future.value());
 
     await _sessionProvider.startSession(userSession);
-    verify(_mockINoSqlStorageManager.addOrUpdate(
+    verify(_mockNoSqlStorageManager.addOrUpdate(
         key: StorageKey.currentUserFolder,
         data: userSession,
         expiryDate: userSession.expiryDate,
@@ -49,7 +49,7 @@ void main() {
   });
 
   test('end session', () async {
-    when(_mockINoSqlStorageManager.delete(StorageKey.currentUserFolder, shared: true))
+    when(_mockNoSqlStorageManager.delete(StorageKey.currentUserFolder, shared: true))
         .thenAnswer((realInvocation) => Future.value());
     when(_mockCachedINoSqlStorageManager.delete(StorageKey.currentUserFolder,
             shared: true))
@@ -57,7 +57,7 @@ void main() {
 
     await _sessionProvider.endSession();
 
-    verify(_mockINoSqlStorageManager.delete(StorageKey.currentUserFolder, shared: true));
+    verify(_mockNoSqlStorageManager.delete(StorageKey.currentUserFolder, shared: true));
     verify(_mockCachedINoSqlStorageManager.delete(StorageKey.currentUserFolder,
         shared: true));
   });
@@ -73,7 +73,7 @@ void main() {
           shared: true, ignoreExpiry: true),
     );
     verifyNever(
-      _mockINoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
+      _mockNoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
           shared: true, ignoreExpiry: true),
     );
     expect(currentSession, userSession);
@@ -84,7 +84,7 @@ void main() {
             shared: true, ignoreExpiry: true))
         .thenAnswer((realInvocation) => Future.value(null));
 
-    when(_mockINoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
+    when(_mockNoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
             shared: true, ignoreExpiry: true))
         .thenAnswer((realInvocation) => Future.value(userSession));
     var currentSession = await _sessionProvider.getCurrentSession();
@@ -94,7 +94,7 @@ void main() {
           shared: true, ignoreExpiry: true),
     );
     verify(
-      _mockINoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
+      _mockNoSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
           shared: true, ignoreExpiry: true),
     );
     expect(currentSession, userSession);
@@ -107,7 +107,7 @@ void main() {
             shared: true,
             expiryDate: userSession.expiryDate))
         .thenAnswer((realInvocation) => Future.value());
-    when(_mockINoSqlStorageManager.addOrUpdate<UserSession>(
+    when(_mockNoSqlStorageManager.addOrUpdate<UserSession>(
             key: StorageKey.currentUserFolder,
             data: userSession,
             shared: true,
@@ -121,7 +121,7 @@ void main() {
         data: userSession,
         shared: true,
         expiryDate: userSession.expiryDate));
-    verify(_mockINoSqlStorageManager.addOrUpdate<UserSession>(
+    verify(_mockNoSqlStorageManager.addOrUpdate<UserSession>(
         key: StorageKey.currentUserFolder,
         data: userSession,
         shared: true,

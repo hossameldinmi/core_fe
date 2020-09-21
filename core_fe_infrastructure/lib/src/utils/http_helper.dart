@@ -1,22 +1,17 @@
 import 'dart:io';
 import 'package:core_fe_infrastructure/src/exceptions/network_exceptions.dart';
-import 'package:core_fe_infrastructure/src/interfaces/i_session_manager.dart';
-import 'package:core_fe_infrastructure/src/interfaces/i_settings.dart';
+import 'package:core_fe_infrastructure/src/interfaces/rest_network.dart';
+import 'package:core_fe_infrastructure/src/interfaces/session_manager.dart';
+import 'package:core_fe_infrastructure/src/interfaces/settings_manager.dart';
 import 'package:core_fe_infrastructure/src/models/base_response.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart';
 
-abstract class IHttpHelper {
-  Future<Map<String, dynamic>> getDefaultHeaders();
-  BaseResponse<TResponse> resolveResponse<TResponse>(
-      HttpResponse<TResponse> response);
-  bool validateStatus(int statusCode);
-  void handleException(HttpResponse response);
-}
 
-class HttpHelper implements IHttpHelper {
-  final ISessionManager _sessionManager;
-  final ISettingsManager _settingsManager;
-  HttpHelper(this._sessionManager, this._settingsManager);
+
+class HttpHelperImpl implements HttpHelper {
+  final SessionManager _sessionManager;
+  final SettingsManager _settingsManager;
+  HttpHelperImpl(this._sessionManager, this._settingsManager);
 
   @override
   Future<Map<String, dynamic>> getDefaultHeaders() async {

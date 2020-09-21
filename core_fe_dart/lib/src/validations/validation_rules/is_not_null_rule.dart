@@ -1,8 +1,8 @@
 import 'package:core_fe_dart/src/exceptions/validation_exception.dart';
-import 'package:core_fe_dart/src/validations/i_validation.dart';
+import 'package:core_fe_dart/src/validations/validation_rule.dart';
 import 'package:meta/meta.dart';
 
-class IsNotNullRule<T> extends IValidationRule<T> {
+class IsNotNullRule<T> extends ValidationRule<T> {
   IsNotNullRule({@required this.validationException});
   IsNotNullRule.fromMessage(
       {@required String validationMessage, int errorCode})

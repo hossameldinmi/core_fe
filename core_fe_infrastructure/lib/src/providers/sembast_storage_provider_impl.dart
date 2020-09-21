@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:core_fe_infrastructure/src/interfaces/i_noSql_storage.dart';
+import 'package:core_fe_infrastructure/src/interfaces/noSql_storage.dart';
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:core_fe_dart/extensions.dart';
 import 'package:sembast/sembast_memory.dart';
 
-class SembastStorageProvider extends INoSqlStorageProvider {
+class SembastStorageProviderImpl extends NoSqlStorageProvider {
   final bool _isInMemoryDb;
   final String _dbPath;
   final SembastCodec _codec;
   final int _version;
   final OnVersionChangedFunction _onVersionChanged;
-  SembastStorageProvider(String dbPath,
+  SembastStorageProviderImpl(String dbPath,
       {SembastCodec codec,
       int version,
       OnVersionChangedFunction onVersionChanged,

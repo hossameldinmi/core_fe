@@ -1,9 +1,8 @@
 import 'package:get_it/get_it.dart';
 
-/// initialize it in app start
-BaseFactory factoryInstance = BaseFactory();
+IocFactory iocInstance = IocFactory();
 
-class BaseFactory {
+class IocFactory {
   final _instance = GetIt.instance;
 
   T call<T>({String instanceName}) => _instance<T>(instanceName: instanceName);
@@ -12,13 +11,15 @@ class BaseFactory {
     _instance.registerSingleton<T>(instance, instanceName: instanceName);
   }
 
-  void registerFactory<T>(T Function() factoryFunc, {String instanceName}) {
-    _instance.registerFactory<T>(factoryFunc, instanceName: instanceName);
+  void registerSingletonWithDependencies<T>(T Function() factoryFunc,
+      {String instanceName, Iterable<Type> dependsOn, bool signalsReady}) {
+    _instance.registerSingletonWithDependencies<T>(factoryFunc,
+        instanceName: instanceName,
+        dependsOn: dependsOn,
+        signalsReady: signalsReady);
   }
 
-  void reset() {
-    _instance.reset();
-  }
+  void reset() => _instance.reset();
 }
 
 abstract class BaseModule {
@@ -42,11 +43,11 @@ class Initer {
   }
 
   static void addModule(String key, BaseModule module) => modules[key] = module;
-  static void _initFactory([BaseFactory instance]) {
-    factoryInstance = instance ?? BaseFactory();
+  static void _initFactory([IocFactory instance]) {
+    iocInstance = instance ?? IocFactory();
   }
 
-  static Future<void> init([BaseFactory instance]) async {
+  static Future<void> init([IocFactory instance]) async {
     _initFactory(instance);
     await loadModules();
   }

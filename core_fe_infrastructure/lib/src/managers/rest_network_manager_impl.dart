@@ -1,17 +1,16 @@
 import 'package:core_fe_infrastructure/src/exceptions/network_exceptions.dart';
 import 'package:core_fe_infrastructure/src/interfaces/connectivity.dart';
-import 'package:core_fe_infrastructure/src/interfaces/i_network.dart';
+import 'package:core_fe_infrastructure/src/interfaces/rest_network.dart';
 import 'package:core_fe_infrastructure/src/models/base_request.dart';
 import 'package:core_fe_infrastructure/src/models/base_response.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart';
 import 'package:core_fe_infrastructure/src/models/request_options.dart';
-import 'package:core_fe_infrastructure/src/utils/i_http_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:core_fe_infrastructure/src/constants/error_code.dart';
 
 class RestNetworkManagerImpl implements IRestNetworkManager {
-  final INetwork _networkProvider;
-  final IHttpHelper _httpHelper;
+  final NetworkProvider _networkProvider;
+  final HttpHelper _httpHelper;
   final Connectivity _connectivity;
   RestNetworkManagerImpl(
       this._networkProvider, this._httpHelper, this._connectivity);

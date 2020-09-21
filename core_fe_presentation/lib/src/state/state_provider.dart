@@ -3,7 +3,7 @@ import 'package:core_fe_presentation/src/state/BasePageState.dart';
 
 class StateProvider {
   T call<T extends BasePageState>({String name}) {
-    var result = factoryInstance<T>(instanceName: name);
+    var result = iocInstance<T>(instanceName: name);
     return result;
   }
 }
