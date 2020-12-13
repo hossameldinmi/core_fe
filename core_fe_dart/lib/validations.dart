@@ -1,8 +1,9 @@
 library core.fe.dart.validations;
 
-export 'package:core_fe_dart/src/validations/i_validation.dart';
-export 'package:core_fe_dart/src/validations/validatable_object.dart';
+export 'package:core_fe_dart/src/validations/validation_rule.dart';
 export 'package:core_fe_dart/src/validations/validation.dart';
+export 'package:core_fe_dart/src/validations/validatable_object.dart';
+export 'package:core_fe_dart/src/validations/validation_rule.dart';
 export 'package:core_fe_dart/src/validations/validation_command_base.dart';
 
 export 'package:core_fe_dart/src/validations/validation_rules/is_not_null_rule.dart';

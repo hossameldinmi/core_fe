@@ -1,7 +1,7 @@
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
 import 'package:meta/meta.dart';
 
-abstract class INoSqlStorageManager {
+abstract class NoSqlStorageManager {
   Future<T> get<T>(
     String key, {
     bool ignoreExpiry = false,
@@ -24,7 +24,7 @@ abstract class INoSqlStorageManager {
   });
 }
 
-abstract class INoSqlStorageProvider {
+abstract class NoSqlStorageProvider {
   Future<void> add<T>(
     StorageModel<T> data, {
     bool shared = false,

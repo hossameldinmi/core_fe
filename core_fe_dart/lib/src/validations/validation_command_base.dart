@@ -1,27 +1,26 @@
 import 'package:core_fe_dart/src/validations/validatable_object.dart';
 import 'package:meta/meta.dart';
 
-/// The validation Rule orchestrator that adds validations to the [_validatableObjectList]
+/// The validation Rule orchestrator that adds validations to the [validatableObject]
 abstract class ValidationCommandBase<T> {
   /// Instialize Command
-  /// [validatableObjectList]: Validatable object that validations is wanted to be added on'
+  /// [validatableObject]: Validatable object that validations is wanted to be added on'
   /// [excuteCallBack]: callback that defines the validations logic
-  /// [isAutoExcute]: allow adding validations on [command] creation?
+  /// [autoExcute]: allow adding validations on [command] creation?
   /// ```
   /// class PhoneNumberValidationCommand extends ValidationCommandBase<String> {
-  ///   PhoneNumberValidationCommand(
-  ///       Iterable<ValidatableObject<String>> validatableObjectList)
+  ///   PhoneNumberValidationCommand(ValidatableObject<String> validatableObject)
   ///       : super(
-  ///             validatableObjectList: validatableObjectList,
-  ///             excuteCallBack: (v) {
-  ///               v.clear();
+  ///             validatableObject: validatableObject,
+  ///             excuteCallBack: () {
+  ///               validatableObject.clear();
   ///
-  ///               v.add(
-  ///                 IsNotNullEmptyWhitespaceRule<String>.fromMessage(
+  ///               validatableObject.add(
+  ///                 IsNotNullEmptyWhitespaceStringRule.fromMessage(
   ///                     validationMessage: 'Please Enter phone number'),
   ///               );
   ///
-  ///               v.add(
+  ///               validatableObject.add(
   ///                 IsValidPhoneNumberRule.fromMessage(
   ///                     validationMessage: 'Invalid phone number'),
   ///               );
@@ -30,21 +29,17 @@ abstract class ValidationCommandBase<T> {
   /// ```
   /// [ref close to this in xamarin]: https://docs.microsoft.com/en-us/xamarin/xamarin-forms/enterprise-application-patterns/validation
   ValidationCommandBase(
-      {@required Iterable<ValidatableObject<T>> validatableObjectList,
-      @required void Function(ValidatableObject<T>) excuteCallBack,
-      bool isAutoExcute = false})
-      : _validatableObjectList = validatableObjectList,
-        _excuteCallBack = excuteCallBack {
-    if (isAutoExcute) {
+      {@required this.validatableObject,
+      @required void Function() excuteCallBack,
+      bool autoExcute = false})
+      : _excuteCallBack = excuteCallBack {
+    if (autoExcute) {
       excute();
     }
   }
+  final ValidatableObject<T> validatableObject;
+  final void Function() _excuteCallBack;
 
-  final Iterable<ValidatableObject<T>> _validatableObjectList;
-  final void Function(ValidatableObject<T>) _excuteCallBack;
-
-  /// Adds Validation Rulles to the [_validatableObjectList].
-  void excute() {
-    _validatableObjectList.forEach(_excuteCallBack);
-  }
+  /// Adds Validation Rulles to the [validatableObject].
+  void excute() => _excuteCallBack();
 }

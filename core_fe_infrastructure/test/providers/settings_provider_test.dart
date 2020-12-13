@@ -7,17 +7,17 @@ import 'package:mockito/mockito.dart';
 import '../mocks/managers_mocks.dart';
 
 void main() {
-  final mockINoSqlStorageManager = MockINoSqlStorageManager();
-  final settingsProvider = SettingsProvider(mockINoSqlStorageManager);
+  final mockNoSqlStorageManager = MockNoSqlStorageManager();
+  final settingsProvider = SettingsProviderImpl(mockNoSqlStorageManager);
   var settings = Settings(language: Language.en_US);
   test('init settings', () async {
     await settingsProvider.initSettings(settings);
-    verify(mockINoSqlStorageManager.addOrUpdate(
+    verify(mockNoSqlStorageManager.addOrUpdate(
         key: StorageKey.settingsStorageKey, data: settings));
   });
 
   test('get settings', () async {
-    when(mockINoSqlStorageManager.get<Settings>(StorageKey.settingsStorageKey))
+    when(mockNoSqlStorageManager.get<Settings>(StorageKey.settingsStorageKey))
         .thenAnswer((realInvocation) => Future.value(settings));
     var actualSettings = await settingsProvider.getSettings();
     expect(actualSettings, settings);
@@ -25,12 +25,12 @@ void main() {
 
   test('update settings', () async {
     await settingsProvider.updateSettings(settings);
-    verify(mockINoSqlStorageManager.addOrUpdate(
+    verify(mockNoSqlStorageManager.addOrUpdate(
         key: StorageKey.settingsStorageKey, data: settings));
   });
 
   test('delete settings', () async {
     await settingsProvider.deleteSettings();
-    verify(mockINoSqlStorageManager.delete(StorageKey.settingsStorageKey));
+    verify(mockNoSqlStorageManager.delete(StorageKey.settingsStorageKey));
   });
 }

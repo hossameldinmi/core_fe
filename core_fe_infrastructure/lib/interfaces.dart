@@ -1,5 +1,7 @@
 library core.fe.infrastructure.interfaces;
 
-export 'src/interfaces/i_noSql_storage.dart';
-export 'src/interfaces/i_session_manager.dart';
-export 'src/interfaces/i_settings.dart';
+export 'src/interfaces/noSql_storage.dart';
+export 'src/interfaces/session_manager.dart';
+export 'src/interfaces/settings_manager.dart';
+export 'src/interfaces/connectivity.dart';
+export 'src/interfaces/rest_network.dart';

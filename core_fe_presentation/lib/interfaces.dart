@@ -1,0 +1,1 @@
+export 'package:core_fe_presentation/src/interfaces/navigation_service.dart';

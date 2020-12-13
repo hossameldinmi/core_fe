@@ -24,7 +24,7 @@ abstract class IRestNetworkManager {
       @required RequestOptions options});
 }
 
-abstract class INetwork {
+abstract class NetworkProvider {
   Future<HttpResponse<TResponse>> get<TResponse>(
       {@required GetRequest request, @required RequestOptions options});
 
@@ -43,4 +43,12 @@ abstract class INetwork {
   Future<HttpResponse<TResponse>> downloadFile<TResponse>(
       {@required DownloadFileRequest request,
       @required RequestOptions options});
+}
+
+abstract class HttpHelper {
+  Future<Map<String, dynamic>> getDefaultHeaders();
+  BaseResponse<TResponse> resolveResponse<TResponse>(
+      HttpResponse<TResponse> response);
+  bool validateStatus(int statusCode);
+  void handleException(HttpResponse response);
 }

@@ -1,7 +1,7 @@
 import 'package:logger/logger.dart';
-import 'package:core_fe_dart/utils.dart';
+import 'package:core_fe_dart/utils.dart' as logger;
 
-class PrettyPrinterLogger implements ILogger {
+class PrettyPrinterLogger implements logger.Logger {
   final _logger = Logger(printer: PrettyPrinter(methodCount: 0));
   final _erroLogger = Logger(printer: PrettyPrinter(methodCount: 10));
   @override

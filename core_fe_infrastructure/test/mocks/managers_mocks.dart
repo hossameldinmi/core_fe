@@ -1,8 +1,8 @@
 import 'package:core_fe_infrastructure/interfaces.dart';
 import 'package:mockito/mockito.dart';
 
-class MockINoSqlStorageManager extends Mock with INoSqlStorageManager {}
+class MockNoSqlStorageManager extends Mock with NoSqlStorageManager {}
 
-class MockISessionManager extends Mock with ISessionManager {}
+class MockSessionManager extends Mock with SessionManager {}
 
-class MockISettingsManager extends Mock with ISettingsManager {}
+class MockSettingsManager extends Mock with SettingsManager {}

@@ -4,19 +4,18 @@ import 'package:core_fe_dart/src/validations/validation_rules/is_not_null_empty_
 import 'package:core_fe_dart/src/validations/validation_rules/is_valid_phone_number_rule.dart';
 
 class PhoneNumberValidationCommand extends ValidationCommandBase<String> {
-  PhoneNumberValidationCommand(
-      Iterable<ValidatableObject<String>> validatableObjectList)
+  PhoneNumberValidationCommand(ValidatableObject<String> validatableObject)
       : super(
-            validatableObjectList: validatableObjectList,
-            excuteCallBack: (v) {
-              v.clear();
+            validatableObject: validatableObject,
+            excuteCallBack: () {
+              validatableObject.clear();
 
-              v.add(
+              validatableObject.add(
                 IsNotNullEmptyWhitespaceRule<String>.fromMessage(
                     validationMessage: 'Please Enter phone number'),
               );
 
-              v.add(
+              validatableObject.add(
                 IsValidPhoneNumberRule.fromMessage(
                     validationMessage: 'Invalid phone number'),
               );

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:core_fe_infrastructure/src/interfaces/i_network.dart';
+import 'package:core_fe_infrastructure/src/interfaces/rest_network.dart';
 import 'package:core_fe_infrastructure/src/models/base_request.dart';
 import 'package:core_fe_infrastructure/src/models/request_options.dart'
     as request_options;
@@ -10,10 +10,10 @@ import 'package:meta/meta.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart';
 
-class HttpProvider implements INetwork {
+class DioHttpProvider implements NetworkProvider {
   final Dio _dio;
 
-  HttpProvider({Dio dio}) : _dio = dio ?? _getHttpClientInstance();
+  DioHttpProvider({Dio dio}) : _dio = dio ?? _getHttpClientInstance();
   @override
   Future<HttpResponse<TResponse>> get<TResponse>(
       {@required GetRequest request,

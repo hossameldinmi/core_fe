@@ -5,7 +5,7 @@ import 'package:core_fe_infrastructure/models.dart';
 import 'package:core_fe_infrastructure/src/exceptions/network_exceptions.dart';
 import 'package:core_fe_infrastructure/src/models/base_response.dart';
 import 'package:core_fe_infrastructure/src/models/settings.dart';
-import 'package:core_fe_infrastructure/src/utils/i_http_helper.dart';
+import 'package:core_fe_infrastructure/src/utils/http_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart'
@@ -16,10 +16,10 @@ import '../mocks/managers_mocks.dart';
 import '../shared.dart';
 
 void main() {
-  var mockSessionManager = MockISessionManager();
-  var mockSettingsManager = MockISettingsManager();
+  var mockSessionManager = MockSessionManager();
+  var mockSettingsManager = MockSettingsManager();
   var settings = Settings(language: Language.ar_EG);
-  var httpHelper = HttpHelper(mockSessionManager, mockSettingsManager);
+  var httpHelper = HttpHelperImpl(mockSessionManager, mockSettingsManager);
   group('getDefaultHeaders', () {
     test('default headers when session is anonymous', () async {
       when(mockSettingsManager.getSettings())

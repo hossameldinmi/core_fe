@@ -1,11 +1,26 @@
 import 'package:core_fe_infrastructure/providers.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:core_fe_flutter/utils.dart';
-import '../core_fe_infrastructure.dart';
 import 'package:matcher/matcher.dart';
 
-void main() {
-  BaseFactory.init(CoreFeInfrastructureTest());
+import '../core_fe_infrastructure.dart';
+
+void main() async {
+  await Initer.addModule(
+      'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
+  await Initer.init();
+  test('Expected Error if type is not registered', () {
+    expect(
+      () => jsonFactory<Map>(),
+      throwsA(
+        const TypeMatcher<ArgumentError>().having(
+          (e) => e.message,
+          'Type is not registered in JsonFactory',
+          equals('Key [Map<dynamic, dynamic>] is not registerd in JsonFactory'),
+        ),
+      ),
+    );
+  });
   group('int', () {
     test('expected succeeded serialization & deserialization', () {
       const value = 1;

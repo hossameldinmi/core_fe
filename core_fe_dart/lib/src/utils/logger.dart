@@ -1,4 +1,4 @@
-abstract class ILogger {
+abstract class Logger {
   void logInformation(dynamic message);
   void logError(dynamic message);
 

@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:core_fe_infrastructure/src/interfaces/i_noSql_storage.dart';
+import 'package:core_fe_infrastructure/src/interfaces/noSql_storage.dart';
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:core_fe_dart/extensions.dart';
-class SecureStorageProvider extends INoSqlStorageProvider {
+
+class SecureStorageProviderImpl extends NoSqlStorageProvider {
   final storage = FlutterSecureStorage();
   @override
   Future<void> add<T>(StorageModel<T> object, {bool shared = false}) async {
