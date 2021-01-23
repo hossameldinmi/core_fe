@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:core_fe_infrastructure/src/interfaces/rest_network.dart';
+import 'package:core_fe_infrastructure/src/interfaces/http_network.dart';
 import 'package:core_fe_infrastructure/src/models/base_request.dart';
 import 'package:core_fe_infrastructure/src/models/request_options.dart'
     as request_options;
@@ -72,7 +72,7 @@ class DioHttpProvider implements NetworkProvider {
       @required request_options.RequestOptions options}) async {
     return DioHelper.toValidFileObject(request.data).then(
       (tuple) => _request<TResponse>(
-        options.merge(length: tuple.item2),
+        options.copyWith(length: tuple.item2),
         (dioOptions) => _dio.post(
           request.url,
           data: tuple.item1,

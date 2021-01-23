@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:core_fe_dart/enums.dart';
 import 'package:meta/meta.dart';
 import 'package:core_fe_dart/extensions.dart';
@@ -40,6 +42,7 @@ class Language extends Enum {
   );
 
   /// `Arabic-Egypt` language
+  /// `عربي - مصر`
   static const Language ar_EG = Language(
       name: 'عربي - مصر',
       languageCode: 'ar',
@@ -47,6 +50,9 @@ class Language extends Enum {
       flowDirection: FlowDirection.rtl);
 
   static List<Language> get languages => [en_US, ar_EG];
+  Locale toLocale() {
+    return Locale(languageCode.toLowerCase(), countryCode);
+  }
 
   factory Language.fromLocale(String locale) {
     var lang =

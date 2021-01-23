@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class BaseState with ChangeNotifier {
+abstract class ViewModelBase with ChangeNotifier {
   bool get isLoading => _isLoading;
   bool _isLoading = false;
   String get busyMessage => _busyMessage;
@@ -20,4 +20,5 @@ abstract class BaseState with ChangeNotifier {
     _busyMessage = null;
     notifyListeners();
   }
+
 }

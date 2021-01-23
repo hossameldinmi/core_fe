@@ -1,8 +1,9 @@
 abstract class Logger {
-  void logInformation(dynamic message);
-  void logError(dynamic message);
+  void debug(dynamic message);
+  void info(dynamic message);
+  void error(dynamic message);
 
-  void logSuccess(dynamic information);
+  void success(dynamic information);
 
-  void logWarning(dynamic information);
+  void warning(dynamic information);
 }

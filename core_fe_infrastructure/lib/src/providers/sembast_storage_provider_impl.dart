@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:core_fe_infrastructure/src/interfaces/noSql_storage.dart';
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
+import 'package:core_fe_infrastructure/src/utils/permission_handler.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:core_fe_dart/extensions.dart';
@@ -97,6 +98,7 @@ class SembastStorageProviderImpl extends NoSqlStorageProvider {
     if (_dbOpenCompleterMap[_dbPath] == null || !dbExists) {
       _dbOpenCompleterMap[_dbPath] = Completer();
       // Calling _openDatabase will also complete the completer with database instance
+
       await _openDatabase();
     }
     // If the database is already opened, awaiting the future will happen instantly.
@@ -110,6 +112,9 @@ class SembastStorageProviderImpl extends NoSqlStorageProvider {
     // final appDocumentDir = await getApplicationDocumentsDirectory();
     // Path with the form: /platform-specific-directory/demo.db
     // final dbPath = join(appDocumentDir.path, dbName);
+    if (!_isInMemoryDb && !await PermissionsHandler.isStorageGranted()) {
+      return;
+    }
     var factory = _isInMemoryDb ? databaseFactoryMemory : databaseFactoryIo;
     final database = await factory.openDatabase(_dbPath,
         version: _version, codec: _codec, onVersionChanged: _onVersionChanged);

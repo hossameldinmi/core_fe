@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:core_fe_dart/utils.dart';
+import 'package:core_fe_flutter/enums.dart';
 import 'package:core_fe_flutter/utils.dart';
 import 'package:core_fe_infrastructure/interfaces.dart';
 import 'package:core_fe_infrastructure/managers.dart';
@@ -6,63 +9,71 @@ import 'package:core_fe_infrastructure/providers.dart';
 import 'package:core_fe_infrastructure/utils.dart';
 
 import 'constants.dart';
+import 'models.dart';
+import 'src/interfaces/http_network.dart';
 
-class CoreFeInfrastructureModule extends BaseModule {
-  CoreFeInfrastructureModule();
+class CoreFeInfrastructureModule implements BaseModule {
+  CoreFeInfrastructureModule(this._dpName);
+  Completer<void> _completer;
+  final String _dpName;
+
   @override
-  Future<void> setUp() async {
-    var dbPath = await PathProvider.getDocumentPath();
-    iocInstance.registerSingleton<Connectivity>(ConnectivityImpl());
-    iocInstance.registerSingleton<DateTimeWrapper>(DateTimeWrapperImpl());
+  Future<void> setUp() {
+    _completer ??= Completer();
+    PathProvider.getDocumentPath().then((dbPath) {
+      locator.registerLazySingleton<NoSqlStorageProvider>(
+          () => SembastStorageProviderImpl(dbPath + _dpName));
+      locator.registerLazySingleton<NoSqlStorageProvider>(
+          () =>
+              SembastStorageProviderImpl(dbPath + _dpName, isInMemoryDb: true),
+          instanceName: IocKeys.cachedStorageProvider);
+      _completer.complete();
+    });
+    locator.registerSingleton<Connectivity>(ConnectivityImpl());
+    locator.registerSingleton<DateTimeWrapper>(DateTimeWrapperImpl());
 
-    iocInstance.registerSingletonWithDependencies<HttpHelper>(
-        () => HttpHelperImpl(
-            iocInstance<SessionManagerImpl>(), iocInstance<SettingsManager>()),
-        dependsOn: [SessionManagerImpl, SettingsManager]);
-
-    iocInstance.registerSingletonWithDependencies<NoSqlStorageProvider>(
-        () => SembastStorageProviderImpl(dbPath));
-    iocInstance.registerSingletonWithDependencies<NoSqlStorageProvider>(
-        () => SembastStorageProviderImpl(dbPath, isInMemoryDb: true),
-        instanceName: IocKeys.cachedStorageProvider);
-    iocInstance.registerSingletonWithDependencies<NoSqlStorageManager>(
-      () => NoSqlStorageManagerImpl(
-        iocInstance<NoSqlStorageProvider>(),
-        iocInstance<DateTimeWrapper>(),
-      ),
-      dependsOn: [NoSqlStorageProvider, DateTimeWrapper],
+    locator.registerLazySingleton<HttpHelper>(
+      () => HttpHelperImpl(
+          locator<SessionManagerImpl>(), locator<SettingsManager>()),
     );
 
-    iocInstance.registerSingletonWithDependencies<NoSqlStorageManager>(
+    locator.registerLazySingleton<NoSqlStorageManager>(
+      () => NoSqlStorageManagerImpl(
+        locator<NoSqlStorageProvider>(),
+        locator<DateTimeWrapper>(),
+      ),
+    );
+
+    locator.registerLazySingleton<NoSqlStorageManager>(
         () => NoSqlStorageManagerImpl(
-              iocInstance<NoSqlStorageProvider>(
+              locator<NoSqlStorageProvider>(
                   instanceName: IocKeys.cachedStorageProvider),
-              iocInstance<DateTimeWrapper>(),
+              locator<DateTimeWrapper>(),
             ),
-        dependsOn: [NoSqlStorageProvider, DateTimeWrapper],
         instanceName: IocKeys.cachedStorageManager);
 
-    iocInstance.registerSingletonWithDependencies<SessionProvider>(
+    locator.registerLazySingleton<SessionProvider>(
       () => SessionProviderImpl(
-        iocInstance<NoSqlStorageManager>(),
-        iocInstance<NoSqlStorageManager>(
+        locator<NoSqlStorageManager>(),
+        locator<NoSqlStorageManager>(
             instanceName: IocKeys.cachedStorageManager),
       ),
-      dependsOn: [NoSqlStorageManager],
     );
 
-    iocInstance.registerSingletonWithDependencies<SessionManager>(
-        () => SessionManagerImpl(
-              iocInstance<SessionProvider>(),
-            ),
-        dependsOn: [SessionProvider]);
+    locator.registerLazySingleton<SessionManager>(
+      () => SessionManagerImpl(
+        locator<SessionProvider>(),
+      ),
+    );
 
-    iocInstance.registerSingletonWithDependencies<SettingsProvider>(
-        () => SettingsProviderImpl(iocInstance<NoSqlStorageManager>()),
-        dependsOn: [NoSqlStorageManager]);
+    locator.registerLazySingleton<SettingsProvider>(
+      () => SettingsProviderImpl(locator<NoSqlStorageManager>()),
+    );
 
-    iocInstance.registerSingletonWithDependencies<SettingsManager>(
-        () => SettingsManagerImpl(iocInstance<SettingsProvider>()),
-        dependsOn: [SettingsProvider]);
+    locator.registerLazySingleton<SettingsManager>(
+      () => SettingsManagerImpl(locator<SettingsProvider>(),
+          defaultSettings: Settings(language: Language.ar_EG)),
+    );
+    return _completer.future;
   }
 }

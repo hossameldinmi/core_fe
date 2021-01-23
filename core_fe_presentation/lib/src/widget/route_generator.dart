@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
-  static Map<String, WidgetBuilder> wiringWidgets = {};
-  static void registerPage(String route, WidgetBuilder widgetBuilder) {
-    wiringWidgets[route] = widgetBuilder;
+  static Map<String, WidgetBuilder> routes = {};
+  static void registerRoute(String route, WidgetBuilder widgetBuilder) {
+    routes[route] = widgetBuilder;
   }
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    if (wiringWidgets.containsKey(settings.name)) {
+    if (routes.containsKey(settings.name)) {
       return MaterialPageRoute(
-          builder: wiringWidgets[settings.name], settings: settings);
+          builder: routes[settings.name], settings: settings);
     } else {
       return MaterialPageRoute(builder: (_) {
         return Scaffold(

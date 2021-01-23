@@ -14,7 +14,7 @@ class ResponseOptions<TResponse> {
     this.responseType = ResponseType.json,
   });
 
-  ResponseOptions<TResponse> merge({
+  ResponseOptions<TResponse> copyWith({
     bool Function(int) validateStatus,
     FromJsonFunc<TResponse> fromJson,
     ResponseType responseType,

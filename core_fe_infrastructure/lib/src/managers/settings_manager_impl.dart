@@ -3,15 +3,22 @@ import 'package:core_fe_infrastructure/src/models/settings.dart';
 
 class SettingsManagerImpl implements SettingsManager {
   final SettingsProvider _settingsProvider;
-  SettingsManagerImpl(
-    this._settingsProvider,
-  );
+  final Settings defaultSettings;
+  SettingsManagerImpl(this._settingsProvider, {this.defaultSettings});
 
   @override
   Future<bool> deleteSettings() => _settingsProvider.deleteSettings();
 
   @override
-  Future<Settings> getSettings() => _settingsProvider.getSettings();
+  Future<Settings> getSettings() {
+    try {
+      return _settingsProvider
+          .getSettings()
+          .then((value) => value ??= defaultSettings);
+    } catch (e) {
+      return Future.value(defaultSettings);
+    }
+  }
 
   @override
   Future<bool> initSettings(Settings settings) =>

@@ -157,7 +157,7 @@ void main() async {
     });
   });
 
-  group('HTTP PUT', () {
+  group('HTTP put', () {
     test('valid put request with valid 200 valid response', () async {
       var todo = Todo(
           userId: 1,
@@ -211,7 +211,7 @@ void main() async {
     });
   });
 
-  group('HTTP Delete', () {
+  group('HTTP delete', () {
     test('valid delete request with valid 200 valid response', () async {
       when(
         mockHttpClientAdapter.fetch(any, any, any),

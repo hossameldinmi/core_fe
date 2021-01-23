@@ -23,7 +23,7 @@ class RequestOptions extends Equatable {
     this.responseType = ResponseType.json,
   }) : contentType = contentType ?? ContentType.json;
 
-  RequestOptions merge({
+  RequestOptions copyWith({
     Map<String, dynamic> headers,
     ContentType contentType,
     int receiveTimeout,

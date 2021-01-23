@@ -56,7 +56,7 @@ class HttpResponse<T> extends Equatable {
 
   /// We are more concerned about `data` field.
 
-  HttpResponse<TResponse> merge<TResponse>({
+  HttpResponse<TResponse> copyWith<TResponse>({
     TResponse data,
     int statusCode,
     Map<String, dynamic> headers,
