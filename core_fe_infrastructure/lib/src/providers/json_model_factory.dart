@@ -79,4 +79,4 @@ class JsonModelFactoryImpl implements JsonModelFactory {
   }
 }
 
-JsonModelFactory get jsonFactory => iocInstance<JsonModelFactory>();
+JsonModelFactory get jsonFactory => locator<JsonModelFactory>();

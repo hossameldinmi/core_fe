@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:core_fe_infrastructure/src/constants/error_code.dart';
 import 'package:core_fe_infrastructure/src/enums/response_type.dart';
 import 'package:core_fe_infrastructure/src/exceptions/network_exceptions.dart';
-import 'package:core_fe_infrastructure/src/managers/rest_network_manager_impl.dart';
+import 'package:core_fe_infrastructure/src/managers/http_network_manager_impl.dart';
 import 'package:core_fe_infrastructure/src/models/base_request.dart';
 import 'package:core_fe_infrastructure/src/models/base_response.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart';
@@ -21,7 +21,7 @@ void main() {
   final mockHttpHelper = MockHttpHelper();
 
   final networkManager =
-      RestNetworkManagerImpl(mockNetwork, mockHttpHelper, mockConnectivity);
+      HttpNetworkManagerImpl(mockNetwork, mockHttpHelper, mockConnectivity);
   final headers = {'h1': 'v1', 'h2': 'v2'};
   final defaultHeaders = {'dh1': 'dv1', 'dh2': 'dv2'};
   setUpAll(() {

@@ -11,7 +11,7 @@ class NavigationArgs {
       this.direction = NavigationDirection.newPage,
       this.prevRoute});
 
-  NavigationArgs merge({
+  NavigationArgs copyWith({
     NavigationDirection direction,
     Object param,
     String prevRoute,

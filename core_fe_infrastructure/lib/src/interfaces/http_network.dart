@@ -4,7 +4,7 @@ import 'package:core_fe_infrastructure/src/models/request_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:core_fe_infrastructure/src/models/base_response.dart';
 
-abstract class IRestNetworkManager {
+abstract class IHttpNetworkManager {
   Future<BaseResponse<TResponse>> get<TResponse>(
       {@required GetRequest request, @required RequestOptions options});
 

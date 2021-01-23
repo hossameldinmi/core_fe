@@ -1,12 +1,10 @@
 import 'dart:io';
 import 'package:core_fe_infrastructure/src/exceptions/network_exceptions.dart';
-import 'package:core_fe_infrastructure/src/interfaces/rest_network.dart';
+import 'package:core_fe_infrastructure/src/interfaces/http_network.dart';
 import 'package:core_fe_infrastructure/src/interfaces/session_manager.dart';
 import 'package:core_fe_infrastructure/src/interfaces/settings_manager.dart';
 import 'package:core_fe_infrastructure/src/models/base_response.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart';
-
-
 
 class HttpHelperImpl implements HttpHelper {
   final SessionManager _sessionManager;

@@ -1,11 +1,12 @@
 import 'package:core_fe_flutter/utils.dart';
-import 'package:core_fe_presentation/src/state/BasePageState.dart';
+import 'package:core_fe_presentation/src/state/page_view_model_base.dart';
 
-class StateProvider {
-  T call<T extends BasePageState>({String name}) {
-    var result = iocInstance<T>(instanceName: name);
+class ViewModelProvider {
+  final _locator = Locator();
+  T call<T extends PageViewModelBase>({String name}) {
+    var result = _locator<T>(instanceName: name);
     return result;
   }
 }
 
-final stateProvider = StateProvider();
+final viewModelProvider = ViewModelProvider();

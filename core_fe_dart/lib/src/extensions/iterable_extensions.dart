@@ -12,8 +12,83 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   Iterable<T> intersection(Iterable<T> other) {
-    var intersection = where((element) => other.contains(element));
+    var intersection = where(other.contains);
     return intersection;
+  }
+
+  Iterable<T> distinct(Iterable<T> other) {
+    var list = where((i) => !other.contains(i)).toList();
+    list.addAll(other.where((i) => !contains(i)));
+    return list;
+  }
+
+  Future<List<R>> asyncMap<R>(Future<R> Function(T) mapFunc) async {
+    assert(mapFunc != null);
+    var list = <R>[];
+    for (var item in this) {
+      list.add(await mapFunc(item));
+    }
+    return list;
+  }
+
+  Future<void> asyncForEach<R>(Future<void> Function(T) action) {
+    assert(action != null);
+    return Future.forEach(this, action);
+  }
+}
+
+extension ListExtension<T> on List<T> {
+  void addOrUpdate(T newElement, {bool Function(T) test}) {
+    test ??= (e) => e == newElement;
+    var oldObject = firstWhereOrDefault(test);
+    if (oldObject == null) {
+      add(newElement);
+    } else {
+      replaceWith(oldObject, newElement);
+    }
+  }
+
+  List<T> replaceManyWith(List<T> other, bool Function(T old, T newItem) test) {
+    var newList = [];
+    forEach((old) {
+      var matchedItem = other.firstWhereOrDefault((newItem) {
+        return test(old, newItem);
+      });
+      if (matchedItem != null) {
+        newList.add(matchedItem);
+      } else {
+        newList.add(old);
+      }
+    });
+    return newList;
+  }
+
+  void replaceWhere(
+      bool Function(T) test, T Function(T oldObject) newElementFactory) {
+    where(test).forEach((old) => replaceWith(old, newElementFactory(old)));
+  }
+
+  void replaceWith(T old, T newElement) {
+    var index = indexOf(old);
+    this[index] = newElement;
+  }
+
+  T firstWhereOrDefault(bool Function(T) test, {T Function() orElse}) {
+    orElse ??= () => null;
+
+    return firstWhere(test, orElse: orElse);
+  }
+
+  T firstWhereOrDefaultIndexed(bool Function(T, int) test,
+      {T Function() orElse}) {
+    for (var i = 0; i < length; i++) {
+      var item = this[i];
+      if (test(this[i], i)) {
+        return item;
+      }
+    }
+    orElse ??= () => null;
+    return null;
   }
 }
 
@@ -35,11 +110,22 @@ extension MapExtensions<TKey, TValue> on Map<TKey, TValue> {
     });
     return map;
   }
+
+  Future<Map<TKey2, TValue2>> asyncMap<TKey2, TValue2>(
+      Future<MapEntry<TKey2, TValue2>> Function(MapEntry<TKey, TValue>)
+          convert) {
+    return entries.asyncMap(convert).then((list) => Map.fromEntries(list));
+  }
+
+  Future<void> asyncForEach(
+      Future<void> Function(MapEntry<TKey, TValue>) action) {
+    return entries.asyncForEach(action);
+  }
 }
 
 extension ItemFold on Object {
   dynamic castAllInSync<T>(T Function(dynamic) castCallBack) {
-    print('Calling castAllInSync<&$T>');
+    print('Calling castAllInSync<$T>');
     var data = this;
     if (data == null) return null;
     if (data is Map) {
@@ -76,7 +162,7 @@ extension ItemFold on Object {
       }
       return list;
     } else {
-      return await castCallBack(data);
+      return castCallBack(data);
     }
   }
 }

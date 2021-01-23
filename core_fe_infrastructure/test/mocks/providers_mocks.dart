@@ -1,5 +1,6 @@
 import 'package:core_fe_dart/utils.dart';
 import 'package:core_fe_infrastructure/interfaces.dart';
+import 'package:core_fe_infrastructure/src/interfaces/http_network.dart';
 import 'package:dio/dio.dart';
 import 'package:mockito/mockito.dart';
 
