@@ -7,9 +7,8 @@ import 'mocks/mocks.dart';
 class CoreFeInfrastructureTest extends BaseModule {
   @override
   Future<void> setUp() {
-    iocInstance.reset();
-    iocInstance
-        .registerSingleton<JsonModelFactory>(TestJsonModelProvider());
+    locator.reset();
+    locator.registerSingleton<JsonModelFactory>(TestJsonModelProvider());
     return Future.value();
   }
 }

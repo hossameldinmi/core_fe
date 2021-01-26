@@ -13,7 +13,8 @@ import 'mocks/my_app.dart';
 import 'mocks/page1.dart';
 
 void main() {
-  final navigationService = NavigationServiceImpl(Page1.route);
+  final _navKey = GlobalKey<NavigatorState>();
+  final navigationService = NavigationServiceImpl(Page1.route, _navKey);
   group('Navigation.push', () {
     tearDown(() {
       HomePage.navigationFunc = null;
@@ -22,10 +23,9 @@ void main() {
     });
 
     testWidgets('Navigation.push normal push', (WidgetTester tester) async {
-      HomePage.navigationFunc =
-          (cxt) => navigationService.push(cxt, Page1.route);
+      HomePage.navigationFunc = (cxt) => navigationService.push(Page1.route);
       Page1.navigationFunc = (cxt) {
-        navigationService.pop(cxt);
+        navigationService.pop();
         return Future.value();
       };
       await tester.pumpWidget(MyApp(HomePage.route));
@@ -47,10 +47,10 @@ void main() {
 
     testWidgets('Navigation.push with param', (WidgetTester tester) async {
       HomePage.navigationFunc =
-          (cxt) => navigationService.push(cxt, Page1.route, args: 'Param');
+          (cxt) => navigationService.push(Page1.route, args: 'Param');
 
       Page1.navigationFunc = (cxt) {
-        navigationService.pop(cxt);
+        navigationService.pop();
         return Future.value();
       };
       await tester.pumpWidget(MyApp(HomePage.route));
@@ -67,8 +67,7 @@ void main() {
 
     testWidgets('Navigation.push with wrong route',
         (WidgetTester tester) async {
-      HomePage.navigationFunc =
-          (cxt) => navigationService.push(cxt, 'Wrongroute');
+      HomePage.navigationFunc = (cxt) => navigationService.push('Wrongroute');
       await tester.pumpWidget(MyApp(HomePage.route));
 
       await tester.tap(find.byIcon(Icons.add));
@@ -80,5 +79,4 @@ void main() {
       expect(find.byType(Page1), findsNothing);
     });
   });
-
 }

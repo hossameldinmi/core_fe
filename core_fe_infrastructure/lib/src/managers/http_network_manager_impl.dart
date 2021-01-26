@@ -1,6 +1,6 @@
 import 'package:core_fe_infrastructure/src/exceptions/network_exceptions.dart';
 import 'package:core_fe_infrastructure/src/interfaces/connectivity.dart';
-import 'package:core_fe_infrastructure/src/interfaces/rest_network.dart';
+import 'package:core_fe_infrastructure/src/interfaces/http_network.dart';
 import 'package:core_fe_infrastructure/src/models/base_request.dart';
 import 'package:core_fe_infrastructure/src/models/base_response.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart';
@@ -8,11 +8,11 @@ import 'package:core_fe_infrastructure/src/models/request_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:core_fe_infrastructure/src/constants/error_code.dart';
 
-class RestNetworkManagerImpl implements IRestNetworkManager {
+class HttpNetworkManagerImpl implements IHttpNetworkManager {
   final NetworkProvider _networkProvider;
   final HttpHelper _httpHelper;
   final Connectivity _connectivity;
-  RestNetworkManagerImpl(
+  HttpNetworkManagerImpl(
       this._networkProvider, this._httpHelper, this._connectivity);
 
   @override
@@ -99,7 +99,7 @@ class RestNetworkManagerImpl implements IRestNetworkManager {
       headers.addAll(defaultHeaders ?? {});
       // append options headers, existing keys will be ovveriden
       headers.addAll(options.headers ?? {});
-      return options.merge(
+      return options.copyWith(
           headers: headers,
           validateStatus: options.validateStatus ?? _httpHelper.validateStatus);
     });
