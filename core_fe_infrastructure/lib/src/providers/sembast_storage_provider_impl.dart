@@ -1,19 +1,20 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:core_fe_infrastructure/src/interfaces/i_noSql_storage.dart';
+import 'package:core_fe_infrastructure/src/interfaces/noSql_storage.dart';
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
+import 'package:core_fe_infrastructure/src/utils/permission_handler.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:core_fe_dart/extensions.dart';
 import 'package:sembast/sembast_memory.dart';
 
-class SembastStorageProvider extends INoSqlStorageProvider {
+class SembastStorageProviderImpl extends NoSqlStorageProvider {
   final bool _isInMemoryDb;
   final String _dbPath;
   final SembastCodec _codec;
   final int _version;
   final OnVersionChangedFunction _onVersionChanged;
-  SembastStorageProvider(String dbPath,
+  SembastStorageProviderImpl(String dbPath,
       {SembastCodec codec,
       int version,
       OnVersionChangedFunction onVersionChanged,
@@ -97,6 +98,7 @@ class SembastStorageProvider extends INoSqlStorageProvider {
     if (_dbOpenCompleterMap[_dbPath] == null || !dbExists) {
       _dbOpenCompleterMap[_dbPath] = Completer();
       // Calling _openDatabase will also complete the completer with database instance
+
       await _openDatabase();
     }
     // If the database is already opened, awaiting the future will happen instantly.
@@ -110,6 +112,9 @@ class SembastStorageProvider extends INoSqlStorageProvider {
     // final appDocumentDir = await getApplicationDocumentsDirectory();
     // Path with the form: /platform-specific-directory/demo.db
     // final dbPath = join(appDocumentDir.path, dbName);
+    if (!_isInMemoryDb && !await PermissionsHandler.isStorageGranted()) {
+      return;
+    }
     var factory = _isInMemoryDb ? databaseFactoryMemory : databaseFactoryIo;
     final database = await factory.openDatabase(_dbPath,
         version: _version, codec: _codec, onVersionChanged: _onVersionChanged);

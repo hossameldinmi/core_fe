@@ -10,7 +10,7 @@ void main() {
     void intializeValidatableObject(String stringNumber) {
       validatableObject = ValidatableObject<String>(stringNumber);
       phoneNumberValidationCommand =
-          PhoneNumberValidationCommand([validatableObject]);
+          PhoneNumberValidationCommand(validatableObject);
 
       phoneNumberValidationCommand.excute();
     }

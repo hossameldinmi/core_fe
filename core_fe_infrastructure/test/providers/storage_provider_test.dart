@@ -4,13 +4,17 @@ import 'package:core_fe_infrastructure/providers.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:core_fe_flutter/utils.dart';
+
 import '../core_fe_infrastructure.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  BaseFactory.init(CoreFeInfrastructureTest());
-  INoSqlStorageProvider getInstance(String dbPath) {
-    return SembastStorageProvider(dbPath, isInMemoryDb: true);
+  await Initer.addModule(
+      'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
+  await Initer.init();
+
+  NoSqlStorageProvider getInstance(String dbPath) {
+    return SembastStorageProviderImpl(dbPath, isInMemoryDb: true);
   }
 
   var _iNoSqlStorageProvider = getInstance('App1');
@@ -52,7 +56,7 @@ void main() async {
     });
 
     test('validate dbPath', () async {
-      expect(() => SembastStorageProvider(''), throwsAssertionError);
+      expect(() => SembastStorageProviderImpl(''), throwsAssertionError);
     });
   });
   group('adding records', () {

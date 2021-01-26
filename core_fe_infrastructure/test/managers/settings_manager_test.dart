@@ -7,8 +7,8 @@ import 'package:mockito/mockito.dart';
 import '../mocks/providers_mocks.dart';
 
 void main() {
-  final mockSettingsProvider = MockISettingsProvider();
-  final settingsManager = SettingsManager(mockSettingsProvider);
+  final mockSettingsProvider = MockSettingsProvider();
+  final settingsManager = SettingsManagerImpl(mockSettingsProvider);
   var settings = Settings(language: Language.en_US);
   test('init settings', () async {
     await settingsManager.initSettings(settings);

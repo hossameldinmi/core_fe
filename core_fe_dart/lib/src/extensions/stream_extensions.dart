@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-extension StreamExtensions on Stream<List<int>> {
+extension ByteStreamExtensions on Stream<List<int>> {
   Future<Uint8List> toBytes() {
     var completer = Completer<Uint8List>();
     var sink = ByteConversionSink.withCallback((bytes) {
@@ -15,4 +15,14 @@ extension StreamExtensions on Stream<List<int>> {
         cancelOnError: true);
     return completer.future;
   }
+}
+
+extension StreamExtensions<T> on Stream<T> {
+  Stream<T> onEvent(void Function(T) action) {
+    return map((e) {
+      action(e);
+      return e;
+    });
+  }
+
 }

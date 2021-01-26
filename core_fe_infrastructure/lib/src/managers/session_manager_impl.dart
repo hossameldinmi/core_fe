@@ -1,12 +1,12 @@
 import 'package:core_fe_dart/extensions.dart';
-import 'package:core_fe_infrastructure/src/interfaces/i_session_manager.dart';
+import 'package:core_fe_infrastructure/src/interfaces/session_manager.dart';
 import 'package:core_fe_infrastructure/src/models/user_session.dart';
 import 'package:meta/meta.dart';
 import 'package:core_fe_dart/enums.dart';
 
-class SessionManager implements ISessionManager {
-  final ISessionProvider _sessionProvider;
-  SessionManager(
+class SessionManagerImpl implements SessionManager {
+  final SessionProvider _sessionProvider;
+  SessionManagerImpl(
     this._sessionProvider,
   );
   @override

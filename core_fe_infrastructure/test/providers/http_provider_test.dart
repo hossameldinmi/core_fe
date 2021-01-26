@@ -47,7 +47,9 @@ void addLoggerInterceptor(Dio dio) {
 }
 
 void main() async {
-  BaseFactory.init(CoreFeInfrastructureTest());
+  await Initer.addModule(
+      'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
+  await Initer.init();
   // EquatableConfig.stringify = true;
   final bytes1 = await file1.readAsBytes();
 
@@ -55,7 +57,7 @@ void main() async {
   // addLoggerInterceptor(dio);
   final mockHttpClientAdapter = MockHttpClientAdapter();
   dio.httpClientAdapter = mockHttpClientAdapter;
-  final httpProvider = HttpProvider(dio: dio);
+  final httpProvider = DioHttpProvider(dio: dio);
   group('HTTP get', () {
     test('valid GET request with valid 200 valid response', () async {
       var todo = Todo(
@@ -155,7 +157,7 @@ void main() async {
     });
   });
 
-  group('HTTP PUT', () {
+  group('HTTP put', () {
     test('valid put request with valid 200 valid response', () async {
       var todo = Todo(
           userId: 1,
@@ -209,7 +211,7 @@ void main() async {
     });
   });
 
-  group('HTTP Delete', () {
+  group('HTTP delete', () {
     test('valid delete request with valid 200 valid response', () async {
       when(
         mockHttpClientAdapter.fetch(any, any, any),

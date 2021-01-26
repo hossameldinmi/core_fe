@@ -1,12 +1,13 @@
 import 'package:core_fe_infrastructure/src/constants/storage_key.dart';
-import 'package:core_fe_infrastructure/src/interfaces/i_noSql_storage.dart';
-import 'package:core_fe_infrastructure/src/interfaces/i_session_manager.dart';
+import 'package:core_fe_infrastructure/src/interfaces/noSql_storage.dart';
+import 'package:core_fe_infrastructure/src/interfaces/session_manager.dart';
 import 'package:core_fe_infrastructure/src/models/user_session.dart';
 
-class SessionProvider implements ISessionProvider {
-  final INoSqlStorageManager _noSqlStorageManager;
-  final INoSqlStorageManager _cachedNoSqlStorageManager;
-  SessionProvider(this._noSqlStorageManager, this._cachedNoSqlStorageManager);
+class SessionProviderImpl implements SessionProvider {
+  final NoSqlStorageManager _noSqlStorageManager;
+  final NoSqlStorageManager _cachedNoSqlStorageManager;
+  SessionProviderImpl(
+      this._noSqlStorageManager, this._cachedNoSqlStorageManager);
   @override
   Future<void> startSession(UserSession userSession) async {
     return Future.wait(
@@ -27,8 +28,10 @@ class SessionProvider implements ISessionProvider {
 
   @override
   Future<UserSession> getCurrentSession() async {
-    var result = await _cachedNoSqlStorageManager
-        .get<UserSession>(StorageKey.currentUserFolder, ignoreExpiry: true, shared: true);
+    var result = await _cachedNoSqlStorageManager.get<UserSession>(
+        StorageKey.currentUserFolder,
+        ignoreExpiry: true,
+        shared: true);
     return result ??
         _noSqlStorageManager.get<UserSession>(StorageKey.currentUserFolder,
             shared: true, ignoreExpiry: true);
@@ -37,7 +40,8 @@ class SessionProvider implements ISessionProvider {
   @override
   Future<void> endSession() async {
     return Future.wait([
-      _cachedNoSqlStorageManager.delete(StorageKey.currentUserFolder, shared: true),
+      _cachedNoSqlStorageManager.delete(StorageKey.currentUserFolder,
+          shared: true),
       _noSqlStorageManager.delete(StorageKey.currentUserFolder, shared: true)
     ]);
   }

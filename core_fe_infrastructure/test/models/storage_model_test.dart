@@ -2,6 +2,7 @@ import 'package:core_fe_infrastructure/models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:core_fe_flutter/utils.dart';
 import 'package:core_fe_flutter/extensions.dart';
+
 import '../core_fe_infrastructure.dart';
 
 final createdDate = DateTime(2020, 6, 1, 22, 5, 6);
@@ -12,8 +13,10 @@ const kUpdatedDate = 'updated_date';
 const kExpiryDate = 'expiry_date';
 const kData = 'data';
 
-void main() {
-  BaseFactory.init(CoreFeInfrastructureTest());
+void main() async {
+  await Initer.addModule(
+      'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
+  await Initer.init();
 
   group('init', () {
     test('validate key if null', () {

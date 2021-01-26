@@ -3,14 +3,14 @@ import 'package:core_fe_flutter/utils.dart';
 import 'package:core_fe_infrastructure/src/models/json_model.dart';
 import 'package:meta/meta.dart';
 
-abstract class IJsonModelFactory {
+abstract class JsonModelFactory {
   JsonModel<TEntity> call<TEntity>();
   JsonModel<Iterable<TEntity>> iterable<TEntity>();
   JsonModel<Map<TKey, TEntity>> map<TKey, TEntity>();
 }
 
-class JsonModelFactory implements IJsonModelFactory {
-  JsonModelFactory() {
+class JsonModelFactoryImpl implements JsonModelFactory {
+  JsonModelFactoryImpl() {
     register<int>(
       fromJson: (json) => json as int,
       toJson: (value) => value,
@@ -37,8 +37,11 @@ class JsonModelFactory implements IJsonModelFactory {
   // final  container; //Container
   @override
   JsonModel<TEntity> call<TEntity>() {
-    JsonModel<TEntity> result = _localContext[TEntity];
-    return result;
+    if (_localContext.containsKey(TEntity)) {
+      JsonModel<TEntity> result = _localContext[TEntity];
+      return result;
+    }
+    throw ArgumentError('Key [$TEntity] is not registerd in JsonFactory');
   }
 
   void register<TEntity>(
@@ -66,8 +69,8 @@ class JsonModelFactory implements IJsonModelFactory {
           jsonFactory<TEntity>().fromJson(v),
         ),
       ),
-      toJson: (map) => map.map<TKey, dynamic>(
-        (k, v) => MapEntry<TKey, dynamic>(
+      toJson: (map) => map.map<TKey, TEntity>(
+        (k, v) => MapEntry<TKey, TEntity>(
           jsonFactory<TKey>().toJson(k),
           jsonFactory<TEntity>().toJson(v),
         ),
@@ -76,4 +79,4 @@ class JsonModelFactory implements IJsonModelFactory {
   }
 }
 
-final jsonFactory = factoryInstance<IJsonModelFactory>();
+JsonModelFactory get jsonFactory => locator<JsonModelFactory>();

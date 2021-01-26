@@ -7,8 +7,6 @@ class ResourceManager {
   }
 
   static String getLocalizedString(String key, {Map<String, dynamic> args}) {
-    if (args != null && args.containsValue(null)) ;
-
     if (_appResource != null &&
         !key.isNullEmptyOrWhitespace() &&
         _appResource.containsKey(key)) {

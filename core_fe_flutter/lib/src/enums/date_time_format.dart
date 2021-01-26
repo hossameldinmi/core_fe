@@ -8,15 +8,15 @@ class DateTimeFormat extends Enum {
   final String format;
   final ToDateTimeFunc _toDateTimeFunc;
   ToDateTimeFunc get toDateTimeFunc => _toDateTimeFunc ?? _parseToDateTime;
-  final FormatterFunc _formatterFunc;
-  FormatterFunc get formatterFunc =>
+  final DateFormatterFunc _formatterFunc;
+  DateFormatterFunc get formatterFunc =>
       _formatterFunc ??
       (DateTime date, Language lang) => _format(date, format, lang.locale);
 
   const DateTimeFormat(int key,
       {@required this.format,
       ToDateTimeFunc toDateTimeFunc,
-      FormatterFunc formatterFunc})
+      DateFormatterFunc formatterFunc})
       : _toDateTimeFunc = toDateTimeFunc,
         _formatterFunc = formatterFunc,
         super();
@@ -30,6 +30,8 @@ class DateTimeFormat extends Enum {
     formatterFunc: (DateTime date, Language language) =>
         date.toUtc().toIso8601String(),
   );
+
+  static final values = [isoFormat];
 
   /// [yyyy-MM-dd]
   static const DateTimeFormat shortDateFormat = DateTimeFormat(

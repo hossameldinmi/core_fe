@@ -1,16 +1,17 @@
 import 'package:core_fe_dart/utils.dart';
 import 'package:core_fe_infrastructure/interfaces.dart';
-import 'package:core_fe_infrastructure/src/interfaces/i_network.dart';
+import 'package:core_fe_infrastructure/src/interfaces/http_network.dart';
 import 'package:dio/dio.dart';
 import 'package:mockito/mockito.dart';
 
-class MockINoSqlStorageProvider extends Mock with INoSqlStorageProvider {}
+class MockNoSqlStorageProvider extends Mock with NoSqlStorageProvider {}
 
-class MockISessionProvider extends Mock with ISessionProvider {}
+class MockSessionProvider extends Mock with SessionProvider {}
 
-class MockISettingsProvider extends Mock with ISettingsProvider {}
+class MockSettingsProvider extends Mock with SettingsProvider {}
 
-class MockIILogger extends Mock with ILogger {}
+class MockLogger extends Mock with Logger {}
 
 class MockHttpClientAdapter extends Mock with HttpClientAdapter {}
-class MockNetwork extends Mock with INetwork {}
+
+class MockNetwork extends Mock with NetworkProvider {}
