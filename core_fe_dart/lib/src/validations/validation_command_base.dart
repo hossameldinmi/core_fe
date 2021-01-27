@@ -1,26 +1,26 @@
-import 'package:core_fe_dart/src/validations/validatable_object.dart';
+import 'package:core_fe_dart/src/validations/validator_object.dart';
 import 'package:meta/meta.dart';
 
-/// The validation Rule orchestrator that adds validations to the [validatableObject]
+/// The validation Rule orchestrator that adds validations to the [validatorObject]
 abstract class ValidationCommandBase<T> {
   /// Instialize Command
-  /// [validatableObject]: Validatable object that validations is wanted to be added on'
+  /// [validatorObject]: Validator object that validations is wanted to be added on'
   /// [excuteCallBack]: callback that defines the validations logic
   /// [autoExcute]: allow adding validations on [command] creation?
   /// ```
   /// class PhoneNumberValidationCommand extends ValidationCommandBase<String> {
-  ///   PhoneNumberValidationCommand(ValidatableObject<String> validatableObject)
+  ///   PhoneNumberValidationCommand(ValidatorObject<String> validatorObject)
   ///       : super(
-  ///             validatableObject: validatableObject,
+  ///             validatorObject: validatorObject,
   ///             excuteCallBack: () {
-  ///               validatableObject.clear();
+  ///               ValidatorObject.clear();
   ///
-  ///               validatableObject.add(
+  ///               ValidatorObject.add(
   ///                 IsNotNullEmptyWhitespaceStringRule.fromMessage(
   ///                     validationMessage: 'Please Enter phone number'),
   ///               );
   ///
-  ///               validatableObject.add(
+  ///               ValidatorObject.add(
   ///                 IsValidPhoneNumberRule.fromMessage(
   ///                     validationMessage: 'Invalid phone number'),
   ///               );
@@ -29,7 +29,7 @@ abstract class ValidationCommandBase<T> {
   /// ```
   /// [ref close to this in xamarin]: https://docs.microsoft.com/en-us/xamarin/xamarin-forms/enterprise-application-patterns/validation
   ValidationCommandBase(
-      {@required this.validatableObject,
+      {@required this.validatorObject,
       @required void Function() excuteCallBack,
       bool autoExcute = false})
       : _excuteCallBack = excuteCallBack {
@@ -37,9 +37,9 @@ abstract class ValidationCommandBase<T> {
       excute();
     }
   }
-  final ValidatableObject<T> validatableObject;
+  final ValidatorObject<T> validatorObject;
   final void Function() _excuteCallBack;
 
-  /// Adds Validation Rulles to the [validatableObject].
+  /// Adds Validation Rulles to the [ValidatorObject].
   void excute() => _excuteCallBack();
 }

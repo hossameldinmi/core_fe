@@ -4,48 +4,48 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('Is Valid Phone Number Validation Command', () {
     PhoneNumberValidationCommand phoneNumberValidationCommand;
-    ValidatableObject<String> validatableObject;
+    ValidatorObject<String> validatorObject;
     setUp(() {});
 
-    void intializeValidatableObject(String stringNumber) {
-      validatableObject = ValidatableObject<String>(stringNumber);
+    void intializeValidatorObject(String stringNumber) {
+      validatorObject = ValidatorObject<String>(stringNumber);
       phoneNumberValidationCommand =
-          PhoneNumberValidationCommand(validatableObject);
+          PhoneNumberValidationCommand(validatorObject);
 
       phoneNumberValidationCommand.excute();
     }
 
     test('expected true if value is correct number', () {
-      intializeValidatableObject('01222332222');
-      expect(validatableObject.isValid(), true);
+      intializeValidatorObject('01222332222');
+      expect(validatorObject.isValid(), true);
     });
 
     test('expected false if value is not number', () {
-      intializeValidatableObject('test');
+      intializeValidatorObject('test');
 
-      expect(validatableObject.isValid(), false);
+      expect(validatorObject.isValid(), false);
     });
 
     test('expected false if value is empty', () {
-      intializeValidatableObject('');
+      intializeValidatorObject('');
 
-      expect(validatableObject.isValid(), false);
+      expect(validatorObject.isValid(), false);
     });
 
     test('expected false if value is whitespace', () {
-      intializeValidatableObject('   ');
-      expect(validatableObject.isValid(), false);
+      intializeValidatorObject('   ');
+      expect(validatorObject.isValid(), false);
     });
 
     test('expected false if value is random number', () {
-      intializeValidatableObject('1223');
-      expect(validatableObject.isValid(), false);
+      intializeValidatorObject('1223');
+      expect(validatorObject.isValid(), false);
     });
 
     test('expected false if value is short number', () {
-      intializeValidatableObject('0122');
+      intializeValidatorObject('0122');
 
-      expect(validatableObject.isValid(), false);
+      expect(validatorObject.isValid(), false);
     });
   });
 }

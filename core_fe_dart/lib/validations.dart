@@ -2,7 +2,7 @@ library core.fe.dart.validations;
 
 export 'package:core_fe_dart/src/validations/validation_rule.dart';
 export 'package:core_fe_dart/src/validations/validation.dart';
-export 'package:core_fe_dart/src/validations/validatable_object.dart';
+export 'package:core_fe_dart/src/validations/validator_object.dart';
 export 'package:core_fe_dart/src/validations/validation_rule.dart';
 export 'package:core_fe_dart/src/validations/validation_command_base.dart';
 

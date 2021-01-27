@@ -4,56 +4,55 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../mocks/validations.dart';
 
 class TestAutoExcuteValidationCommand extends ValidationCommandBase<String> {
-  TestAutoExcuteValidationCommand(ValidatableObject<String> validatableObject)
+  TestAutoExcuteValidationCommand(ValidatorObject<String> validatorObject)
       : super(
-            validatableObject: validatableObject,
+            validatorObject: validatorObject,
             autoExcute: true,
             excuteCallBack: () {
-              validatableObject.clear();
+              validatorObject.clear();
 
-              validatableObject.add(MockValidationRule<String>());
+              validatorObject.add(MockValidationRule<String>());
 
-              validatableObject.add(MockValidationRule<String>());
+              validatorObject.add(MockValidationRule<String>());
             });
 }
 
 class TestValidationCommand extends ValidationCommandBase<String> {
-  TestValidationCommand(ValidatableObject<String> validatableObject)
+  TestValidationCommand(ValidatorObject<String> validatorObject)
       : super(
-            validatableObject: validatableObject,
+            validatorObject: validatorObject,
             excuteCallBack: () {
-              validatableObject.clear();
+              validatorObject.clear();
 
-              validatableObject.add(MockValidationRule<String>());
+              validatorObject.add(MockValidationRule<String>());
 
-              validatableObject.add(MockValidationRule<String>());
+              validatorObject.add(MockValidationRule<String>());
             });
 }
 
 void main() {
   group('Validation Command Base tests ', () {
     ValidationCommandBase<String> validationCommandBase;
-    ValidatableObject<String> validatableObject;
+    ValidatorObject<String> validatorObject;
     setUp(() {
-      validatableObject = ValidatableObject<String>('Test');
+      validatorObject = ValidatorObject<String>('Test');
     });
     test('expected 2 validations after command intialized', () {
-      validationCommandBase =
-          TestAutoExcuteValidationCommand(validatableObject);
+      validationCommandBase = TestAutoExcuteValidationCommand(validatorObject);
 
-      expect(validatableObject.validations.length, 2);
+      expect(validatorObject.validations.length, 2);
 
       validationCommandBase.excute();
-      expect(validatableObject.validations.length, 2);
+      expect(validatorObject.validations.length, 2);
     });
 
     test('expected [ZERO] validations after command intialized', () {
-      validationCommandBase = TestValidationCommand(validatableObject);
+      validationCommandBase = TestValidationCommand(validatorObject);
 
-      expect(validatableObject.validations.length, 0);
+      expect(validatorObject.validations.length, 0);
 
       validationCommandBase.excute();
-      expect(validatableObject.validations.length, 2);
+      expect(validatorObject.validations.length, 2);
     });
   });
 }
