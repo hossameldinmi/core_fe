@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 class RequiredValidationCommand<T> extends ValidationCommandBase<T> {
   RequiredValidationCommand(ValidatorObject<T> validatorObject,
-      {@required String validationMessage, bool autoExcute = false})
+      {@required String requiredMessage, bool autoExcute = false})
       : super(
             validatorObject: validatorObject,
             autoExcute: autoExcute,
@@ -12,7 +12,7 @@ class RequiredValidationCommand<T> extends ValidationCommandBase<T> {
 
               validatorObject.add(
                 IsNotNullEmptyWhitespaceRule<T>.fromMessage(
-                    validationMessage: validationMessage),
+                    validationMessage: requiredMessage),
               );
             });
 }

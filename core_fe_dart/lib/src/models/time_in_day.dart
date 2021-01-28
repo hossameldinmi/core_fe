@@ -36,27 +36,44 @@ class TimeInDay extends Equatable implements Comparable<TimeInDay> {
           microsecond,
         );
   TimeInDay.dayPeriod({
-    int hour = 0,
+    int periodHour = 12,
     int minute = 0,
     int second = 0,
     int millisecond = 0,
     int microsecond = 0,
     DayPeriod period = DayPeriod.am,
-  })  : assert(hour <= 12),
+  })  : assert(periodHour > 0 && periodHour <= 12),
         assert(minute < Duration.minutesPerHour),
         assert(second < Duration.secondsPerMinute),
         assert(millisecond < Duration.millisecondsPerSecond),
         assert(microsecond < Duration.microsecondsPerMillisecond),
+        assert(period != null),
         _date = DateTime(
           _dummyYear,
           _dummyMonth,
           _dummyDay,
-          hour + (period == DayPeriod.pm && hour != 12 ? 12 : 0),
+          _getHour(periodHour, period),
           minute,
           second,
           millisecond,
           microsecond,
         );
+
+  static int _getHour(int hour, DayPeriod period) {
+    if (period == DayPeriod.pm) {
+      if (hour == 12) {
+        return hour;
+      } else {
+        return hour + 12;
+      }
+    } else {
+      if (hour == 12 || hour == 0) {
+        return 0;
+      } else {
+        return hour;
+      }
+    }
+  }
 
   int get hour => _date.hour;
   int get minute => _date.minute;
@@ -64,8 +81,15 @@ class TimeInDay extends Equatable implements Comparable<TimeInDay> {
   int get millisecond => _date.millisecond;
   int get microsecond => _date.microsecond;
 
-  DayPeriod get period => hour < 12 ? DayPeriod.am : DayPeriod.pm;
-  int get perdiodHour => hour - (hour > 12 ? 12 : 0);
+  DayPeriod get period => hour <= 12 ? DayPeriod.am : DayPeriod.pm;
+  int get perdiodHour =>
+      hour -
+      (hour > 12
+          ? 12
+          : hour == 0
+              ? -12
+              : 0);
+
   DateTime toDateTime() => _date;
   static List<TimeInDay> generateByDurations(
       TimeInDay seed, int length, Duration duration,

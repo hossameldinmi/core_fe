@@ -29,6 +29,8 @@ class ValidatorObject<T> {
     return errors?.isEmpty;
   }
 
+  String get firstErrorMessage => errors.first?.validationMessage;
+
   // Add validation rule to the object
   void add<E extends T>(ValidationRule<T> rule) {
     _validations.add(rule);

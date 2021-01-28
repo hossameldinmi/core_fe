@@ -62,26 +62,29 @@ void main() {
       });
     });
     group('dayPeriod', () {
-      test('Expected run normaly when Initialize Time with hour = 0', () {
-        expect(() => TimeInDay.dayPeriod(), returnsNormally);
+      test('Expected medNight time when Initialize Time with hour = 12 AM', () {
+        var time = TimeInDay.dayPeriod();
+        var time2 = TimeInDay.dayPeriod(periodHour: 12, period: DayPeriod.am);
+        expect(time, TimeInDay.midNight);
+        expect(time2, TimeInDay.midNight);
       });
       test('Expected AssertionError when Initialize Time with hour > 12', () {
-        expect(() => TimeInDay.dayPeriod(hour: 13), throwsAssertionError);
+        expect(() => TimeInDay.dayPeriod(periodHour: 13), throwsAssertionError);
       });
 
-      test('Expected run normaly when Initialize Time with hour = 12 PM', () {
-        expect(() => TimeInDay.dayPeriod(hour: 12, period: DayPeriod.pm),
-            returnsNormally);
+      test('Expected noon time when Initialize Time with hour = 12 PM', () {
+        var time = TimeInDay.dayPeriod(periodHour: 12, period: DayPeriod.pm);
+        expect(time, TimeInDay.noon);
       });
 
       test('Expected hour=hours+12 when Initialize Time with period= PM', () {
-        var time = TimeInDay.dayPeriod(hour: 6, period: DayPeriod.pm);
+        var time = TimeInDay.dayPeriod(periodHour: 6, period: DayPeriod.pm);
         expect(time.hour, 18);
       });
 
       test('Expected hour=12 when Initialize Time with period=PM and hour=12',
           () {
-        var time = TimeInDay.dayPeriod(hour: 12, period: DayPeriod.pm);
+        var time = TimeInDay.dayPeriod(periodHour: 12, period: DayPeriod.pm);
         expect(time.hour, 12);
         expect(time, equals(TimeInDay.noon));
       });
@@ -133,7 +136,7 @@ void main() {
       expect(time2.perdiodHour, 12);
       expect(time3.perdiodHour, 4);
       expect(time4.perdiodHour, 11);
-      expect(time5.perdiodHour, 0);
+      expect(time5.perdiodHour, 12);
     });
   });
   group('minute', () {
