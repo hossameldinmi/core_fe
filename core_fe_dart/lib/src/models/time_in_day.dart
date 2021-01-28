@@ -81,7 +81,7 @@ class TimeInDay extends Equatable implements Comparable<TimeInDay> {
   int get millisecond => _date.millisecond;
   int get microsecond => _date.microsecond;
 
-  DayPeriod get period => hour <= 12 ? DayPeriod.am : DayPeriod.pm;
+  DayPeriod get period => hour < 12 ? DayPeriod.am : DayPeriod.pm;
   int get perdiodHour =>
       hour -
       (hour > 12
@@ -130,20 +130,20 @@ class TimeInDay extends Equatable implements Comparable<TimeInDay> {
     }
   }
 
-  bool isAfter(TimeInDay other, {bool includeSameMoment = true}) {
+  bool isAfter(TimeInDay other, {bool orSameMoment = true}) {
     return _date.isAfter(other._date) ||
-        (includeSameMoment ? _date.isAtSameMomentAs(other._date) : false);
+        (orSameMoment ? _date.isAtSameMomentAs(other._date) : false);
   }
 
-  bool isBefore(TimeInDay other, {bool includeSameMoment = true}) {
+  bool isBefore(TimeInDay other, {bool orSameMoment = true}) {
     return _date.isBefore(other._date) ||
-        (includeSameMoment ? _date.isAtSameMomentAs(other._date) : false);
+        (orSameMoment ? _date.isAtSameMomentAs(other._date) : false);
   }
 
   bool isBetween(TimeInDay time1, TimeInDay time2,
       {bool includeSameMoment = true}) {
-    return isAfter(time1, includeSameMoment: includeSameMoment) &&
-        isBefore(time2, includeSameMoment: includeSameMoment);
+    return isAfter(time1, orSameMoment: includeSameMoment) &&
+        isBefore(time2, orSameMoment: includeSameMoment);
   }
 
   @override

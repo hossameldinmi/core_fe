@@ -139,6 +139,22 @@ void main() {
       expect(time5.perdiodHour, 12);
     });
   });
+
+  group('period', () {
+    test('expected exact dayPeriod', () {
+      var time = TimeInDay(hour: 1, minute: 30);
+      var time2 = TimeInDay(hour: 12, minute: 49);
+      var time3 = TimeInDay(hour: 16, minute: 30, second: 20);
+      var time4 = TimeInDay(hour: 23, minute: 49, second: 50);
+      var time5 = TimeInDay(hour: 0, minute: 49, second: 50);
+
+      expect(time.period, DayPeriod.am);
+      expect(time2.period, DayPeriod.pm);
+      expect(time3.period, DayPeriod.pm);
+      expect(time4.period, DayPeriod.pm);
+      expect(time5.period, DayPeriod.am);
+    });
+  });
   group('minute', () {
     test('expected exact minute', () {
       var time = TimeInDay(hour: 1, minute: 30);
