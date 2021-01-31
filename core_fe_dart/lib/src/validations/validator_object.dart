@@ -23,8 +23,8 @@ class ValidatorObject<T> {
         .where((v) => !v.check(value))
         .map((v) => v.validationException)
         .toList();
-    if (throwException && _errors.isNotEmpty) {
-      throw _errors.first;
+    if (throwException && errors.isNotEmpty) {
+      throw errors.first;
     }
     return errors?.isEmpty;
   }
