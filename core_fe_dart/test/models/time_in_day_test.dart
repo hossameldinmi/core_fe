@@ -122,9 +122,9 @@ void main() {
     });
   });
 
-  group('periodHour', () {
+  group('hourOfPeriod', () {
     test(
-        'expected exact perdiodHour if time has extra minutes,seconds,milliseconds and microseconds',
+        'expected exact hourOfPeriod if time has extra minutes,seconds,milliseconds and microseconds',
         () {
       var time = TimeInDay(hour: 1, minute: 30);
       var time2 = TimeInDay(hour: 12, minute: 49);
@@ -132,11 +132,11 @@ void main() {
       var time4 = TimeInDay(hour: 23, minute: 49, second: 50);
       var time5 = TimeInDay(hour: 0, minute: 49, second: 50);
 
-      expect(time.perdiodHour, 1);
-      expect(time2.perdiodHour, 12);
-      expect(time3.perdiodHour, 4);
-      expect(time4.perdiodHour, 11);
-      expect(time5.perdiodHour, 12);
+      expect(time.hourOfPeriod, 1);
+      expect(time2.hourOfPeriod, 12);
+      expect(time3.hourOfPeriod, 4);
+      expect(time4.hourOfPeriod, 11);
+      expect(time5.hourOfPeriod, 12);
     });
   });
 

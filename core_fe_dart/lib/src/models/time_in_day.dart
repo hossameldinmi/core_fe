@@ -59,18 +59,18 @@ class TimeInDay extends Equatable implements Comparable<TimeInDay> {
           microsecond,
         );
 
-  static int _getHour(int hour, DayPeriod period) {
+  static int _getHour(int hourOfPeriod, DayPeriod period) {
     if (period == DayPeriod.pm) {
-      if (hour == 12) {
-        return hour;
+      if (hourOfPeriod == 12) {
+        return hourOfPeriod;
       } else {
-        return hour + 12;
+        return hourOfPeriod + 12;
       }
     } else {
-      if (hour == 12 || hour == 0) {
+      if (hourOfPeriod == 12 || hourOfPeriod == 0) {
         return 0;
       } else {
-        return hour;
+        return hourOfPeriod;
       }
     }
   }
@@ -80,9 +80,12 @@ class TimeInDay extends Equatable implements Comparable<TimeInDay> {
   int get second => _date.second;
   int get millisecond => _date.millisecond;
   int get microsecond => _date.microsecond;
+  // int get hourOfPeriod => hour - periodOffset;
 
+  /// The hour at which the current period starts.
+  int get periodOffset => period == DayPeriod.am ? 0 : 12;
   DayPeriod get period => hour < 12 ? DayPeriod.am : DayPeriod.pm;
-  int get perdiodHour =>
+  int get hourOfPeriod =>
       hour -
       (hour > 12
           ? 12
@@ -120,7 +123,7 @@ class TimeInDay extends Equatable implements Comparable<TimeInDay> {
           return TimeInDay.fromDateTime(_dummyDate.add(duration));
           break;
         case TimeAddOption.overflow:
-          return TimeInDay.fromDateTime(_date.add(duration));
+          return TimeInDay.fromDateTime(newDate);
           break;
         case TimeAddOption.exception:
         default:

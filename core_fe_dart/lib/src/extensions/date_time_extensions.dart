@@ -15,7 +15,8 @@ extension DateTimeExtension on DateTime {
     }
   }
 
-  DateTime resetTime(TimeInDay timeInDay) {
+  DateTime resetTime([TimeInDay timeInDay]) {
+    timeInDay ??= TimeInDay.midNight;
     if (isUtc) {
       return DateTime.utc(year, month, day, timeInDay.hour, timeInDay.minute,
           timeInDay.second, timeInDay.millisecond, timeInDay.microsecond);

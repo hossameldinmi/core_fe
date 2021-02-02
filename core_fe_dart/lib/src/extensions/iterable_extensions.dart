@@ -74,7 +74,6 @@ extension ListExtension<T> on List<T> {
 
   T firstWhereOrDefault(bool Function(T) test, {T Function() orElse}) {
     orElse ??= () => null;
-
     return firstWhere(test, orElse: orElse);
   }
 
