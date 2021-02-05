@@ -12,6 +12,12 @@ extension OjbectIterableExtension on Iterable<Object> {
   /// - whitespace string.
   bool anyIsNotNullEmptyOrWhitespace() =>
       any((element) => !element.isNullEmptyOrWhitespace());
+
+  /// Returns true if all object in the Iterable is ```NOT```:
+  /// - null
+  /// - empty
+  /// - whitespace string.
+  bool allIsNotNullEmptyOrWhitespace() => !anyIsNullEmptyOrWhitespace();
 }
 
 extension ObjectExtension on Object {
@@ -22,7 +28,7 @@ extension ObjectExtension on Object {
   bool isNullEmptyOrWhitespace() {
     var value = this;
     if (value is String) {
-      return value.isNullEmptyOrWhitespace();
+      return value.isEmpty || value.trim().isEmpty;
     } else if (value is Iterable) {
       return value.isEmpty;
     } else if (value is Map) {
@@ -31,12 +37,4 @@ extension ObjectExtension on Object {
       return value == null;
     }
   }
-}
-
-extension StringExtension on String {
-  /// Returns true if string is:
-  /// - null
-  /// - empty
-  /// - whitespace string.
-  bool isNullEmptyOrWhitespace() => this == null || isEmpty || trim().isEmpty;
 }

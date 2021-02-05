@@ -31,14 +31,22 @@ void main() {
           seconds: 59,
           milliseconds: 59,
           microseconds: 59);
-      expect(duration.inHours, hour);
-      expect(duration2.inHours, hour);
-      expect(duration3.inHours, hour);
-      expect(duration4.inHours, hour);
-      expect(duration5.inHours, hour);
-      expect(duration6.inHours, hour);
-      expect(duration7.inHours, hour);
-      expect(duration8.inHours, hour);
+      var duration9 = Duration(
+          days: 4,
+          hours: hour,
+          minutes: 49,
+          seconds: 59,
+          milliseconds: 59,
+          microseconds: 59);
+      expect(duration.hours, hour);
+      expect(duration2.hours, hour);
+      expect(duration3.hours, hour);
+      expect(duration4.hours, hour);
+      expect(duration5.hours, hour);
+      expect(duration6.hours, hour);
+      expect(duration7.hours, hour);
+      expect(duration8.hours, hour);
+      expect(duration9.hours, hour);
     });
   });
 
@@ -140,6 +148,18 @@ void main() {
       expect(duration6.milliseconds, 1);
       expect(duration7.milliseconds, 0);
       expect(duration8.milliseconds, 500);
+    });
+  });
+
+  group('microseconds', () {
+    test('expected exact microseconds', () {
+      var duration = Duration(hours: 1, minutes: 30);
+
+      var duration2 =
+          Duration(days: 5, hours: 10, minutes: 0, microseconds: 50);
+
+      expect(duration.microseconds, 0);
+      expect(duration2.microseconds, 50);
     });
   });
 }

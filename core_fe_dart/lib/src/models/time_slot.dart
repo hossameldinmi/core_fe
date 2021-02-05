@@ -40,7 +40,7 @@ class TimeSlot extends Equatable {
       TimeAddOption option = TimeAddOption.exception}) {
     var list = [TimeSlot(seed, seed.add(duration))];
     try {
-      while (getNewTime(list, span, duration).isBefore(end)) {
+      while (_getNewTime(list, span, duration).isBefore(end)) {
         if (span != Duration.zero) {
           list.add(list.last.addToEnd(span));
         }
@@ -51,7 +51,7 @@ class TimeSlot extends Equatable {
     }
   }
 
-  static TimeInDay getNewTime(
+  static TimeInDay _getNewTime(
       List<TimeSlot> list, Duration span, Duration duration) {
     return list.last.addToEnd(span).addToEnd(duration).end;
   }
@@ -65,4 +65,7 @@ class TimeSlot extends Equatable {
       TimeSlot(end, end.add(duration, option));
   @override
   List<Object> get props => [start, end];
+
+  @override
+  String toString() => '${start.toString()}->-${end.toString()}';
 }
