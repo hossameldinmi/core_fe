@@ -9,14 +9,14 @@ codecov:
   # strict_yaml_branch: "yaml-config"
   max_report_age: 24
   disable_default_path_fixes: no
-  require_ci_to_pass: yes
+  require_ci_to_pass: no
 comment:
   layout: "reach, diff, flags, files"
   behavior: default
-  after_n_builds: 4 
+  # after_n_builds: 4 
   require_changes: false  # if true: only post the comment if coverage changes
   require_base: no        # [yes :: must have a base report to post]
-  require_head: yes       # [yes :: must have a head report to post]
+  require_head: no       # [yes :: must have a head report to post]
   branches:               # branch names that can post comment
     - "master"
     - "develop"
@@ -31,8 +31,8 @@ coverage:
   status:
     project:
       default: 
-          target: 90%
           threshold: 5%
+          target: auto  
           base: auto 
           # advanced settings
           branches: 
@@ -59,8 +59,8 @@ coverage:
     patch:
       default:
         # basic
-        target: auto
         threshold: 0%
+        target: auto  
         base: auto 
         # advanced
         branches: 
@@ -68,10 +68,17 @@ coverage:
           - develop
         if_ci_failed: error #success, failure, error, ignore
         only_pulls: false
+      core_fe_dart:
         flags: 
           - core_fe_dart
+      core_fe_flutter:
+        flags: 
           - core_fe_flutter
+      core_fe_presentation:
+        flags: 
           - core_fe_presentation
+      core_fe_infrastructure:
+        flags: 
           - core_fe_infrastructure
 
 flags:
