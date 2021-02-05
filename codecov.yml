@@ -1,7 +1,7 @@
   
 # https://docs.codecov.io/docs/commit-status
 codecov:
-  token: "75237020-1d90-42f1-93fe-3be75bc792e7"
+  token: ${{secrets.CODECOV_TOKEN}}
   bot: "codecov-io"
   ci:
     - "github.org"
@@ -10,16 +10,27 @@ codecov:
   max_report_age: 24
   disable_default_path_fixes: no
   require_ci_to_pass: yes
-  notify:
-    after_n_builds: 2
-    wait_for_ci: yes
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false  # if true: only post the comment if coverage changes
+  require_base: no        # [yes :: must have a base report to post]
+  require_head: yes       # [yes :: must have a head report to post]
+  branches:               # branch names that can post comment
+    - "master"
+    - "develop"
+  show_carryforward_flags: true
+#   # notify:
+#     # after_n_builds: 2
+#     # wait_for_ci: yes
+    
 coverage:
   round: up
-  range: 90..100
+  range: 70..100
   status:
     project:
       default: 
-          target: auto
+          target: 90%
           threshold: 5%
           base: auto 
           # advanced settings
@@ -36,16 +47,30 @@ coverage:
         flags: 
           - core_fe_dart
       core_fe_flutter:
-        target: 50%
         flags: 
           - core_fe_flutter
       core_fe_presentation:
-        target: 89%
         flags: 
           - core_fe_presentation
       core_fe_infrastructure:
-        target: 89%
         flags: 
+          - core_fe_infrastructure
+    patch:
+      default:
+        # basic
+        target: auto
+        threshold: 0%
+        base: auto 
+        # advanced
+        branches: 
+          - master
+          - develop
+        if_ci_failed: error #success, failure, error, ignore
+        only_pulls: false
+        flags: 
+          - core_fe_dart
+          - core_fe_flutter
+          - core_fe_presentation
           - core_fe_infrastructure
 
 flags:
@@ -54,12 +79,16 @@ flags:
     # only include files in the backend folder
     paths:
       - ./core_fe_dart/
+    carryforward: true
   core_fe_flutter:
     paths:
       - ./core_fe_flutter/
+    carryforward: true
   core_fe_presentation:
     paths:
       - ./core_fe_presentation/
+    carryforward: true
   core_fe_infrastructure:
     paths:
       - ./core_fe_infrastructure/
+    carryforward: true
