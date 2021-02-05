@@ -10,17 +10,19 @@ codecov:
   max_report_age: 24
   disable_default_path_fixes: no
   require_ci_to_pass: yes
-  comment:
-    layout: "reach, diff, flags, files"
-    behavior: default
-    require_changes: false  # if true: only post the comment if coverage changes
-    require_base: no        # [yes :: must have a base report to post]
-    require_head: yes       # [yes :: must have a head report to post]
-    # branches:               # branch names that can post comment
-    # - "master"
-  # notify:
-    # after_n_builds: 2
-    # wait_for_ci: yes
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false  # if true: only post the comment if coverage changes
+  require_base: no        # [yes :: must have a base report to post]
+  require_head: yes       # [yes :: must have a head report to post]
+  branches:               # branch names that can post comment
+    - "master"
+    - "develop"
+  show_carryforward_flags: true
+#   # notify:
+#     # after_n_builds: 2
+#     # wait_for_ci: yes
     
 coverage:
   round: up
@@ -52,6 +54,23 @@ coverage:
           - core_fe_presentation
       core_fe_infrastructure:
         flags: 
+          - core_fe_infrastructure
+    patch:
+      default:
+        # basic
+        target: auto
+        threshold: 0%
+        base: auto 
+        # advanced
+        branches: 
+          - master
+          - develop
+        if_ci_failed: error #success, failure, error, ignore
+        only_pulls: false
+        flags: 
+          - core_fe_dart
+          - core_fe_flutter
+          - core_fe_presentation
           - core_fe_infrastructure
 
 flags:
