@@ -6,13 +6,14 @@ codecov:
   ci:
     - "github.org"
     - "dev.azure.com"
-  strict_yaml_branch: "yaml-config"
+  # strict_yaml_branch: "yaml-config"
   max_report_age: 24
   disable_default_path_fixes: no
   require_ci_to_pass: yes
 comment:
   layout: "reach, diff, flags, files"
   behavior: default
+  after_n_builds: 4 
   require_changes: false  # if true: only post the comment if coverage changes
   require_base: no        # [yes :: must have a base report to post]
   require_head: yes       # [yes :: must have a head report to post]
