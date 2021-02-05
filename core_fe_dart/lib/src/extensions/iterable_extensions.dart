@@ -123,7 +123,6 @@ extension MapExtensions<TKey, TValue> on Map<TKey, TValue> {
 
 extension ItemFold on Object {
   dynamic castAllInSync<T>(T Function(dynamic) castCallBack) {
-    print('Calling castAllInSync<$T>');
     var data = this;
     if (data == null) return null;
     if (data is Map) {
@@ -144,7 +143,6 @@ extension ItemFold on Object {
   }
 
   Future<dynamic> castAllIn<T>(Future<T> Function(dynamic) castCallBack) async {
-    print('Calling castAllIn<&$T>');
     var data = this;
     if (data == null) return Future.value();
     if (data is Map) {
