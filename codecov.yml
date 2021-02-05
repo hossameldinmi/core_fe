@@ -31,8 +31,8 @@ coverage:
   status:
     project:
       default: 
-          target: 90%
           threshold: 5%
+          target: auto  
           base: auto 
           # advanced settings
           branches: 
@@ -59,8 +59,8 @@ coverage:
     patch:
       default:
         # basic
-        target: auto
         threshold: 0%
+        target: auto  
         base: auto 
         # advanced
         branches: 
@@ -68,10 +68,17 @@ coverage:
           - develop
         if_ci_failed: error #success, failure, error, ignore
         only_pulls: false
+      core_fe_dart:
         flags: 
           - core_fe_dart
+      core_fe_flutter:
+        flags: 
           - core_fe_flutter
+      core_fe_presentation:
+        flags: 
           - core_fe_presentation
+      core_fe_infrastructure:
+        flags: 
           - core_fe_infrastructure
 
 flags:
