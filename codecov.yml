@@ -9,7 +9,7 @@ codecov:
   # strict_yaml_branch: "yaml-config"
   max_report_age: 24
   disable_default_path_fixes: no
-  require_ci_to_pass: yes
+  require_ci_to_pass: no
 comment:
   layout: "reach, diff, flags, files"
   behavior: default
