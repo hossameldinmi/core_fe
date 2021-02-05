@@ -15,11 +15,11 @@ codecov:
     wait_for_ci: yes
 coverage:
   round: up
-  range: 90..100
+  range: 70..100
   status:
     project:
       default: 
-          target: auto
+          target: 90%
           threshold: 5%
           base: auto 
           # advanced settings
@@ -36,15 +36,12 @@ coverage:
         flags: 
           - core_fe_dart
       core_fe_flutter:
-        target: 50%
         flags: 
           - core_fe_flutter
       core_fe_presentation:
-        target: 89%
         flags: 
           - core_fe_presentation
       core_fe_infrastructure:
-        target: 89%
         flags: 
           - core_fe_infrastructure
 
@@ -54,12 +51,16 @@ flags:
     # only include files in the backend folder
     paths:
       - ./core_fe_dart/
+    carryforward: true
   core_fe_flutter:
     paths:
       - ./core_fe_flutter/
+    carryforward: true
   core_fe_presentation:
     paths:
       - ./core_fe_presentation/
+    carryforward: true
   core_fe_infrastructure:
     paths:
       - ./core_fe_infrastructure/
+    carryforward: true
