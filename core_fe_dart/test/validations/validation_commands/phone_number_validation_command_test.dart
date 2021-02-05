@@ -9,8 +9,11 @@ void main() {
 
     void intializeValidatorObject(String stringNumber) {
       validatorObject = ValidatorObject<String>(stringNumber);
-      phoneNumberValidationCommand =
-          PhoneNumberValidationCommand(validatorObject);
+      phoneNumberValidationCommand = PhoneNumberValidationCommand(
+        validatorObject,
+        requiredMessage: '',
+        formatValidationMessage: '',
+      );
 
       phoneNumberValidationCommand.excute();
     }

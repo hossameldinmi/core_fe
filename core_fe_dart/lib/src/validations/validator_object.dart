@@ -23,11 +23,13 @@ class ValidatorObject<T> {
         .where((v) => !v.check(value))
         .map((v) => v.validationException)
         .toList();
-    if (throwException && _errors.isNotEmpty) {
-      throw _errors.first;
+    if (throwException && errors.isNotEmpty) {
+      throw errors.first;
     }
     return errors?.isEmpty;
   }
+
+  String get firstErrorMessage => errors.first?.validationMessage;
 
   // Add validation rule to the object
   void add<E extends T>(ValidationRule<T> rule) {

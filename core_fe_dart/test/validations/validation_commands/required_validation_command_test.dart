@@ -10,7 +10,7 @@ void main() {
       validatorObject = ValidatorObject<String>(input);
       requiredValidationCommand = RequiredValidationCommand<String>(
           validatorObject,
-          validationMessage: '');
+          requiredMessage: '');
       requiredValidationCommand.excute();
     }
 
