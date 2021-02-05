@@ -1,7 +1,7 @@
   
 # https://docs.codecov.io/docs/commit-status
 codecov:
-  token: "75237020-1d90-42f1-93fe-3be75bc792e7"
+  token: ${{secrets.CODECOV_TOKEN}}
   bot: "codecov-io"
   ci:
     - "github.org"
@@ -16,8 +16,9 @@ codecov:
     require_changes: false  # if true: only post the comment if coverage changes
     require_base: no        # [yes :: must have a base report to post]
     require_head: yes       # [yes :: must have a head report to post]
-    branches:               # branch names that can post comment
-    - "master"# notify:
+    # branches:               # branch names that can post comment
+    # - "master"
+  # notify:
     # after_n_builds: 2
     # wait_for_ci: yes
     
