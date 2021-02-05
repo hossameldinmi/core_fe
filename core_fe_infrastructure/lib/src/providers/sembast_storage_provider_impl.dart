@@ -98,7 +98,6 @@ class SembastStorageProviderImpl extends NoSqlStorageProvider {
     if (_dbOpenCompleterMap[_dbPath] == null || !dbExists) {
       _dbOpenCompleterMap[_dbPath] = Completer();
       // Calling _openDatabase will also complete the completer with database instance
-
       await _openDatabase();
     }
     // If the database is already opened, awaiting the future will happen instantly.

@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:core_fe_dart/utils.dart';
+import 'dart:async';
 import 'package:core_fe_flutter/enums.dart';
 import 'package:core_fe_flutter/utils.dart';
 import 'package:core_fe_infrastructure/interfaces.dart';

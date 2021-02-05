@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:core_fe_dart/enums.dart';
 import 'package:meta/meta.dart';
 import 'package:core_fe_dart/extensions.dart';

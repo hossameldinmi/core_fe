@@ -24,5 +24,4 @@ extension StreamExtensions<T> on Stream<T> {
       return e;
     });
   }
-
 }

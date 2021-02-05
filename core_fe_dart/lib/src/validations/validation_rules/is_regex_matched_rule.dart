@@ -17,7 +17,13 @@ class IsRegexMatchedRule implements ValidationRule<String> {
           pattern: pattern,
         );
   @override
-  bool check(String value) => RegExp(_pattern).hasMatch(value);
+  bool check(String value) {
+    try {
+      return RegExp(_pattern).hasMatch(value);
+    } catch (e) {
+      return false;
+    }
+  }
 
   final String _pattern;
   @override

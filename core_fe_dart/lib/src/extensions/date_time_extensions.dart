@@ -6,6 +6,8 @@ extension DateTimeExtension on DateTime {
   }
 
   DateTime resetDate(DateTime other) {
+    assert(other != null);
+    assert(this != null);
     if (other.isUtc) {
       return DateTime.utc(other.year, other.month, other.day, hour, minute,
           second, millisecond, microsecond);
@@ -15,7 +17,9 @@ extension DateTimeExtension on DateTime {
     }
   }
 
-  DateTime resetTime(TimeInDay timeInDay) {
+  DateTime resetTime([TimeInDay timeInDay]) {
+    assert(this != null);
+    timeInDay ??= TimeInDay.midNight;
     if (isUtc) {
       return DateTime.utc(year, month, day, timeInDay.hour, timeInDay.minute,
           timeInDay.second, timeInDay.millisecond, timeInDay.microsecond);
@@ -24,4 +28,6 @@ extension DateTimeExtension on DateTime {
           timeInDay.second, timeInDay.millisecond, timeInDay.microsecond);
     }
   }
+
+  bool isToday() => isSameDate(DateTime.now());
 }

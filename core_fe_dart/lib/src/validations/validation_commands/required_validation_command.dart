@@ -2,17 +2,17 @@ import 'package:core_fe_dart/validations.dart';
 import 'package:meta/meta.dart';
 
 class RequiredValidationCommand<T> extends ValidationCommandBase<T> {
-  RequiredValidationCommand(ValidatableObject<T> validatableObject,
-      {@required String validationMessage, bool autoExcute = false})
+  RequiredValidationCommand(ValidatorObject<T> validatorObject,
+      {@required String requiredMessage, bool autoExcute = false})
       : super(
-            validatableObject: validatableObject,
+            validatorObject: validatorObject,
             autoExcute: autoExcute,
             excuteCallBack: () {
-              validatableObject.clear();
+              validatorObject.clear();
 
-              validatableObject.add(
+              validatorObject.add(
                 IsNotNullEmptyWhitespaceRule<T>.fromMessage(
-                    validationMessage: validationMessage),
+                    validationMessage: requiredMessage),
               );
             });
 }
