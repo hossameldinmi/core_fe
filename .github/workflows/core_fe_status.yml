@@ -67,18 +67,18 @@ jobs:
         directory: ./
         # Flag upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
         flags: 
-            core_fe_dart:
-              paths:
-                - ./core_fe_dart
-            core_fe_flutter:
-              paths:
-                  - ./core_fe_flutter
-            core_fe_infrastructure:
-              paths:
-                  - ./core_fe_infrastructure
-            core_fe_presentation:
-              paths:
-                  - ./core_fe_presentation
+          core_fe_dart:
+            paths:
+              - ./core_fe_dart
+          core_fe_flutter:
+            paths:
+                - ./core_fe_flutter
+          core_fe_infrastructure:
+            paths:
+                - ./core_fe_infrastructure
+          core_fe_presentation:
+            paths:
+                - ./core_fe_presentation
         # Write upload file to path before uploading
         path_to_write_report: # optional
         # Environment variables to tag the upload with (e.g. PYTHON | OS,PYTHON)
