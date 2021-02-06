@@ -24,34 +24,62 @@ jobs:
     - name: Flutter action
       uses: subosito/flutter-action@v1.4.0
     
-    - run: flutter pub get
+      #core_fe_dart
+    - name: Pub get core_fe_dart
+      run: flutter pub get
       working-directory: ./core_fe_dart/
-    - run: flutter test --coverage
+
+    - name: Test core_fe_dart
+      run: flutter test --coverage
       working-directory: ./core_fe_dart/
-    - run: flutter analyze
+
+    - name: Analyze core_fe_dart
+      run: flutter analyze
       working-directory: ./core_fe_dart/
     
-    - run: flutter pub get
-      working-directory: ./core_fe_flutter/
-    - run: flutter test --coverage
-      working-directory: ./core_fe_flutter/
-    - run: flutter analyze
+
+      #core_fe_flutter
+    - name: Pub get core_fe_flutter
+      run: flutter pub get
       working-directory: ./core_fe_flutter/
 
-    - run: flutter pub get
-      working-directory: ./core_fe_infrastructure/
-    - run: flutter test --coverage
-      working-directory: ./core_fe_infrastructure/
-    - run: flutter analyze
+    - name: Test core_fe_flutter
+      run: flutter test --coverage
+      working-directory: ./core_fe_flutter/
+
+    - name: Analyze core_fe_flutter
+      run: flutter analyze
+      working-directory: ./core_fe_flutter/
+
+
+      #core_fe_presentation
+    - name: Pub get core_fe_presentation
+      run: flutter pub get
+      working-directory: ./core_fe_presentation/
+
+    - name: Test core_fe_presentation
+      run: flutter test --coverage
+      working-directory: ./core_fe_presentation/
+
+    - name: Analyze core_fe_presentation
+      run: flutter analyze
+      working-directory: ./core_fe_presentation/
+
+
+      #core_fe_infrastructure
+    - name: Pub get core_fe_infrastructure
+      run: flutter pub get
       working-directory: ./core_fe_infrastructure/
 
-    - run: flutter pub get
-      working-directory: ./core_fe_presentation/
-    - run: flutter test --coverage
-      working-directory: ./core_fe_presentation/
-    - run: flutter analyze
-      working-directory: ./core_fe_presentation/
+    - name: Test core_fe_presentation
+      run: flutter test --coverage
+      working-directory: ./core_fe_infrastructure/
 
+    - name: Analyze core_fe_infrastructure
+      run: flutter analyze
+      working-directory: ./core_fe_infrastructure/
+
+      #CODECOV
     - name: Codecov
       uses: codecov/codecov-action@v1.0.12
       with:
@@ -66,7 +94,7 @@ jobs:
         # Directory to search for coverage reports.
         directory: ./
         # Flag upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
-        flags: core_fe_dart,core_fe_flutter,core_fe_infrastructure,core_fe_presentation
+        # flags: core_fe_dart,core_fe_flutter,core_fe_infrastructure,core_fe_presentation
         # Write upload file to path before uploading
         # path_to_write_report: # optional
         # Environment variables to tag the upload with (e.g. PYTHON | OS,PYTHON)
