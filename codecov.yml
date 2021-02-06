@@ -69,14 +69,33 @@ coverage:
         if_ci_failed: error #success, failure, error, ignore
         only_pulls: false
       core_fe_dart:
-        paths:
-        - ./core_fe_dart/
+        flags: 
+          - core_fe_dart
       core_fe_flutter:
-        paths:
-          - ./core_fe_flutter/
+        flags: 
+          - core_fe_flutter
       core_fe_presentation:
-        paths:
-          - ./core_fe_presentation/
+        flags: 
+          - core_fe_presentation
       core_fe_infrastructure:
-        paths:
-          - ./core_fe_infrastructure/
+        flags: 
+          - core_fe_infrastructure
+
+flags:
+  # filter the folder(s) you wish to measure by that flag
+  core_fe_dart:
+    paths: 
+      - core_fe_dart
+    carryforward: true
+  core_fe_flutter:
+    paths: 
+      - core_fe_flutter
+    carryforward: true
+  core_fe_presentation:
+    paths:
+      - ./core_fe_presentation/
+    carryforward: true
+  core_fe_infrastructure:
+    paths:
+      - ./core_fe_infrastructure/
+    carryforward: true
