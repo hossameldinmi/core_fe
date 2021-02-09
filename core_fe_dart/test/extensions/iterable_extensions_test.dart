@@ -511,36 +511,36 @@ void main() {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S3', 'S2', 'S3'];
         list1.replaceWhere((s) => s == 'S1', (oldObject) => 'S3');
-        expect(list1.equals(list2), true);
+        expect(list1, list2);
       });
       test('expected replace second item with new value', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S1', 'S3', 'S3'];
         list1.replaceWhere((s) => s == 'S2', (oldObject) => 'S3');
-        expect(list1.equals(list2), true);
+        expect(list1, list2);
       });
 
       test('expected replace all items with new value', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S3', 'S3', 'S3'];
         list1.replaceWhere((s) => s.contains('S'), (oldObject) => 'S3');
-        expect(list1.equals(list2), true);
+        expect(list1, list2);
       });
 
       test('expected replace NO items with new value', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S1', 'S2', 'S3'];
         list1.replaceWhere((s) => s.contains('H'), (oldObject) => 'S3');
-        expect(list1.equals(list2), true);
+        expect(list1, list2);
       });
     });
 
     group('addOrUpdateWhere', () {
-      test('expected replace third item with the same value', () {
+      test('expected replace last item with the same value', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S1', 'S2', 'S3'];
         list1.addOrUpdate('S3');
-        expect(list1.equals(list2), true);
+        expect(list1, list2);
       });
       test('expected replace second item with new value', () {
         final list1 = ['S1', 'S2', 'S3'];
@@ -549,21 +549,31 @@ void main() {
           'S3',
           test: (s) => s == 'S2',
         );
-        expect(list1.equals(list2), true);
+        expect(list1, list2);
       });
 
       test('expected replace first item ONLY with the new value', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S3', 'S2', 'S3'];
         list1.addOrUpdate('S3', test: (s) => s.contains('S'));
-        expect(list1.equals(list2), true);
+        expect(list1, list2);
       });
 
       test('expected add new item to the list', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S1', 'S2', 'S3', 'S4'];
         list1.addOrUpdate('S4');
-        expect(list1.equals(list2), true);
+        expect(list1, list2);
+      });
+
+      test('expected add new item to the list if test is NOT passed', () {
+        final list1 = ['S1', 'S2', 'S3'];
+        final list2 = ['S1', 'S2', 'S3', 'S4'];
+        list1.addOrUpdate(
+          'S4',
+          test: (s) => s == 'H',
+        );
+        expect(list1, list2);
       });
     });
   });
