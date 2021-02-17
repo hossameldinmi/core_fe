@@ -1,9 +1,12 @@
 import 'dart:collection';
 import 'package:core_fe_dart/src/exceptions/validation_exception.dart';
 import 'package:core_fe_dart/src/validations/validation_rule.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ValidatorObject<T> {
-  ValidatorObject([this._value]);
+  // ValidatorObject([T value]) : _value = value;
+  ValidatorObject([T value]) : _valueSubject = BehaviorSubject.seeded(value);
+  final BehaviorSubject<T> _valueSubject;
 
   final List<ValidationRule<T>> _validations = <ValidationRule<T>>[];
   UnmodifiableListView<ValidationRule<T>> get validations =>
@@ -13,9 +16,11 @@ class ValidatorObject<T> {
   UnmodifiableListView<ValidationException> get errors =>
       UnmodifiableListView<ValidationException>(_errors);
 
-  T _value;
-  T get value => _value;
-  set value(T value) => _value = value;
+  T get value => _valueSubject.value;
+  set value(T value) => _valueSubject.add(value);
+  // T _value;
+  // T get value => _value;
+  // set value(T value) => _value = value;
 
   bool isValid({bool throwException = false}) {
     _errors?.clear();
@@ -28,6 +33,8 @@ class ValidatorObject<T> {
     }
     return errors?.isEmpty;
   }
+
+  Stream<T> get onValueChanged => _valueSubject.stream;
 
   String get firstErrorMessage => errors.first?.validationMessage;
 
