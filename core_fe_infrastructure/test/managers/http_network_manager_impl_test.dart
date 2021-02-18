@@ -12,16 +12,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import '../mocks/mocks.dart';
 import 'package:matcher/matcher.dart';
-
+import 'package:core_fe_infrastructure/models.dart';
 import '../shared.dart';
+import 'package:core_fe_infrastructure/utils.dart';
 
 void main() {
   final mockConnectivity = MockConnectivity();
-  final mockNetwork = MockNetwork();
+  final mockNetworkProvider = MockNetworkProvider();
   final mockHttpHelper = MockHttpHelper();
 
-  final networkManager =
-      HttpNetworkManagerImpl(mockNetwork, mockHttpHelper, mockConnectivity);
+  final networkManager = HttpNetworkManagerImpl(
+      mockNetworkProvider, mockHttpHelper, mockConnectivity);
   final headers = {'h1': 'v1', 'h2': 'v2'};
   final defaultHeaders = {'dh1': 'dv1', 'dh2': 'dv2'};
   setUpAll(() {
@@ -29,6 +30,7 @@ void main() {
         .thenAnswer((realInvocation) => Future.value(defaultHeaders));
     when(mockConnectivity.isConnected())
         .thenAnswer((realInvocation) => Future.value(true));
+    when(mockHttpHelper.validateStatus(any)).thenReturn(true);
   });
   test('Expected connection exception when no internet connection', () async {
     when(mockConnectivity.isConnected())
@@ -39,7 +41,7 @@ void main() {
         request: GetRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/1',
         ),
-        options: RequestOptions(responseType: ResponseType.json),
+        requestOptions: RequestOptions(),
       ),
       throwsA(const TypeMatcher<ConnectionException>().having(
         (e) => e.errorCode,
@@ -49,72 +51,109 @@ void main() {
     );
   });
 
-  group('updateOptions', () {
-    test('verify updateOptions default headers', () async {
-      final options =
-          RequestOptions(responseType: ResponseType.json, headers: headers);
-      var validateStatus = (int status) => true;
-      when(mockHttpHelper.validateStatus(any)).thenReturn(true);
-
-      var updatedOptions = await networkManager.updateOptions(options);
-
-      var expectedHeaders = <String, dynamic>{};
-      expectedHeaders.addAll(headers);
-      expectedHeaders.addAll(defaultHeaders);
-
+  group('updateRequestOptions', () {
+    test('expected DefaultOptions when passed options is null', () async {
+      var updatedOptions = await networkManager.updateRequestOptions(null);
       var expectedOptions = RequestOptions(
-          responseType: ResponseType.json,
-          headers: expectedHeaders,
-          validateStatus: validateStatus);
-
-      expect(updatedOptions.responseType, expectedOptions.responseType);
-      expect(updatedOptions.headers, expectedOptions.headers);
-      expect(updatedOptions.validateStatus(-1),
-          expectedOptions.validateStatus(-1));
-    });
-
-    test('verify updateOptions appending default headers', () async {
-      final options = RequestOptions(
-          responseType: ResponseType.json,
-          headers: {'dh1': 'New one', 'h2': 'v2'});
-      var validateStatus = (int status) => true;
-
-      when(mockHttpHelper.validateStatus(any)).thenReturn(true);
-
-      var updatedOptions = await networkManager.updateOptions(options);
-
-      var expectedHeaders = {'dh1': 'New one', 'h2': 'v2', 'dh2': 'dv2'};
-
-      var expectedOptions = RequestOptions(
-          responseType: ResponseType.json,
-          headers: expectedHeaders,
-          validateStatus: validateStatus);
-
-      expect(updatedOptions.responseType, expectedOptions.responseType);
-      expect(updatedOptions.headers, expectedOptions.headers);
-      expect(updatedOptions.validateStatus(-1),
-          expectedOptions.validateStatus(-1));
-    });
-
-    test('verify updateOptions when headers is null', () async {
-      final options = RequestOptions(
-        responseType: ResponseType.json,
+        headers: defaultHeaders,
+        contentType: ContentType.json,
       );
-      var validateStatus = (int status) => true;
+      expect(updatedOptions, expectedOptions);
+    });
+    test('expect default RequestOptions when headers is null', () async {
+      final options = RequestOptions();
 
-      when(mockHttpHelper.validateStatus(any)).thenReturn(true);
+      var updatedOptions = await networkManager.updateRequestOptions(options);
 
-      var updatedOptions = await networkManager.updateOptions(options);
+      var expectedOptions = RequestOptions(headers: defaultHeaders);
 
-      var expectedOptions = RequestOptions(
-          responseType: ResponseType.json,
-          headers: defaultHeaders,
-          validateStatus: validateStatus);
+      expect(updatedOptions, expectedOptions);
+    });
+    test(
+        'expect new requestOptions with (new+old) headers when add new headers',
+        () async {
+      final options = RequestOptions(headers: headers);
 
-      expect(updatedOptions.responseType, expectedOptions.responseType);
-      expect(updatedOptions.headers, expectedOptions.headers);
-      expect(updatedOptions.validateStatus(-1),
-          expectedOptions.validateStatus(-1));
+      var updatedOptions = await networkManager.updateRequestOptions(options);
+
+      var expectedHeaders = {
+        'h1': 'v1',
+        'h2': 'v2',
+        'dh1': 'dv1',
+        'dh2': 'dv2'
+      };
+
+      var expectedOptions = RequestOptions(headers: expectedHeaders);
+
+      expect(updatedOptions, expectedOptions);
+    });
+
+    test('expect updating default headers', () async {
+      final options = RequestOptions(headers: {'dh1': 'New DefaultValue'});
+
+      var updatedOptions = await networkManager.updateRequestOptions(options);
+
+      var expectedHeaders = {'dh1': 'New DefaultValue', 'dh2': 'dv2'};
+
+      var expectedOptions = RequestOptions(headers: expectedHeaders);
+
+      expect(updatedOptions, expectedOptions);
+    });
+  });
+
+//todo: Mock
+  group('updateResponseOptions', () {
+    test('expected ResponseOptions when passed options<int> is null', () async {
+      var updatedOptions =
+          await networkManager.updateResponseOptions<int>(null);
+      var expectedOptions = ResponseOptions(
+        responseType: ResponseType.json,
+        fromJson: JsonUtil.getType<int>().fromJson,
+        receiveTimeout: 60000,
+        validateStatus: mockHttpHelper.validateStatus,
+      );
+      expect(updatedOptions, expectedOptions);
+    });
+    test('expect default ResponseOptions when passing Empty initalized Object',
+        () async {
+      final options = ResponseOptions<int>();
+      var updatedOptions =
+          await networkManager.updateResponseOptions<int>(options);
+      var expectedOptions = ResponseOptions(
+        responseType: ResponseType.json,
+        fromJson: JsonUtil.getType<int>().fromJson,
+        receiveTimeout: 60000,
+        validateStatus: mockHttpHelper.validateStatus,
+      );
+      expect(updatedOptions, expectedOptions);
+    });
+    test('expect new ResponseOptions with new receiveTimeout', () async {
+      final options = ResponseOptions<int>(receiveTimeout: 2000);
+      var updatedOptions =
+          await networkManager.updateResponseOptions<int>(options);
+      var expectedOptions = ResponseOptions(
+        responseType: ResponseType.json,
+        fromJson: JsonUtil.getType<int>().fromJson,
+        receiveTimeout: 2000,
+        validateStatus: mockHttpHelper.validateStatus,
+      );
+      expect(updatedOptions, expectedOptions);
+    });
+
+    test('expect new ResponseOptions with new responseType', () async {
+      final options = ResponseOptions<int>(
+        receiveTimeout: 2000,
+        responseType: ResponseType.plain,
+      );
+      var updatedOptions =
+          await networkManager.updateResponseOptions<int>(options);
+      var expectedOptions = ResponseOptions(
+        responseType: ResponseType.plain,
+        fromJson: JsonUtil.getType<int>().fromJson,
+        receiveTimeout: 2000,
+        validateStatus: mockHttpHelper.validateStatus,
+      );
+      expect(updatedOptions, expectedOptions);
     });
   });
 
@@ -130,25 +169,25 @@ void main() {
       var getRequest = GetRequest(
         url: 'https://jsonplaceholder.typicode.com/posts/1',
       );
-      final options = RequestOptions(responseType: ResponseType.json);
+      final responseOptions = ResponseOptions(
+          responseType: ResponseType.json,
+          fromJson: (json) => Todo.fromJson(json));
       final httpResponse = HttpResponse<Todo>(
-          headers: headers,
-          data: todo,
-          statusCode: HttpStatus.ok,
-          statusMessage: ok);
+          data: todo, statusCode: HttpStatus.ok, statusMessage: ok);
       when(mockConnectivity.isConnected())
           .thenAnswer((realInvocation) => Future.value(true));
       when(
-        mockNetwork.get<Todo>(
-            request: anyNamed('request'), options: anyNamed('options')),
+        mockNetworkProvider.get<Todo>(
+          request: anyNamed('request'),
+          requestOptions: anyNamed('requestOptions'),
+          responseOptions: anyNamed('responseOptions'),
+        ),
       ).thenAnswer((realInvocation) => Future.value(httpResponse));
 
       when(mockHttpHelper.resolveResponse(httpResponse))
           .thenReturn(BaseResponse.fromHttpResponse(httpResponse));
       var response = await networkManager.get<Todo>(
-        request: getRequest,
-        options: options,
-      );
+          request: getRequest, responseOptions: responseOptions);
 
       var expectedResponse = BaseResponse<Todo>(todo, HttpStatus.ok, ok);
 
@@ -167,24 +206,22 @@ void main() {
               'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto');
       var postRequest = PostRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/1', body: todo);
-      final options = RequestOptions(responseType: ResponseType.json);
       final httpResponse = HttpResponse<Todo>(
-          headers: headers,
-          data: todo,
-          statusCode: HttpStatus.ok,
-          statusMessage: ok);
-
+          data: todo, statusCode: HttpStatus.ok, statusMessage: ok);
+      var responseOptions =
+          ResponseOptions(fromJson: (json) => Todo.fromJson(json));
       when(
-        mockNetwork.post<Todo>(
-            request: anyNamed('request'), options: anyNamed('options')),
+        mockNetworkProvider.post<Todo>(
+          request: anyNamed('request'),
+          requestOptions: anyNamed('requestOptions'),
+          responseOptions: anyNamed('responseOptions'),
+        ),
       ).thenAnswer((realInvocation) => Future.value(httpResponse));
 
       when(mockHttpHelper.resolveResponse(httpResponse))
           .thenReturn(BaseResponse.fromHttpResponse(httpResponse));
       var response = await networkManager.post<Todo>(
-        request: postRequest,
-        options: options,
-      );
+          request: postRequest, responseOptions: responseOptions);
 
       var expectedResponse = BaseResponse<Todo>(todo, HttpStatus.ok, ok);
 
@@ -203,23 +240,22 @@ void main() {
       var putRequest = PutRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/2',
           body: todo.toJson());
-      final options = RequestOptions(responseType: ResponseType.json);
       final httpResponse = HttpResponse<Todo>(
-          headers: headers,
-          data: todo,
-          statusCode: HttpStatus.ok,
-          statusMessage: ok);
+          data: todo, statusCode: HttpStatus.ok, statusMessage: ok);
 
+      var responseOptions =
+          ResponseOptions(fromJson: (json) => Todo.fromJson(json));
       when(
-        mockNetwork.put<Todo>(
-            request: anyNamed('request'), options: anyNamed('options')),
+        mockNetworkProvider.put<Todo>(
+          request: anyNamed('request'),
+          requestOptions: anyNamed('requestOptions'),
+          responseOptions: anyNamed('responseOptions'),
+        ),
       ).thenAnswer((realInvocation) => Future.value(httpResponse));
       when(mockHttpHelper.resolveResponse(httpResponse))
           .thenReturn(BaseResponse.fromHttpResponse(httpResponse));
       var response = await networkManager.put<Todo>(
-        request: putRequest,
-        options: options,
-      );
+          request: putRequest, responseOptions: responseOptions);
 
       var expectedResponse = BaseResponse<Todo>(todo, HttpStatus.ok, ok);
       expect(response, equals(expectedResponse));
@@ -231,22 +267,22 @@ void main() {
       var putRequest = DeleteRequest(
         url: 'https://jsonplaceholder.typicode.com/posts/2',
       );
-      final options = RequestOptions(responseType: ResponseType.json);
+      final requestOptions = RequestOptions();
       final httpResponse = HttpResponse<void>(
-          headers: headers,
-          data: null,
-          statusCode: HttpStatus.ok,
-          statusMessage: ok);
+          data: null, statusCode: HttpStatus.ok, statusMessage: ok);
 
       when(
-        mockNetwork.delete<void>(
-            request: anyNamed('request'), options: anyNamed('options')),
+        mockNetworkProvider.delete<void>(
+          request: anyNamed('request'),
+          requestOptions: anyNamed('requestOptions'),
+          responseOptions: anyNamed('responseOptions'),
+        ),
       ).thenAnswer((realInvocation) => Future.value(httpResponse));
       when(mockHttpHelper.resolveResponse(httpResponse))
           .thenReturn(BaseResponse.fromHttpResponse(httpResponse));
       var response = await networkManager.delete<void>(
         request: putRequest,
-        options: options,
+        requestOptions: requestOptions,
       );
 
       var expectedResponse = BaseResponse<void>(null, HttpStatus.ok, ok);
@@ -260,22 +296,22 @@ void main() {
         url: 'https://jsonplaceholder.typicode.com/posts/2',
         data: file1,
       );
-      final options = RequestOptions(responseType: ResponseType.json);
+      final requestOptions = RequestOptions();
       final httpResponse = HttpResponse<void>(
-          headers: headers,
-          data: null,
-          statusCode: HttpStatus.ok,
-          statusMessage: ok);
+          data: null, statusCode: HttpStatus.ok, statusMessage: ok);
 
       when(
-        mockNetwork.postFile<void>(
-            request: anyNamed('request'), options: anyNamed('options')),
+        mockNetworkProvider.postFile<void>(
+          request: anyNamed('request'),
+          requestOptions: anyNamed('requestOptions'),
+          responseOptions: anyNamed('responseOptions'),
+        ),
       ).thenAnswer((realInvocation) => Future.value(httpResponse));
       when(mockHttpHelper.resolveResponse(httpResponse))
           .thenReturn(BaseResponse.fromHttpResponse(httpResponse));
       var response = await networkManager.postFile<void>(
         request: postFileRequest,
-        options: options,
+        requestOptions: requestOptions,
       );
 
       var expectedResponse = BaseResponse<void>(null, HttpStatus.ok, ok);
@@ -288,22 +324,22 @@ void main() {
         url:
             'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
         savePath: imagePath);
-    final options = RequestOptions(responseType: ResponseType.json);
+    final requestOptions = RequestOptions();
     final httpResponse = HttpResponse<void>(
-        headers: headers,
-        data: null,
-        statusCode: HttpStatus.ok,
-        statusMessage: ok);
+        data: null, statusCode: HttpStatus.ok, statusMessage: ok);
 
     when(
-      mockNetwork.downloadFile<void>(
-          request: anyNamed('request'), options: anyNamed('options')),
+      mockNetworkProvider.downloadFile<void>(
+        request: anyNamed('request'),
+        requestOptions: anyNamed('requestOptions'),
+        responseOptions: anyNamed('responseOptions'),
+      ),
     ).thenAnswer((realInvocation) => Future.value(httpResponse));
     when(mockHttpHelper.resolveResponse(httpResponse))
         .thenReturn(BaseResponse.fromHttpResponse(httpResponse));
     var response = await networkManager.downloadFile<void>(
       request: putRequest,
-      options: options,
+      requestOptions: requestOptions,
     );
 
     var expectedResponse = BaseResponse<void>(null, HttpStatus.ok, ok);

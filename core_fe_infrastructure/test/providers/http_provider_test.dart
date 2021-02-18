@@ -1,22 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:core_fe_flutter/utils.dart';
 import 'package:core_fe_infrastructure/src/models/base_request.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart';
-import 'package:core_fe_infrastructure/src/models/request_options.dart'
-    as request_options;
+import 'package:core_fe_infrastructure/src/models/request_options.dart';
+import 'package:core_fe_infrastructure/src/models/response_options.dart';
 import 'package:core_fe_infrastructure/src/providers/http_provider.dart';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide RequestOptions, ResponseType;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import '../core_fe_infrastructure.dart';
 import '../mocks/mocks.dart';
 import '../mocks/providers_mocks.dart';
 // import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:core_fe_infrastructure/src/enums/response_type.dart'
-    as response_type;
+import 'package:core_fe_infrastructure/src/enums/response_type.dart';
 
 import '../shared.dart';
 
@@ -47,9 +44,6 @@ void addLoggerInterceptor(Dio dio) {
 }
 
 void main() async {
-  await Initer.addModule(
-      'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
-  await Initer.init();
   // EquatableConfig.stringify = true;
   final bytes1 = await file1.readAsBytes();
 
@@ -76,8 +70,9 @@ void main() async {
         request: GetRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/1',
         ),
-        options: request_options.RequestOptions(
-            responseType: response_type.ResponseType.json),
+        requestOptions: RequestOptions(contentType: ContentType.json),
+        responseOptions:
+            ResponseOptions(fromJson: (json) => Todo.fromJson(json)),
       );
 
       var expectedResponse = HttpResponse<Todo>(
@@ -94,10 +89,10 @@ void main() async {
         request: GetRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/222',
         ),
-        options: request_options.RequestOptions(
-            responseType: response_type.ResponseType.json,
-            sendTimeout: 20,
-            receiveTimeout: 20),
+        requestOptions: RequestOptions(sendTimeout: 20),
+        responseOptions: ResponseOptions(
+          fromJson: (json) => Todo.fromJson(json),
+        ),
       );
 
       var expectedResponse = HttpResponse<Todo>(
@@ -126,8 +121,10 @@ void main() async {
           url: 'https://jsonplaceholder.typicode.com/posts',
           body: todo.toJson(),
         ),
-        options: request_options.RequestOptions(
-            responseType: response_type.ResponseType.json),
+        requestOptions: RequestOptions(),
+        responseOptions: ResponseOptions(
+          fromJson: (json) => Todo.fromJson(json),
+        ),
       );
 
       var expectedResponse = HttpResponse<Todo>(
@@ -145,10 +142,10 @@ void main() async {
           url: 'https://jsonplaceholder.typicode.com/posts/1',
           body: null,
         ),
-        options: request_options.RequestOptions(
-            responseType: response_type.ResponseType.json,
-            sendTimeout: 20,
-            receiveTimeout: 20),
+        requestOptions: RequestOptions(sendTimeout: 20),
+        responseOptions: ResponseOptions(
+          fromJson: (json) => Todo.fromJson(json),
+        ),
       );
 
       var expectedResponse = HttpResponse<Todo>(
@@ -175,8 +172,10 @@ void main() async {
           url: 'https://jsonplaceholder.typicode.com/posts/2',
           body: todo.toJson(),
         ),
-        options: request_options.RequestOptions(
-            responseType: response_type.ResponseType.json),
+        requestOptions: RequestOptions(),
+        responseOptions: ResponseOptions(
+          fromJson: (json) => Todo.fromJson(json),
+        ),
       );
 
       var expectedResponse = HttpResponse<Todo>(
@@ -197,10 +196,10 @@ void main() async {
           body: null,
           url: 'https://jsonplaceholder.typicode.com/posts/101',
         ),
-        options: request_options.RequestOptions(
-            responseType: response_type.ResponseType.json,
-            sendTimeout: 20,
-            receiveTimeout: 20),
+        requestOptions: RequestOptions(sendTimeout: 20),
+        responseOptions: ResponseOptions(
+          fromJson: (json) => Todo.fromJson(json),
+        ),
       );
 
       var expectedResponse = HttpResponse<Todo>(
@@ -221,8 +220,8 @@ void main() async {
         request: DeleteRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/2',
         ),
-        options: request_options.RequestOptions(
-            responseType: response_type.ResponseType.json),
+        requestOptions: RequestOptions(),
+        responseOptions: ResponseOptions(),
       );
 
       var expectedResponse = HttpResponse<void>(
@@ -233,7 +232,7 @@ void main() async {
       expect(response, equals(expectedResponse));
     });
 
-    test('put request with unauthorized error response', () async {
+    test('delete request with notFound error response', () async {
       when(
         mockHttpClientAdapter.fetch(any, any, any),
       ).thenAnswer((realInvocation) => Future.value(_getJsonResponseBody(
@@ -243,8 +242,8 @@ void main() async {
         request: DeleteRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/',
         ),
-        options: request_options.RequestOptions(
-            responseType: response_type.ResponseType.json),
+        requestOptions: RequestOptions(),
+        responseOptions: ResponseOptions(),
       );
 
       var expectedResponse = HttpResponse<void>(
@@ -268,16 +267,15 @@ void main() async {
       );
 
       var response = await httpProvider.downloadFile<File>(
-        request: DownloadFileRequest(
-          savePath: imagePath,
-          url:
-              'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
-        ),
-        options: request_options.RequestOptions(
-            validateStatus: (status) => true,
+          request: DownloadFileRequest(
+            savePath: imagePath,
+            url:
+                'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
+          ),
+          requestOptions: RequestOptions(
             contentType: ContentType.json,
-            responseType: response_type.ResponseType.bytes),
-      );
+          ),
+          responseOptions: ResponseOptions(responseType: ResponseType.bytes));
       var expectedResponse = HttpResponse<File>(
         data: file1,
         statusMessage: ok,
@@ -305,16 +303,15 @@ void main() async {
         );
 
         var response = await httpProvider.downloadFile(
-          request: DownloadFileRequest(
-            savePath: imagePath,
-            url:
-                'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
-          ),
-          options: request_options.RequestOptions(
-              validateStatus: (status) => true,
+            request: DownloadFileRequest(
+              savePath: imagePath,
+              url:
+                  'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
+            ),
+            requestOptions: RequestOptions(
               contentType: ContentType.json,
-              responseType: response_type.ResponseType.bytes),
-        );
+            ),
+            responseOptions: ResponseOptions(responseType: ResponseType.bytes));
         var expectedResponse = HttpResponse(
           data: getBytesResponseBody(bytes1, HttpStatus.ok,
               contentTypeHeader: ContentType.parse('image/png').value,
@@ -352,11 +349,12 @@ void main() async {
           url:
               'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
         ),
-        options: request_options.RequestOptions(
-            validateStatus: (status) => true,
-            contentType: ContentType.json,
-            responseType: response_type.ResponseType.bytes),
+        requestOptions: RequestOptions(
+          contentType: ContentType.json,
+        ),
+        responseOptions: ResponseOptions(responseType: ResponseType.bytes),
       );
+
       var expectedResponse = HttpResponse<void>(
         data: null,
         statusMessage: ok,
@@ -375,9 +373,11 @@ void main() async {
                 'uploadType': 'multipart',
                 'API_KEY': 'AIzaSyCscBiYqmCWMcLniZxzFP_aA0qq8B4v6sA'
               }),
-          options: request_options.RequestOptions(
-              responseType: response_type.ResponseType.json,
-              contentType: ContentType.parse('application/multipart')));
+          requestOptions: RequestOptions(
+            contentType: ContentType.parse('application/multipart'),
+          ),
+          responseOptions: ResponseOptions(responseType: ResponseType.bytes));
+
       expect(response.data, response.data);
     }, skip: true);
   });

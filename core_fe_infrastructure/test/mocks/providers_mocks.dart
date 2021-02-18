@@ -14,4 +14,4 @@ class MockLogger extends Mock with Logger {}
 
 class MockHttpClientAdapter extends Mock with HttpClientAdapter {}
 
-class MockNetwork extends Mock with NetworkProvider {}
+class MockNetworkProvider extends Mock with NetworkProvider {}

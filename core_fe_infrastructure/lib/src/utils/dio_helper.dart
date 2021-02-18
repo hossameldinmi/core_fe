@@ -1,39 +1,41 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:core_fe_infrastructure/providers.dart';
-import 'package:core_fe_infrastructure/src/models/request_options.dart'
-    as request_options;
 import 'package:core_fe_infrastructure/src/enums/response_type.dart'
     as response_type;
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide RequestOptions;
 import 'package:meta/meta.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart';
 import 'package:core_fe_dart/extensions.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:tuple/tuple.dart';
+import 'package:core_fe_flutter/models.dart';
+import 'package:core_fe_infrastructure/models.dart';
 
 class DioHelper {
-  static Options toDioOptions(request_options.RequestOptions options,
+  static Options toDioOptions(
+      RequestOptions requestOptions, ResponseOptions responseOptions,
       [int length]) {
+    assert(requestOptions != null);
+    assert(responseOptions != null);
     var headers = <String, dynamic>{};
-    if (options.length != null) {
-      headers[HttpHeaders.contentLengthHeader] = options.length;
+    if (requestOptions.length != null) {
+      headers[HttpHeaders.contentLengthHeader] = requestOptions.length;
     } else if (length != null) {
       headers[HttpHeaders.contentLengthHeader] = length;
     }
-    headers.addAll(options.headers ?? {});
+    headers.addAll(requestOptions.headers ?? {});
     return Options(
         headers: headers,
-        contentType: options.contentType.value,
-        responseType: DioHelper.toDioResponseType(options.responseType),
-        sendTimeout: options.sendTimeout,
-        receiveTimeout: options.receiveTimeout,
-        validateStatus: options.validateStatus);
+        contentType: requestOptions.contentType.value,
+        responseType: DioHelper.toDioResponseType(responseOptions.responseType),
+        sendTimeout: requestOptions.sendTimeout,
+        receiveTimeout: responseOptions.receiveTimeout,
+        validateStatus: responseOptions.validateStatus);
   }
 
   static HttpResponse<TResponse> toHttpResponse<TResponse>(Response response,
-      [String savePath]) {
+      [FromJsonFunc<TResponse> fromJsonFunc, String savePath]) {
     assert(!response.isNullEmptyOrWhitespace());
     TResponse data;
 
@@ -47,7 +49,7 @@ class DioHelper {
       if (!(response.data as Object).isNullEmptyOrWhitespace()) {
         if (response.headers[HttpHeaders.contentTypeHeader] // if data is json
             .contains(Headers.jsonContentType)) {
-          data = jsonFactory<TResponse>().fromJson(response.data);
+          data = fromJsonFunc(response.data);
         }
         // if data is stream
         else if (response.data is ResponseBody &&
@@ -56,15 +58,15 @@ class DioHelper {
               TResponse.toString() == 'Stream<dynamic>' ||
               TResponse.toString() == 'Stream<List<int>>' ||
               TResponse.toString() == 'Stream<Uint8List>') {
-            StreamController<Uint8List> actualController = BehaviorSubject();
+            var streamController = BehaviorSubject<Uint8List>();
             // data = (response.data as ResponseBody).stream as TResponse;
             var subscription = (response.data as ResponseBody)
                 .stream
                 .asBroadcastStream()
-                .listen(actualController.add);
-            subscription.onError(actualController.addError);
-            subscription.onDone(actualController.close);
-            data = actualController.stream as TResponse;
+                .listen(streamController.add);
+            subscription.onError(streamController.addError);
+            subscription.onDone(streamController.close);
+            data = streamController.stream as TResponse;
           }
           // if data
           else if (TResponse == File) {
@@ -74,12 +76,12 @@ class DioHelper {
       }
     }
     return HttpResponse<TResponse>(
-        data: data,
-        extra: response.extra,
-        isRedirect: response.isRedirect,
-        statusCode: response.statusCode,
-        statusMessage: response.statusMessage,
-        headers: response.headers.map);
+      data: data,
+      extra: response.extra,
+      isRedirect: response.isRedirect,
+      statusCode: response.statusCode,
+      statusMessage: response.statusMessage,
+    );
   }
 
   static Future<Tuple2<dynamic, int>> toValidFileObject(dynamic data) async {

@@ -1,9 +1,7 @@
 import 'package:core_fe_infrastructure/models.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_flutter/utils.dart';
 import 'package:core_fe_flutter/extensions.dart';
-
-import '../core_fe_infrastructure.dart';
+import 'package:core_fe_infrastructure/utils.dart';
 
 final createdDate = DateTime(2020, 6, 1, 22, 5, 6);
 final updatedDate = DateTime(2025, 5, 6, 2, 23, 45);
@@ -14,10 +12,6 @@ const kExpiryDate = 'expiry_date';
 const kData = 'data';
 
 void main() async {
-  await Initer.addModule(
-      'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
-  await Initer.init();
-
   group('init', () {
     test('validate key if null', () {
       expect(
@@ -107,7 +101,7 @@ void main() async {
         kExpiryDate: expiryDate.format(),
         kData: 1
       };
-      expect(storageModel.toJson(), expectedJson);
+      expect(storageModel.toJson(JsonUtil.getType<int>().toJson), expectedJson);
     });
 
     test('serialization when expiryDate is Null', () {
@@ -127,7 +121,7 @@ void main() async {
         kExpiryDate: null,
         kData: 1
       };
-      expect(storageModel.toJson(), expectedJson);
+      expect(storageModel.toJson(JsonUtil.getType<int>().toJson), expectedJson);
     });
     test('serialization when data is Null', () {
       var storageModel = StorageModel<int>(
@@ -146,7 +140,7 @@ void main() async {
         kExpiryDate: expiryDate.format(),
         kData: null
       };
-      expect(storageModel.toJson(), expectedJson);
+      expect(storageModel.toJson(JsonUtil.getType<int>().toJson), expectedJson);
     });
 
     test('serialization when tags is null', () {
@@ -166,7 +160,7 @@ void main() async {
         kExpiryDate: expiryDate.format(),
         kData: 1
       };
-      expect(storageModel.toJson(), expectedJson);
+      expect(storageModel.toJson(JsonUtil.getType<int>().toJson), expectedJson);
     });
   });
   group('fromJson', () {
@@ -187,7 +181,8 @@ void main() async {
           expiryDate: expiryDate,
           tags: ['t1', 't2']);
 
-      expect(StorageModel<int>.fromJson(json), expected);
+      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson),
+          expected);
     });
 
     test('deserialize object with Null expiryDate', () {
@@ -207,7 +202,8 @@ void main() async {
           expiryDate: null,
           tags: ['t1', 't2']);
 
-      expect(StorageModel<int>.fromJson(json), expected);
+      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson),
+          expected);
     });
 
     test('deserialize object with Null data', () {
@@ -227,7 +223,8 @@ void main() async {
           expiryDate: expiryDate,
           tags: ['t1', 't2']);
 
-      expect(StorageModel<int>.fromJson(json), expected);
+      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson),
+          expected);
     });
 
     test('deserialize object with Tags is Null', () {
@@ -247,7 +244,8 @@ void main() async {
           expiryDate: expiryDate,
           tags: null);
 
-      expect(StorageModel<int>.fromJson(json), expected);
+      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson),
+          expected);
     });
   });
 

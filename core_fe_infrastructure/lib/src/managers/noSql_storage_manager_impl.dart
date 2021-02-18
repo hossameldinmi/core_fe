@@ -2,6 +2,7 @@ import 'package:core_fe_infrastructure/src/interfaces/noSql_storage.dart';
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
 import 'package:core_fe_dart/utils.dart';
 import 'package:core_fe_dart/extensions.dart';
+import 'package:core_fe_flutter/models.dart';
 
 class NoSqlStorageManagerImpl implements NoSqlStorageManager {
   final NoSqlStorageProvider _storageProvider;
@@ -18,6 +19,7 @@ class NoSqlStorageManagerImpl implements NoSqlStorageManager {
       T data,
       List<String> tags,
       DateTime expiryDate,
+      ToJsonFunc<T> toJsonFunc,
       bool shared = false}) async {
     if (key.isNullEmptyOrWhitespace()) {
       return;
@@ -59,8 +61,13 @@ class NoSqlStorageManagerImpl implements NoSqlStorageManager {
 
   @override
   Future<T> get<T>(String key,
-      {bool shared = false, bool ignoreExpiry = false}) async {
-    var record = await _storageProvider.get<T>(key, shared: shared);
+      {FromJsonFunc<T> fromJsonFunc,
+      bool shared = false,
+      bool ignoreExpiry = false}) async {
+    var record = await _storageProvider.get<T>(
+      key,
+      shared: shared,
+    );
     T result;
     if (record != null &&
         !ignoreExpiry &&

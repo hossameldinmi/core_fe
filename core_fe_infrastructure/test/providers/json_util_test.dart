@@ -1,22 +1,16 @@
-import 'package:core_fe_infrastructure/providers.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_flutter/utils.dart';
 import 'package:matcher/matcher.dart';
-
-import '../core_fe_infrastructure.dart';
+import 'package:core_fe_infrastructure/src/utils/json_util.dart';
 
 void main() async {
-  await Initer.addModule(
-      'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
-  await Initer.init();
   test('Expected Error if type is not registered', () {
     expect(
-      () => jsonFactory<Map>(),
+      () => JsonUtil.getType<Map>(),
       throwsA(
         const TypeMatcher<ArgumentError>().having(
           (e) => e.message,
-          'Type is not registered in JsonFactory',
-          equals('Key [Map<dynamic, dynamic>] is not registerd in JsonFactory'),
+          'Type is not registered in JsonUtil.getType',
+          equals('Key [Map<dynamic, dynamic>] is not a premitive type'),
         ),
       ),
     );
@@ -26,8 +20,8 @@ void main() async {
       const value = 1;
       var json = 1;
 
-      var actualValue = jsonFactory<int>().fromJson(json);
-      var actualJson = jsonFactory<int>().toJson(value);
+      var actualValue = JsonUtil.getType<int>().fromJson(json);
+      var actualJson = JsonUtil.getType<int>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -37,8 +31,8 @@ void main() async {
       const int value = null;
       const json = value;
 
-      var actualValue = jsonFactory<int>().fromJson(json);
-      var actualJson = jsonFactory<int>().toJson(value);
+      var actualValue = JsonUtil.getType<int>().fromJson(json);
+      var actualJson = JsonUtil.getType<int>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -50,8 +44,8 @@ void main() async {
       num value = 1.01;
       var json = 1.01;
 
-      var actualValue = jsonFactory<num>().fromJson(json);
-      var actualJson = jsonFactory<num>().toJson(value);
+      var actualValue = JsonUtil.getType<num>().fromJson(json);
+      var actualJson = JsonUtil.getType<num>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -59,7 +53,7 @@ void main() async {
 
     test('expected failed deserialization', () {
       var value = '1.01';
-      expect(() => jsonFactory<num>().fromJson(value),
+      expect(() => JsonUtil.getType<num>().fromJson(value),
           throwsA(const TypeMatcher<TypeError>()));
     });
 
@@ -67,8 +61,8 @@ void main() async {
       const num value = null;
       const json = value;
 
-      var actualValue = jsonFactory<num>().fromJson(json);
-      var actualJson = jsonFactory<num>().toJson(value);
+      var actualValue = JsonUtil.getType<num>().fromJson(json);
+      var actualJson = JsonUtil.getType<num>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -80,8 +74,8 @@ void main() async {
       var value = 1.01;
       var json = 1.01;
 
-      var actualValue = jsonFactory<double>().fromJson(json);
-      var actualJson = jsonFactory<double>().toJson(value);
+      var actualValue = JsonUtil.getType<double>().fromJson(json);
+      var actualJson = JsonUtil.getType<double>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -91,7 +85,7 @@ void main() async {
         () {
       var json = 1.toDouble();
 
-      var actualJson = jsonFactory<double>().toJson(1);
+      var actualJson = JsonUtil.getType<double>().toJson(1);
 
       expect(actualJson, json);
     });
@@ -100,8 +94,8 @@ void main() async {
       const double value = null;
       const json = value;
 
-      var actualValue = jsonFactory<double>().fromJson(json);
-      var actualJson = jsonFactory<double>().toJson(value);
+      var actualValue = JsonUtil.getType<double>().fromJson(json);
+      var actualJson = JsonUtil.getType<double>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -113,8 +107,8 @@ void main() async {
       var value = 'string';
       var json = 'string';
 
-      var actualValue = jsonFactory<String>().fromJson(json);
-      var actualJson = jsonFactory<String>().toJson(value);
+      var actualValue = JsonUtil.getType<String>().fromJson(json);
+      var actualJson = JsonUtil.getType<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -124,8 +118,8 @@ void main() async {
       var value = '1.01';
       var json = '1.01';
 
-      var actualValue = jsonFactory<String>().fromJson(json);
-      var actualJson = jsonFactory<String>().toJson(value);
+      var actualValue = JsonUtil.getType<String>().fromJson(json);
+      var actualJson = JsonUtil.getType<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -135,8 +129,8 @@ void main() async {
       const String value = null;
       const json = value;
 
-      var actualValue = jsonFactory<String>().fromJson(json);
-      var actualJson = jsonFactory<String>().toJson(value);
+      var actualValue = JsonUtil.getType<String>().fromJson(json);
+      var actualJson = JsonUtil.getType<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -148,8 +142,8 @@ void main() async {
       var value = ['string1', 'string2', 'string3'];
       var json = value;
 
-      var actualValue = jsonFactory.iterable<String>().fromJson(json);
-      var actualJson = jsonFactory.iterable<String>().toJson(value);
+      var actualValue = JsonUtil.getIterable<String>().fromJson(json);
+      var actualJson = JsonUtil.getIterable<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -159,8 +153,8 @@ void main() async {
       var value = <String>[];
       var json = value;
 
-      var actualValue = jsonFactory.iterable<String>().fromJson(json);
-      var actualJson = jsonFactory.iterable<String>().toJson(value);
+      var actualValue = JsonUtil.getIterable<String>().fromJson(json);
+      var actualJson = JsonUtil.getIterable<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);
@@ -170,8 +164,8 @@ void main() async {
       const List<String> value = null;
       var json = value;
 
-      var actualValue = jsonFactory.iterable<String>().fromJson(json);
-      var actualJson = jsonFactory.iterable<String>().toJson(value);
+      var actualValue = JsonUtil.getIterable<String>().fromJson(json);
+      var actualJson = JsonUtil.getIterable<String>().toJson(value);
 
       expect(actualJson, json);
       expect(actualValue, value);

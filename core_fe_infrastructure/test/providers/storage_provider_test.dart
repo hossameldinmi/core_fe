@@ -5,13 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:core_fe_flutter/utils.dart';
 
-import '../core_fe_infrastructure.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Initer.addModule(
-      'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
-  await Initer.init();
 
   NoSqlStorageProvider getInstance(String dbPath) {
     return SembastStorageProviderImpl(dbPath, isInMemoryDb: true);

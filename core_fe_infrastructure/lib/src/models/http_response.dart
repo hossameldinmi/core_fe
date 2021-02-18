@@ -7,7 +7,7 @@ class HttpResponse<T> extends Equatable {
   HttpResponse({
     @required this.data,
     @required this.statusCode,
-    this.headers,
+    // this.headers,
     // this.request,
     this.isRedirect = false,
     this.statusMessage,
@@ -19,7 +19,7 @@ class HttpResponse<T> extends Equatable {
   final T data;
 
   /// Response headers.
-  final Map<String, dynamic> headers;
+  // final Map<String, dynamic> headers;
 
   /// The corresponding request info.
   // RequestOptions request;
@@ -69,7 +69,7 @@ class HttpResponse<T> extends Equatable {
     return HttpResponse<TResponse>(
         data: data ?? this.data,
         statusCode: statusCode ?? this.statusCode,
-        headers: headers ?? this.headers,
+        // headers: headers ?? this.headers,
         isRedirect: isRedirect ?? this.isRedirect,
         extra: extra ?? this.extra,
         statusMessage: statusMessage ?? this.statusMessage);

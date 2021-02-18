@@ -7,6 +7,10 @@ import 'package:core_fe_infrastructure/src/models/http_response.dart';
 import 'package:core_fe_infrastructure/src/models/request_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:core_fe_infrastructure/src/constants/error_code.dart';
+import 'package:core_fe_infrastructure/models.dart';
+import 'package:core_fe_infrastructure/utils.dart';
+import 'package:core_fe_infrastructure/enums.dart';
+import 'dart:io';
 
 class HttpNetworkManagerImpl implements IHttpNetworkManager {
   final NetworkProvider _networkProvider;
@@ -16,69 +20,104 @@ class HttpNetworkManagerImpl implements IHttpNetworkManager {
       this._networkProvider, this._httpHelper, this._connectivity);
 
   @override
-  Future<BaseResponse<TResponse>> get<TResponse>(
-      {@required GetRequest request, @required RequestOptions options}) {
+  Future<BaseResponse<TResponse>> get<TResponse>({
+    @required GetRequest request,
+    RequestOptions requestOptions,
+    ResponseOptions<TResponse> responseOptions,
+  }) {
     return _request<TResponse>(
-      options,
+      requestOptions,
       (updatedOptions) => _networkProvider.get<TResponse>(
-          request: request, options: updatedOptions),
+          request: request,
+          requestOptions: updatedOptions,
+          responseOptions: updateResponseOptions(responseOptions)),
     );
   }
 
   @override
-  Future<BaseResponse<TResponse>> post<TResponse>(
-      {@required PostRequest request, @required RequestOptions options}) {
+  Future<BaseResponse<TResponse>> post<TResponse>({
+    @required PostRequest request,
+    RequestOptions requestOptions,
+    ResponseOptions<TResponse> responseOptions,
+  }) {
     return _request<TResponse>(
-      options,
+      requestOptions,
       (updatedOptions) => _networkProvider.post<TResponse>(
-          request: request, options: updatedOptions),
+          request: request,
+          requestOptions: updatedOptions,
+          responseOptions: updateResponseOptions(responseOptions)),
     );
   }
 
   @override
-  Future<BaseResponse<TResponse>> postFile<TResponse>(
-      {@required PostFileRequest request, @required RequestOptions options}) {
+  Future<BaseResponse<TResponse>> postFile<TResponse>({
+    @required PostFileRequest request,
+    RequestOptions requestOptions,
+    ResponseOptions<TResponse> responseOptions,
+  }) {
     return _request<TResponse>(
-      options,
+      requestOptions,
       (updatedOptions) => _networkProvider.postFile<TResponse>(
-          request: request, options: updatedOptions),
+        request: request,
+        requestOptions: updatedOptions,
+        responseOptions: updateResponseOptions(responseOptions),
+      ),
     );
   }
 
   @override
-  Future<BaseResponse<TResponse>> put<TResponse>(
-      {@required PutRequest request, @required RequestOptions options}) {
+  Future<BaseResponse<TResponse>> put<TResponse>({
+    @required PutRequest request,
+    RequestOptions requestOptions,
+    ResponseOptions<TResponse> responseOptions,
+  }) {
     return _request<TResponse>(
-      options,
+      requestOptions,
       (updatedOptions) => _networkProvider.put<TResponse>(
-          request: request, options: updatedOptions),
+        request: request,
+        requestOptions: updatedOptions,
+        responseOptions: updateResponseOptions(responseOptions),
+      ),
     );
   }
 
   @override
-  Future<BaseResponse<TResponse>> delete<TResponse>(
-      {@required DeleteRequest request, @required RequestOptions options}) {
+  Future<BaseResponse<TResponse>> delete<TResponse>({
+    @required DeleteRequest request,
+    RequestOptions requestOptions,
+    ResponseOptions<TResponse> responseOptions,
+  }) {
     return _request<TResponse>(
-      options,
+      requestOptions,
       (updatedOptions) => _networkProvider.delete<TResponse>(
-          request: request, options: updatedOptions),
+        request: request,
+        requestOptions: updatedOptions,
+        responseOptions: updateResponseOptions(responseOptions),
+      ),
     );
   }
 
   @override
-  Future<BaseResponse<TResponse>> downloadFile<TResponse>(
-      {DownloadFileRequest request, RequestOptions options}) {
+  Future<BaseResponse<TResponse>> downloadFile<TResponse>({
+    DownloadFileRequest request,
+    RequestOptions requestOptions,
+    ResponseOptions<TResponse> responseOptions,
+  }) {
     return _request<TResponse>(
-      options,
+      requestOptions,
       (updatedOptions) => _networkProvider.downloadFile<TResponse>(
-          request: request, options: updatedOptions),
+        request: request,
+        requestOptions: updatedOptions,
+        responseOptions: updateResponseOptions(responseOptions),
+      ),
     );
   }
 
-  Future<BaseResponse<TResponse>> _request<TResponse>(RequestOptions options,
+  Future<BaseResponse<TResponse>> _request<TResponse>(
+      RequestOptions requestOptions,
       Future<HttpResponse<TResponse>> Function(RequestOptions) request) {
     return _checkConnection()
-        .then((value) => updateOptions(options))
+        .then((value) => updateRequestOptions(requestOptions))
         .then(request)
         .then(_httpHelper.resolveResponse);
   }
@@ -92,16 +131,32 @@ class HttpNetworkManagerImpl implements IHttpNetworkManager {
   }
 
   @visibleForTesting
-  Future<RequestOptions> updateOptions(RequestOptions options) {
+  Future<RequestOptions> updateRequestOptions(RequestOptions requestOptions) {
+    requestOptions ??= RequestOptions(contentType: ContentType.json);
     var headers = <String, dynamic>{};
     return _httpHelper.getDefaultHeaders().then((defaultHeaders) {
       // append default headers
       headers.addAll(defaultHeaders ?? {});
-      // append options headers, existing keys will be ovveriden
-      headers.addAll(options.headers ?? {});
-      return options.copyWith(
-          headers: headers,
-          validateStatus: options.validateStatus ?? _httpHelper.validateStatus);
+      // append requestOptions headers, existing keys will be ovveriden
+      headers.addAll(requestOptions.headers ?? {});
+      return requestOptions.copyWith(
+        headers: headers,
+      );
     });
+  }
+
+  @visibleForTesting
+  ResponseOptions<TResponse> updateResponseOptions<TResponse>(
+      ResponseOptions<TResponse> responseOptions) {
+    responseOptions ??= ResponseOptions<TResponse>();
+    return responseOptions.mergeWith(
+      fromJson:
+          responseOptions.fromJson == null && TResponse.toString() != 'void'
+              ? JsonUtil.getType<TResponse>().fromJson
+              : null,
+      responseType: ResponseType.json,
+      validateStatus: _httpHelper.validateStatus,
+      receiveTimeout: 60000,
+    );
   }
 }
