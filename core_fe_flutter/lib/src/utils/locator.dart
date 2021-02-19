@@ -1,8 +1,12 @@
 import 'package:get_it/get_it.dart';
-
-Locator locator = Locator();
+import 'package:core_fe_dart/extensions.dart';
 
 class Locator {
+  static final locator = Locator();
+  static final services = Locator();
+  static final providers = Locator();
+  static final managers = Locator();
+  static final utils = Locator();
   final _instance = GetIt.asNewInstance();
 
   T call<T>({String instanceName}) => _instance<T>(instanceName: instanceName);
@@ -40,22 +44,10 @@ class CustomModule implements BaseModule {
 
 class Initer {
   static final Map<String, BaseModule> _modules = {};
-  static Future<void> loadModules() async {
-    var futures = _modules.values.map((e) => e.setUp());
-    return Future.wait(futures);
-    // for (var m in _modules.values) {
-    //   await m.setUp();
-    // }
+  static Future<void> loadModules() {
+    return _modules.values.asyncMap((e) => e.setUp());
   }
 
   static void addModule(String key, BaseModule module) =>
       _modules[key] = module;
-  static void _initFactory([Locator instance]) {
-    locator = instance ?? Locator();
-  }
-
-  static Future<void> init([Locator instance]) {
-    _initFactory(instance);
-    return loadModules();
-  }
 }

@@ -320,7 +320,6 @@ void main() async {
           statusCode: HttpStatus.ok,
         );
         expect(response.extra, expectedResponse.extra);
-        // expect(response.headers, expectedResponse.headers);
         expect(response.isRedirect, expectedResponse.isRedirect);
         expect(response.statusCode, expectedResponse.statusCode);
         expect(response.statusMessage, expectedResponse.statusMessage);

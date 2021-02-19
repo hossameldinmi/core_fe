@@ -1,7 +1,5 @@
 import 'package:core_fe_infrastructure/src/models/response_options.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:core_fe_infrastructure/utils.dart';
-import 'package:core_fe_infrastructure/src/enums/response_type.dart';
 import 'package:core_fe_infrastructure/models.dart';
 
 void main() {

@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 class TestModule extends BaseModule {
   @override
   Future<void> setUp() {
-    locator.registerSingleton<NavigationService>(
+    Locator.managers.registerSingleton<NavigationService>(
         NavigationServiceImpl(Page1.route, navKey));
     return Future.value();
   }

@@ -42,7 +42,8 @@ class NoSqlStorageManagerImpl implements NoSqlStorageManager {
           updatedDate: _dateTime.now(),
           expiryDate: expiryDate,
           tags: tags);
-      return _storageProvider.add(storageModel, shared: shared);
+      return _storageProvider.add(storageModel,
+          shared: shared, toJsonFunc: toJsonFunc);
     }
   }
 
@@ -64,10 +65,8 @@ class NoSqlStorageManagerImpl implements NoSqlStorageManager {
       {FromJsonFunc<T> fromJsonFunc,
       bool shared = false,
       bool ignoreExpiry = false}) async {
-    var record = await _storageProvider.get<T>(
-      key,
-      shared: shared,
-    );
+    var record = await _storageProvider.get<T>(key,
+        shared: shared, fromJsonFunc: fromJsonFunc);
     T result;
     if (record != null &&
         !ignoreExpiry &&

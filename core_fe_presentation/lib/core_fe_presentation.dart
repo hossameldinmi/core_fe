@@ -11,7 +11,7 @@ class CoreFePresentationModule implements BaseModule {
   final GlobalKey<NavigatorState> _navKey;
   @override
   Future<void> setUp() {
-    locator.registerSingleton<NavigationService>(
+    Locator.managers.registerSingleton<NavigationService>(
         NavigationServiceImpl(_navigationRoot, _navKey));
 
     return Future.value();
