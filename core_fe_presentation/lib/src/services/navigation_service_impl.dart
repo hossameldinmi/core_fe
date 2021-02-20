@@ -1,32 +1,34 @@
 import 'package:core_fe_presentation/src/interfaces/navigation_service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class NavigationServiceImpl implements NavigationService {
-  String _root;
   final GlobalKey<NavigatorState> _navigatorKey;
-  NavigationServiceImpl(this._root, this._navigatorKey);
+  NavigatorState get _navigatorState => _navigatorKey.currentState;
+  NavigationServiceImpl(this._navigatorKey);
   @override
   void pop<T extends Object>({T result}) {
-    _navigatorKey.currentState.pop<T>(result);
+    _navigatorState.pop<T>(result);
   }
 
   @override
   void popUntil({String route}) {
-    _navigatorKey.currentState.popUntil(ModalRoute.withName(route ?? _root));
+    _navigatorState.popUntil(
+        route != null ? ModalRoute.withName(route) : (r) => r.isFirst);
   }
 
   @override
-  Future<T> pushNamedAndRemoveUntil<T>(String route, {Object args}) async {
-    var result = await _navigatorKey.currentState.pushNamedAndRemoveUntil<T>(
-        route, (s) => s.currentResult == _root,
+  Future<T> pushNamedAndRemoveUntil<T>(String route,
+      {String startRoute, Object args}) async {
+    var result = await _navigatorState.pushNamedAndRemoveUntil<T>(route,
+        startRoute != null ? ModalRoute.withName(startRoute) : (s) => s.isFirst,
         arguments: args);
-    _root = route;
     return result;
   }
 
   @override
   Future<T> push<T extends Object>(String route, {Object args}) async {
-    return _navigatorKey.currentState.pushNamed<T>(route, arguments: args);
+    return _navigatorState.pushNamed<T>(route, arguments: args);
   }
 
   @override
@@ -34,7 +36,7 @@ class NavigationServiceImpl implements NavigationService {
       String route,
       {Object args,
       TO result}) async {
-    return _navigatorKey.currentState
-        .pushReplacementNamed<T, TO>(route, arguments: args, result: result);
+    return _navigatorState.pushReplacementNamed<T, TO>(route,
+        arguments: args, result: result);
   }
 }
