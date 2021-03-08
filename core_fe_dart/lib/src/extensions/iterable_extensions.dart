@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 
 extension IterableExtensions<T> on Iterable<T> {
-  bool equals(Iterable<T> other,
+  bool isEqual(Iterable<T> other,
       {Equality<T> elementEquality = const DefaultEquality(),
       bool isOrderEquality = true}) {
     if (isOrderEquality) {

@@ -9,8 +9,8 @@ void main() {
           () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S1', 'S2', 'S3'];
-        expect(list1.equals(list2), true);
-        expect(list1.equals(list2, isOrderEquality: false), true);
+        expect(list1.isEqual(list2), true);
+        expect(list1.isEqual(list2, isOrderEquality: false), true);
       });
 
       test(
@@ -18,8 +18,8 @@ void main() {
           () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S3', 'S2', 'S6'];
-        expect(list1.equals(list2), false);
-        expect(list1.equals(list2, isOrderEquality: false), false);
+        expect(list1.isEqual(list2), false);
+        expect(list1.isEqual(list2, isOrderEquality: false), false);
       });
 
       test(
@@ -32,8 +32,8 @@ void main() {
         final list1 = [s1, s2, s3];
         final list2 = [s1, s2, s3];
 
-        expect(list1.equals(list2), true);
-        expect(list1.equals(list2, isOrderEquality: false), true);
+        expect(list1.isEqual(list2), true);
+        expect(list1.isEqual(list2, isOrderEquality: false), true);
       });
 
       test(
@@ -47,8 +47,8 @@ void main() {
         final list1 = [s1, s2, s3];
         final list2 = [s1C, s2, s3];
 
-        expect(list1.equals(list2), true);
-        expect(list1.equals(list2, isOrderEquality: false), true);
+        expect(list1.isEqual(list2), true);
+        expect(list1.isEqual(list2, isOrderEquality: false), true);
       });
       test(
           '(List<List<Srirng>>) reference equality => Orderd: NOT equal| Not-Ordered:Equal',
@@ -59,8 +59,8 @@ void main() {
         final list4 = [list1, list2, list3];
         final list5 = [list1, list2, list3];
 
-        expect(list4.equals(list5), true);
-        expect(list4.equals(list5, isOrderEquality: false), true);
+        expect(list4.isEqual(list5), true);
+        expect(list4.isEqual(list5, isOrderEquality: false), true);
       });
 
       test(
@@ -72,8 +72,8 @@ void main() {
         final list4 = [list1, list2, list3];
         final list5 = [list3, list2, list1];
 
-        expect(list4.equals(list5), false);
-        expect(list4.equals(list5, isOrderEquality: false), true);
+        expect(list4.isEqual(list5), false);
+        expect(list4.isEqual(list5, isOrderEquality: false), true);
       });
 
       test(
@@ -89,9 +89,9 @@ void main() {
           ['S3', 'S2', 'S1']
         ];
 
-        expect(list4.equals(list5, elementEquality: ListEquality()), true);
+        expect(list4.isEqual(list5, elementEquality: ListEquality()), true);
         expect(
-            list4.equals(list5,
+            list4.isEqual(list5,
                 elementEquality: ListEquality(), isOrderEquality: false),
             true);
       });
@@ -109,9 +109,9 @@ void main() {
           ['S1', 'S2', 'S3'],
           ['S3', 'S2', 'S1']
         ];
-        expect(list1.equals(list2, elementEquality: ListEquality()), true);
+        expect(list1.isEqual(list2, elementEquality: ListEquality()), true);
         expect(
-            list1.equals(list2,
+            list1.isEqual(list2,
                 elementEquality: ListEquality(), isOrderEquality: false),
             true);
       });
@@ -127,9 +127,9 @@ void main() {
           ['S3', 'S2', 'S1'],
           ['S1', 'S2', 'S3']
         ];
-        expect(list1.equals(list2, elementEquality: ListEquality()), false);
+        expect(list1.isEqual(list2, elementEquality: ListEquality()), false);
         expect(
-            list1.equals(list2,
+            list1.isEqual(list2,
                 elementEquality: ListEquality(), isOrderEquality: false),
             true);
       });
@@ -144,9 +144,9 @@ void main() {
           ['S3', 'S2', 'S1']
         ];
         final list5 = [list1, list3, list2];
-        expect(list4.equals(list5, elementEquality: ListEquality()), false);
+        expect(list4.isEqual(list5, elementEquality: ListEquality()), false);
         expect(
-            list4.equals(list5,
+            list4.isEqual(list5,
                 elementEquality: ListEquality(), isOrderEquality: false),
             true);
       });
