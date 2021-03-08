@@ -64,7 +64,7 @@ class StorageModel<T> {
         createdDate == other.createdDate &&
         updatedDate == other.updatedDate &&
         expiryDate == other.expiryDate &&
-        tags.equals(other.tags, isOrderEquality: false));
+        tags.isEqual(other.tags, isOrderEquality: false));
     return result;
   }
 
