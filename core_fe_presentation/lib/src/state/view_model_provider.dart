@@ -6,16 +6,17 @@ class ViewModelProvider {
   static final instance = ViewModelProvider();
 
   final _locator = Locator();
-  T call<T extends PageViewModelBase>({String name}) {
-    var result = _locator<T>(instanceName: name);
+  T call<T extends PageViewModelBase>({String route, dynamic args}) {
+    var result = _locator.get<T>(instanceName: route, args: args);
     return result;
   }
 
-  void registerViewModel<TPageViewModel extends PageViewModelBase>({
-    @required TPageViewModel Function() viewModelFactory,
+  void registerViewModel<TPageViewModel extends PageViewModelBase, TParam1,
+      TParam2>({
+    @required TPageViewModel Function(TParam1, TParam2) viewModelFactory,
     @required String route,
   }) {
-    _locator.registerFactory<TPageViewModel>(
+    _locator.registerFactoryParam<TPageViewModel, TParam1, TParam2>(
       viewModelFactory,
       instanceName: route,
     );

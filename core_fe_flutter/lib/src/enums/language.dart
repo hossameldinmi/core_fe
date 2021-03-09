@@ -54,10 +54,11 @@ class Language extends Enum {
   }
 
   factory Language.fromLocale(String locale) {
+    assert(!locale.isNullEmptyOrWhitespace());
     var lang =
         languages.firstWhere((l) => l.locale == locale, orElse: () => null);
     if (lang.isNullEmptyOrWhitespace()) {
-      throw AssertionError('locale $locale not exists');
+      throw ArgumentError.value(locale, 'locale', 'locale $locale not exists');
     }
     return lang;
   }

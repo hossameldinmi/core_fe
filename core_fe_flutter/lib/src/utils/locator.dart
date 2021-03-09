@@ -10,13 +10,26 @@ class Locator {
   final _instance = GetIt.asNewInstance();
 
   T call<T>({String instanceName}) => _instance<T>(instanceName: instanceName);
+  T get<T>({String instanceName, dynamic args}) =>
+      _instance.get<T>(instanceName: instanceName, param1: args);
 
   void registerSingleton<T>(T instance, {String instanceName}) {
     _instance.registerSingleton<T>(instance, instanceName: instanceName);
   }
 
-  void registerLazySingleton<T>(T Function() factoryFunc,
+  void registerFactoryParam<T, TParam1, TParam2>(
+      T Function(TParam1, TParam2) factoryFunc,
       {String instanceName}) {
+    _instance.registerFactoryParam<T, TParam1, TParam2>(
+      factoryFunc,
+      instanceName: instanceName,
+    );
+  }
+
+  void registerLazySingleton<T>(
+    T Function() factoryFunc, {
+    String instanceName,
+  }) {
     _instance.registerLazySingleton(
       factoryFunc,
       instanceName: instanceName,

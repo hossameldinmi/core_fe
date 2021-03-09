@@ -10,7 +10,7 @@ void main() async {
   test('toLocale & fromLocale', () {
     matchEnum(Language.en_US, 'en_US');
     matchEnum(Language.ar_EG, 'ar_EG');
-    expect(() => Language.fromLocale('ar_AR'), throwsAssertionError);
+    expect(() => Language.fromLocale('ar_AR'), throwsArgumentError);
   });
 
   test('equality', () {
