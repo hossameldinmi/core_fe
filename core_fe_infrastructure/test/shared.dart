@@ -26,7 +26,6 @@ void deleteFile(String imagePath) {
 
 Future<void> expectStream(
     Stream<List<int>> actual, Stream<List<int>> expected) async {
-  print('expectStream');
   var actualBytes = await actual.toBytes();
   var expectedBytes = await expected.toBytes();
   expect(actualBytes.length, expectedBytes.length);
@@ -36,8 +35,7 @@ Future<void> expectStream(
 
 Future<void> expectMultiepartFile(
     MultipartFile actual, MultipartFile expected) async {
-  print('expectMultiepartFile');
-  await expectStream(await actual.finalize(), await expected.finalize());
+  await expectStream(actual.finalize(), expected.finalize());
   expect(actual.length, expected.length);
 }
 
