@@ -103,9 +103,8 @@ void main() {
 
 //todo: Mock
   group('updateResponseOptions', () {
-    test('expected ResponseOptions when passed options<int> is null', () async {
-      var updatedOptions =
-          await networkManager.updateResponseOptions<int>(null);
+    test('expected ResponseOptions when passed options<int> is null', () {
+      var updatedOptions = networkManager.updateResponseOptions<int>(null);
       var expectedOptions = ResponseOptions(
         responseType: ResponseType.json,
         fromJson: JsonUtil.getType<int>().fromJson,
@@ -115,10 +114,9 @@ void main() {
       expect(updatedOptions, expectedOptions);
     });
     test('expect default ResponseOptions when passing Empty initalized Object',
-        () async {
+        () {
       final options = ResponseOptions<int>();
-      var updatedOptions =
-          await networkManager.updateResponseOptions<int>(options);
+      var updatedOptions = networkManager.updateResponseOptions<int>(options);
       var expectedOptions = ResponseOptions(
         responseType: ResponseType.json,
         fromJson: JsonUtil.getType<int>().fromJson,
@@ -127,10 +125,9 @@ void main() {
       );
       expect(updatedOptions, expectedOptions);
     });
-    test('expect new ResponseOptions with new receiveTimeout', () async {
+    test('expect new ResponseOptions with new receiveTimeout', () {
       final options = ResponseOptions<int>(receiveTimeout: 2000);
-      var updatedOptions =
-          await networkManager.updateResponseOptions<int>(options);
+      var updatedOptions = networkManager.updateResponseOptions<int>(options);
       var expectedOptions = ResponseOptions(
         responseType: ResponseType.json,
         fromJson: JsonUtil.getType<int>().fromJson,
@@ -140,13 +137,12 @@ void main() {
       expect(updatedOptions, expectedOptions);
     });
 
-    test('expect new ResponseOptions with new responseType', () async {
+    test('expect new ResponseOptions with new responseType', () {
       final options = ResponseOptions<int>(
         receiveTimeout: 2000,
         responseType: ResponseType.plain,
       );
-      var updatedOptions =
-          await networkManager.updateResponseOptions<int>(options);
+      var updatedOptions = networkManager.updateResponseOptions<int>(options);
       var expectedOptions = ResponseOptions(
         responseType: ResponseType.plain,
         fromJson: JsonUtil.getType<int>().fromJson,

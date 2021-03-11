@@ -162,14 +162,6 @@ void main() async {
   });
 
   group('File Conversion', () {
-    // MultipartFile part1;
-    Stream<List<int>> stream1;
-
-    setUp(() async {
-      // part1 = MultipartFile.fromBytes(await file1.readAsBytes());
-      // stream1 = part1.finalize();
-      stream1 = file1.openRead();
-    });
     group('toMultipartFile', () {
       test('validation when value is null', () {
         expect(() => DioHelper.toMultipartFile(null), throwsAssertionError);
@@ -177,7 +169,7 @@ void main() async {
 
       test('casting when value is file', () async {
         var actualFile = await DioHelper.toMultipartFile(file1);
-        await expectStream(await actualFile.finalize(), file1.openRead());
+        await expectStream(actualFile.finalize(), file1.openRead());
       });
 
       test('casting when value is Stream', () async {
@@ -247,7 +239,7 @@ void main() async {
           'f1': await MultipartFile.fromFile(file1.path),
           'f2': [
             await MultipartFile.fromFile(file1.path),
-            await MultipartFile.fromFile((await file2).path)
+            await MultipartFile.fromFile(file2.path)
           ]
         };
         var result = await DioHelper.toValidFileObject(body);
@@ -255,7 +247,7 @@ void main() async {
         await equalsFormData(formData, FormData.fromMap(expectedBody));
       });
 
-      test('expected casting when data is List<List<File>>', () async {},
+      test('expected casting when data is List<List<File>>', () {},
           skip: 'test list on dio');
     });
   });
@@ -350,7 +342,7 @@ void main() async {
     });
 
     test('response when data is Stream and TResponse is Stream', () async {
-      var data = await getBytesResponseBody(bytes1, HttpStatus.ok);
+      var data = getBytesResponseBody(bytes1, HttpStatus.ok);
       var httpResponse = DioHelper.toHttpResponse<Stream>(
         Response(
           data: data,
@@ -370,7 +362,7 @@ void main() async {
       );
 
       await expectStream(
-          await httpResponse.data as Stream<List<int>>, expectedResponse.data);
+          httpResponse.data as Stream<List<int>>, expectedResponse.data);
       expectResponse(httpResponse, expectedResponse);
     }, timeout: Timeout.none);
 
@@ -398,7 +390,7 @@ void main() async {
 
     test('response when data is Stream and TResponse is Stream<List<int>>',
         () async {
-      var data = await getBytesResponseBody(bytes1, HttpStatus.ok);
+      var data = getBytesResponseBody(bytes1, HttpStatus.ok);
       var httpResponse = DioHelper.toHttpResponse<Stream<List<int>>>(
         Response(
           data: data,
