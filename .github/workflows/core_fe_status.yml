@@ -25,9 +25,9 @@ jobs:
       uses: subosito/flutter-action@v1.4.0
     
       #core_fe_dart
-    - name: Pub get core_fe_dart
-      run: flutter pub get
-      working-directory: ./core_fe_dart/
+    # - name: Pub get core_fe_dart
+      # run: flutter pub get
+      # working-directory: ./core_fe_dart/
 
     - name: Test core_fe_dart
       run: flutter test --coverage
@@ -39,9 +39,9 @@ jobs:
     
 
       #core_fe_flutter
-    - name: Pub get core_fe_flutter
-      run: flutter pub get
-      working-directory: ./core_fe_flutter/
+    # - name: Pub get core_fe_flutter
+      # run: flutter pub get
+      # working-directory: ./core_fe_flutter/
 
     - name: Test core_fe_flutter
       run: flutter test --coverage
@@ -53,9 +53,9 @@ jobs:
 
 
       #core_fe_presentation
-    - name: Pub get core_fe_presentation
-      run: flutter pub get
-      working-directory: ./core_fe_presentation/
+    # - name: Pub get core_fe_presentation
+      # run: flutter pub get
+      # working-directory: ./core_fe_presentation/
 
     - name: Test core_fe_presentation
       run: flutter test --coverage
@@ -67,9 +67,9 @@ jobs:
 
 
       #core_fe_infrastructure
-    - name: Pub get core_fe_infrastructure
-      run: flutter pub get
-      working-directory: ./core_fe_infrastructure/
+    # - name: Pub get core_fe_infrastructure
+      # run: flutter pub get
+      # working-directory: ./core_fe_infrastructure/
 
     - name: Test core_fe_infrastructure
       run: flutter test --coverage
