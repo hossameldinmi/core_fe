@@ -5,18 +5,25 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:core_fe_dart/extensions.dart';
 
-const timoutProplemSkip = false; //'Timout Proplem';
 const ok = 'OK';
 const created = 'Created';
 const notFound = 'Not Found';
 const internalServerError = 'Internal Server Error';
 const noInternectConnection = 'No Internet Connection';
-// const directory = 'test/assets/'; // test explorer
-const directory = './assets/'; // cmd
-const imagePath = '${directory}image.png';
-const flutterLogo = '${directory}flutter_logo.png';
-final file1 = File(imagePath);
-final file2 = File(flutterLogo);
+const imagePath = 'image.png';
+const flutterLogo = 'flutter_logo.png';
+final file1 = getAssetFile(flutterLogo);
+final file2 = getAssetFile(flutterLogo);
+
+File getAssetFile(String imagePath) {
+  const directory = 'test/assets/';
+  return File(directory + imagePath);
+}
+
+void deleteFile(String imagePath) {
+  return File(imagePath).deleteSync();
+}
+
 Future<void> expectStream(
     Stream<List<int>> actual, Stream<List<int>> expected) async {
   print('expectStream');

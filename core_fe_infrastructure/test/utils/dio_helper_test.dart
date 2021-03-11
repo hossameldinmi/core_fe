@@ -16,6 +16,8 @@ import 'package:core_fe_infrastructure/src/models/http_response.dart'
 import 'package:core_fe_infrastructure/models.dart';
 
 void main() async {
+  final bytes1 = await file1.readAsBytes();
+
   test('toDioResponseType', () {
     expect(DioHelper.toDioResponseType(response_type.ResponseType.bytes),
         ResponseType.bytes);
@@ -175,24 +177,23 @@ void main() async {
 
       test('casting when value is file', () async {
         var actualFile = await DioHelper.toMultipartFile(file1);
-        await expectStream(await actualFile.finalize(), stream1);
+        await expectStream(await actualFile.finalize(), file1.openRead());
       });
 
       test('casting when value is Stream', () async {
         var actualFile = await DioHelper.toMultipartFile(file1.openRead());
-        await expectStream(actualFile.finalize(), stream1);
+        await expectStream(actualFile.finalize(), file1.openRead());
       });
 
       test('casting when value is MultipartFile', () async {
         var tempPart = await MultipartFile.fromFile(file1.path);
         var actualFile = await DioHelper.toMultipartFile(tempPart);
-        await expectStream(actualFile.finalize(), stream1);
+        await expectStream(actualFile.finalize(), file1.openRead());
       });
 
       test('casting when value is MultipartFile', () async {
-        var actualFile =
-            await DioHelper.toMultipartFile(await file1.readAsBytes());
-        await expectStream(actualFile.finalize(), stream1);
+        var actualFile = await DioHelper.toMultipartFile(bytes1);
+        await expectStream(actualFile.finalize(), file1.openRead());
       });
     });
 
@@ -246,7 +247,7 @@ void main() async {
           'f1': await MultipartFile.fromFile(file1.path),
           'f2': [
             await MultipartFile.fromFile(file1.path),
-            await MultipartFile.fromFile(file2.path)
+            await MultipartFile.fromFile((await file2).path)
           ]
         };
         var result = await DioHelper.toValidFileObject(body);
@@ -349,8 +350,7 @@ void main() async {
     });
 
     test('response when data is Stream and TResponse is Stream', () async {
-      var data =
-          await getBytesResponseBody(await file1.readAsBytes(), HttpStatus.ok);
+      var data = await getBytesResponseBody(bytes1, HttpStatus.ok);
       var httpResponse = DioHelper.toHttpResponse<Stream>(
         Response(
           data: data,
@@ -398,8 +398,7 @@ void main() async {
 
     test('response when data is Stream and TResponse is Stream<List<int>>',
         () async {
-      var data =
-          await getBytesResponseBody(await file1.readAsBytes(), HttpStatus.ok);
+      var data = await getBytesResponseBody(bytes1, HttpStatus.ok);
       var httpResponse = DioHelper.toHttpResponse<Stream<List<int>>>(
         Response(
           data: data,

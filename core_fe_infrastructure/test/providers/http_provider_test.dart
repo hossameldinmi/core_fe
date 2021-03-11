@@ -44,7 +44,7 @@ void addLoggerInterceptor(Dio dio) {
 }
 
 void main() async {
-  // EquatableConfig.stringify = true;
+  TestWidgetsFlutterBinding.ensureInitialized();
   final bytes1 = await file1.readAsBytes();
 
   final dio = Dio();
@@ -289,6 +289,8 @@ void main() async {
       var expectedBytes = await expectedResponse.data.readAsBytes();
       var actualBytes = await response.data.readAsBytes();
       expect(actualBytes, equals(expectedBytes));
+      // after testing
+      deleteFile(imagePath);
     });
 
     test(
@@ -336,8 +338,7 @@ void main() async {
       when(
         mockHttpClientAdapter.fetch(any, any, any),
       ).thenAnswer(
-        (realInvocation) async => getBytesResponseBody(
-            await file1.readAsBytes(), HttpStatus.ok,
+        (realInvocation) async => getBytesResponseBody(bytes1, HttpStatus.ok,
             contentTypeHeader: ContentType.parse('image/png').value,
             statusMessage: ok),
       );
@@ -360,6 +361,8 @@ void main() async {
         statusCode: HttpStatus.ok,
       );
       expect(response, expectedResponse);
+      // after testing
+      deleteFile(imagePath);
     });
   });
   group('Post File', () {

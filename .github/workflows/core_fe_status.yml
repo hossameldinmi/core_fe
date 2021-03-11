@@ -71,7 +71,7 @@ jobs:
       run: flutter pub get
       working-directory: ./core_fe_infrastructure/
 
-    - name: Test core_fe_presentation
+    - name: Test core_fe_infrastructure
       run: flutter test --coverage
       working-directory: ./core_fe_infrastructure/
 

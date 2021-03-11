@@ -15,6 +15,6 @@ void main() async {
 
   test('equality', () {
     expect(Language.ar_EG, Language.ar_EG);
-    expect(Language.ar_EG, isNot(equals(Language.en_US)));
+    expect(Language.ar_EG, isNot(Language.en_US));
   });
 }

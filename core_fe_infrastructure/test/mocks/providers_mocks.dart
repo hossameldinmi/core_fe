@@ -9,6 +9,7 @@ class MockSessionProvider extends Mock with SessionProvider {}
 
 class MockSettingsProvider extends Mock with SettingsProvider {}
 
+// class MockLogger extends Mock with Logger {}
 
 class MockHttpClientAdapter extends Mock with HttpClientAdapter {}
 
