@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:collection/collection.dart';
 import 'package:core_fe_dart/extensions.dart';
 
+import '../mocks/models.dart';
+
 void main() {
   group('equals', () {
     group('list', () {
@@ -574,6 +576,21 @@ void main() {
           test: (s) => s == 'H',
         );
         expect(list1, list2);
+      });
+    });
+  });
+
+  group('iterable extensions', () {
+    group('indexMap', () {
+      test('empty', () {
+        List list;
+        expect(() => list.indexMap((i, o) => i * o), throwsAssertionError);
+        expect([].indexMap((i, o) => i * o), []);
+      });
+      test('not empty', () {
+        expect([0, 1, 2, 3].indexMap((i, o) => i * o), [0, 1, 4, 9]);
+        expect([1].indexMap((i, o) => i * o), [0]);
+        expect([1, 1, 1, 1, 1].indexMap((i, o) => i * o), [0, 1, 2, 3, 4]);
       });
     });
   });

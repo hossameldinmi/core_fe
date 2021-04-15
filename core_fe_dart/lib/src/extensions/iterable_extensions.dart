@@ -21,6 +21,17 @@ extension IterableExtensions<T> on Iterable<T> {
     return list;
   }
 
+  List<R> indexMap<R>(R Function(int, T) mapFunc) {
+    assert(mapFunc != null);
+    assert(this != null);
+    List<R> list;
+    list ??= <R>[];
+    for (var i = 0; i < length; i++) {
+      list.add(mapFunc(i, elementAt(i)));
+    }
+    return list;
+  }
+
   Future<List<R>> asyncMap<R>(Future<R> Function(T) mapFunc) async {
     assert(mapFunc != null);
     var list = <R>[];

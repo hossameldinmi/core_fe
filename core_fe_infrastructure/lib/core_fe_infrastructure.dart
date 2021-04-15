@@ -1,3 +1,13 @@
+library core.fe.infrastructure;
+
+export 'constants.dart';
+export 'enums.dart';
+export 'interfaces.dart';
+export 'managers.dart';
+export 'models.dart';
+export 'providers.dart';
+export 'utils.dart';
+
 import 'package:core_fe_dart/utils.dart';
 import 'dart:async';
 import 'package:core_fe_flutter/enums.dart';
