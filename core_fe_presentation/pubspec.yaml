@@ -3,6 +3,7 @@ description: Presentation Core Layer
 version: 0.0.1
 author: null
 homepage: null
+publish_to: none
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

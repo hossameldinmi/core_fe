@@ -1,18 +1,27 @@
 import 'package:core_fe_dart/exceptions.dart';
 import 'package:core_fe_dart/validations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:matcher/matcher.dart';
 import '../mocks/validations.dart';
 
 void main() {
   ValidatorObject<String> validatorObject;
-  MockValidationRule<String> mockValidationRule;
   const _value = 'Test Case';
   setUp(() {
-    mockValidationRule = MockValidationRule<String>();
     validatorObject = ValidatorObject<String>(_value);
   });
+  group('add Validation', () {
+    test('', () {
+      expect(() => validatorObject.add(null), throwsAssertionError);
+    });
+  });
+  FakeValidationRule<T> _getRole<T>(bool result,
+      {validationMessage = 'Not Valid', errorCode = 1}) {
+    var exception = ValidationException(
+        validationMessage: validationMessage, errorCode: errorCode);
+    return FakeValidationRule<T>(result, exception);
+  }
+
   test('expected valid state when Object initialized', () {
     //aggregate
     validatorObject = ValidatorObject<String>();
@@ -26,7 +35,7 @@ void main() {
   });
   test('expected isValid if Object rule is passed', () {
     //aggregate
-    when(mockValidationRule.check(validatorObject.value)).thenReturn(true);
+    var mockValidationRule = _getRole<String>(true);
     //act
     validatorObject.add(mockValidationRule);
     final actual = validatorObject.isValid();
@@ -40,7 +49,8 @@ void main() {
 
   test('expected Not Valid if Object rule is NOT passed', () {
     //aggregate
-    when(mockValidationRule.check(validatorObject.value)).thenReturn(false);
+    var mockValidationRule = _getRole<String>(false);
+
     //act
     validatorObject.add(mockValidationRule);
     final actual = validatorObject.isValid();
@@ -54,9 +64,9 @@ void main() {
 
   test('expected Exception if Object rule is NOT passed', () {
     //aggregate
-    when(mockValidationRule.check(validatorObject.value)).thenReturn(false);
-    when(mockValidationRule.validationException)
-        .thenReturn(ValidationException(validationMessage: 'Not Valid'));
+    var mockValidationRule =
+        _getRole<String>(false, validationMessage: 'Not Valid');
+
     //act
     validatorObject.add(mockValidationRule);
     //assert
@@ -69,20 +79,13 @@ void main() {
 
   test('expected Fist Exception if many Object rule is NOT passed', () {
     //aggregate
-    final mockValidationRule2 = MockValidationRule<String>();
-    final mockValidationRule3 = MockValidationRule<String>();
+    var mockValidationRule =
+        _getRole<String>(false, validationMessage: 'Not Valid', errorCode: 1);
+    final mockValidationRule2 =
+        _getRole<String>(false, validationMessage: 'Not Valid', errorCode: 2);
+    final mockValidationRule3 =
+        _getRole<String>(false, validationMessage: 'Not Valid', errorCode: 3);
 
-    when(mockValidationRule.check(validatorObject.value)).thenReturn(false);
-    when(mockValidationRule.validationException).thenReturn(
-        ValidationException(validationMessage: 'Not Valid', errorCode: 1));
-
-    when(mockValidationRule2.check(validatorObject.value)).thenReturn(false);
-    when(mockValidationRule2.validationException).thenReturn(
-        ValidationException(validationMessage: 'Not Valid', errorCode: 2));
-
-    when(mockValidationRule3.check(validatorObject.value)).thenReturn(false);
-    when(mockValidationRule3.validationException).thenReturn(
-        ValidationException(validationMessage: 'Not Valid', errorCode: 3));
     //act
     validatorObject.add(mockValidationRule);
     validatorObject.add(mockValidationRule2);
@@ -99,20 +102,13 @@ void main() {
 
   test('expected Fist Exception if only one Object rule NOT passed', () {
     //aggregate
-    final mockValidationRule2 = MockValidationRule<String>();
-    final mockValidationRule3 = MockValidationRule<String>();
+    final mockValidationRule =
+        _getRole<String>(true, validationMessage: 'Not Valid', errorCode: 1);
+    final mockValidationRule2 =
+        _getRole<String>(false, validationMessage: 'Not Valid', errorCode: 2);
+    final mockValidationRule3 =
+        _getRole<String>(false, validationMessage: 'Not Valid', errorCode: 3);
 
-    when(mockValidationRule.check(validatorObject.value)).thenReturn(true);
-    when(mockValidationRule.validationException).thenReturn(
-        ValidationException(validationMessage: 'Not Valid', errorCode: 1));
-
-    when(mockValidationRule2.check(validatorObject.value)).thenReturn(false);
-    when(mockValidationRule2.validationException).thenReturn(
-        ValidationException(validationMessage: 'Not Valid', errorCode: 2));
-
-    when(mockValidationRule3.check(validatorObject.value)).thenReturn(false);
-    when(mockValidationRule3.validationException).thenReturn(
-        ValidationException(validationMessage: 'Not Valid', errorCode: 3));
     //act
     validatorObject.add(mockValidationRule);
     validatorObject.add(mockValidationRule2);
@@ -129,8 +125,9 @@ void main() {
 
   test('expected Empty Validations if Object rule is cleared', () {
     //aggregate
-    final mockValidationRule2 = MockValidationRule<String>();
-    final mockValidationRule3 = MockValidationRule<String>();
+    final mockValidationRule = _getRole<String>(true);
+    final mockValidationRule2 = _getRole<String>(true);
+    final mockValidationRule3 = _getRole<String>(true);
 
     //act
     validatorObject.add(mockValidationRule);

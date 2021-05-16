@@ -142,7 +142,7 @@ class TimeInDay extends Equatable implements Comparable<TimeInDay> {
 
   @override
   String toString() =>
-      'h:$hour-m:$minute-s:$second-ms:$millisecond-μs:$microsecond';
+      'h:$hour m:$minute s:$second ms:$millisecond μs:$microsecond';
 
   static int _getMicroseconds(
       int hours, int minutes, int seconds, int milliseconds, int microseconds) {

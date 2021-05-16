@@ -10,43 +10,46 @@ void main() {
     test(
         'expected exact hour if duration has extra minutes,seconds,milliseconds and microseconds',
         () {
-      var hour = 3;
-      var duration = Duration(hours: hour, minutes: 30);
-      var duration2 = Duration(hours: hour, minutes: 49);
-      var duration3 = Duration(hours: hour, minutes: 30, seconds: 20);
-      var duration4 = Duration(hours: hour, minutes: 49, seconds: 50);
+      var duration = Duration(hours: 3, minutes: 30);
+      var duration2 = Duration(hours: 3, minutes: 49);
+      var duration3 = Duration(hours: 3, minutes: 30, seconds: 20);
+      var duration4 = Duration(hours: 3, minutes: 49, seconds: 50);
       var duration5 =
-          Duration(hours: hour, minutes: 49, seconds: 59, milliseconds: 45);
+          Duration(hours: 3, minutes: 49, seconds: 59, milliseconds: 45);
       var duration6 =
-          Duration(hours: hour, minutes: 49, seconds: 59, milliseconds: 1);
+          Duration(hours: 3, minutes: 49, seconds: 59, milliseconds: 1);
       var duration7 = Duration(
-          hours: hour,
+          hours: 3,
           minutes: 49,
           seconds: 59,
           milliseconds: 59,
           microseconds: 5);
       var duration8 = Duration(
-          hours: hour,
+          hours: 3,
           minutes: 49,
           seconds: 59,
           milliseconds: 59,
           microseconds: 59);
       var duration9 = Duration(
           days: 4,
-          hours: hour,
+          hours: 3,
           minutes: 49,
           seconds: 59,
           milliseconds: 59,
           microseconds: 59);
-      expect(duration.hours, hour);
-      expect(duration2.hours, hour);
-      expect(duration3.hours, hour);
-      expect(duration4.hours, hour);
-      expect(duration5.hours, hour);
-      expect(duration6.hours, hour);
-      expect(duration7.hours, hour);
-      expect(duration8.hours, hour);
-      expect(duration9.hours, hour);
+      var duration10 = Duration(microseconds: Duration.microsecondsPerDay);
+      var duration11 = Duration(microseconds: 2 * Duration.microsecondsPerDay);
+      expect(duration.hours, 3);
+      expect(duration2.hours, 3);
+      expect(duration3.hours, 3);
+      expect(duration4.hours, 3);
+      expect(duration5.hours, 3);
+      expect(duration6.hours, 3);
+      expect(duration7.hours, 3);
+      expect(duration8.hours, 3);
+      expect(duration9.hours, 3);
+      expect(duration10.hours, 0);
+      expect(duration11.hours, 0);
     });
   });
 

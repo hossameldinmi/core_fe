@@ -1,4 +1,3 @@
-import 'package:core_fe_infrastructure/src/providers/json_model_factory.dart';
 import 'package:meta/meta.dart';
 import 'package:core_fe_flutter/extensions.dart';
 import 'package:core_fe_dart/extensions.dart';
@@ -27,26 +26,28 @@ class StorageModel<T> {
   String toString() =>
       'StorageModel<$T>\n$kKey:$key\ndata:$data\ncreatedDate:$createdDate\nupdatedDate:$updatedDate\nexpiryDate:$expiryDate\n$kTags:$tags\n-----';
 
-  factory StorageModel.fromJson(Map<String, dynamic> map,
+  factory StorageModel.fromJson(
+      Map<String, dynamic> map, FromJsonFunc<T> dataFromJsonFunc) {
+    return StorageModel.fromJsonWithoutData(map, dataFromJsonFunc);
+  }
+
+  factory StorageModel.fromJsonWithoutData(Map<String, dynamic> map,
       [FromJsonFunc<T> dataFromJsonFunc]) {
     if (map == null) {
       return null;
     }
     return StorageModel<T>(
         key: map[kKey],
-        data: dataFromJsonFunc ??
-            jsonFactory<T>().fromJson(
-              (map[_kData]),
-            ),
+        data: dataFromJsonFunc != null ? dataFromJsonFunc(map[_kData]) : null,
         createdDate: (map[_kCreatedDate] as String)?.parseToDateTime(),
         updatedDate: (map[_kUpdatedDate] as String)?.parseToDateTime(),
         expiryDate: (map[_kExpiryDate] as String)?.parseToDateTime(),
         tags: (map[kTags] as List)?.map((model) => model as String)?.toList());
   }
 
-  Map<String, dynamic> toJson([ToJsonFunc<T> dataToJsonFunc]) => {
+  Map<String, dynamic> toJson(ToJsonFunc<T> dataToJsonFunc) => {
         kKey: key,
-        _kData: dataToJsonFunc ?? jsonFactory<T>().toJson(data),
+        _kData: dataToJsonFunc(data),
         _kCreatedDate: createdDate.format(),
         _kUpdatedDate: updatedDate.format(),
         _kExpiryDate: expiryDate != null ? expiryDate.format() : null,
@@ -63,7 +64,7 @@ class StorageModel<T> {
         createdDate == other.createdDate &&
         updatedDate == other.updatedDate &&
         expiryDate == other.expiryDate &&
-        tags.equals(other.tags, isOrderEquality: false));
+        tags.isEqual(other.tags, isOrderEquality: false));
     return result;
   }
 

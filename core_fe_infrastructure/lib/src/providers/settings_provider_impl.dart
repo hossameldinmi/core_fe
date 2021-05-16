@@ -12,13 +12,15 @@ class SettingsProviderImpl implements SettingsProvider {
 
   @override
   Future<Settings> getSettings() =>
-      _noSqlStorageManager.get<Settings>(StorageKey.settingsStorageKey);
+      _noSqlStorageManager.get<Settings>(StorageKey.settingsStorageKey,
+          fromJsonFunc: (map) => Settings.fromMap(map));
 
   @override
   Future<void> initSettings(Settings settings) =>
       _noSqlStorageManager.addOrUpdate<Settings>(
         key: StorageKey.settingsStorageKey,
         data: settings,
+        toJsonFunc: (s) => s.toMap(),
       );
 
   @override
@@ -26,5 +28,6 @@ class SettingsProviderImpl implements SettingsProvider {
       _noSqlStorageManager.addOrUpdate<Settings>(
         key: StorageKey.settingsStorageKey,
         data: settings,
+        toJsonFunc: (s) => s.toMap(),
       );
 }

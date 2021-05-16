@@ -6,7 +6,8 @@ abstract class NavigationService {
       {Object args,
       TO result});
 
-  Future<T> pushNamedAndRemoveUntil<T>(String route, {Object args});
+  Future<T> pushNamedAndRemoveUntil<T>(String route,
+      {String startRoute, Object args});
   void pop<T extends Object>({T result});
   void popUntil({String route});
 }

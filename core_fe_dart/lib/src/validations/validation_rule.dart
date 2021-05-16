@@ -1,9 +1,6 @@
 import 'package:core_fe_dart/src/exceptions/validation_exception.dart';
 
-abstract class ValidationRule<T> implements ValidationRuleBase {
+abstract class ValidationRule<T> {
   bool check(T value);
-}
-
-abstract class ValidationRuleBase {
   ValidationException validationException;
 }
