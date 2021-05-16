@@ -90,6 +90,14 @@ class PrinterLoggerImpl implements LoggerProvider {
   Logger _getLogger(bool showStackTrace) {
     return showStackTrace ? _longMethodLogger : _logger;
   }
+
+  @override
+  void event({String eventName, Map<String, String> args}) {}
+
+  @override
+  List<Map<String, dynamic>> getLogs() {
+    throw UnimplementedError();
+  }
 }
 
 /// Default implementation of [LogPrinter].
