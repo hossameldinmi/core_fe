@@ -6,8 +6,8 @@ description: Shared utilities layer to all layers across the application, it's
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
-  equatable: ^2.0.0
-  rxdart: ^0.24.1
+  equatable: ^1.2.6
+  rxdart: ^0.25.0
   string_validator: ^0.1.4
   tuple: ^1.0.3
 
