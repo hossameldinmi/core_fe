@@ -32,7 +32,7 @@ extension FutureIterbleExtension<E> on Iterable<Future<E>> {
       return f.then((v) {
         order++;
         return AsyncSnapshot<E>(v, order);
-      }).onError((error, stackTrace) {
+      }).catchError((error, stackTrace) {
         if (!safe) {
           throw error;
         }
@@ -49,7 +49,7 @@ extension FutureIterbleExtension<E> on Iterable<Future<E>> {
       return f.then((v) {
         controller.add(AsyncSnapshot<E>(v, order));
         order++;
-      }).onError((error, stackTrace) {
+      }).catchError((error, stackTrace) {
         if (safe) {
           controller.add(AsyncSnapshot.error(error, order));
           order++;
