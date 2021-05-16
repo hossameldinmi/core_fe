@@ -1,7 +1,7 @@
+import 'package:core_fe_dart/src/exceptions/domain_exception.dart';
 import 'package:meta/meta.dart';
-import 'base_exception.dart';
 
-class ValidationException extends BaseException {
+class ValidationException extends DomainException {
   ValidationException({@required this.validationMessage, int errorCode})
       : super(errorCode: errorCode);
 

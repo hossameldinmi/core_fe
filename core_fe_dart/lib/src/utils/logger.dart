@@ -146,6 +146,15 @@ class Logger {
       stackTrace: stackTrace,
     );
   }
+
+  void event({
+    @required String eventName,
+    Map<String, String> args,
+  }) {
+    _logger?.event(eventName: eventName, args: args);
+  }
+
+  List<Map<String, dynamic>> getLogs() => _logger?.getLogs();
 }
 
 abstract class LoggerProvider {
@@ -187,6 +196,12 @@ abstract class LoggerProvider {
     StackTrace stackTrace,
     bool showStackTrace = false,
   });
+  void event({
+    @required String eventName,
+    Map<String, String> args,
+  });
+
+  List<Map<String, dynamic>> getLogs();
 }
 
 class LogObject {
