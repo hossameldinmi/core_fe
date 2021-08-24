@@ -37,7 +37,7 @@ extension FutureIterbleExtension<E> on Iterable<Future<E>> {
           throw error;
         }
         order++;
-        return AsyncSnapshot.error(error, order);
+        return AsyncSnapshot<E>.error(error, order);
       });
     })).then((value) => AsyncSnapshotGroup(value));
   }
