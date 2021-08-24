@@ -14,7 +14,7 @@ import 'mocks/page1.dart';
 
 void main() {
   final _navKey = GlobalKey<NavigatorState>();
-  final navigationService = NavigationServiceImpl(Page1.route, _navKey);
+  final navigationService = NavigationServiceImpl(_navKey);
   group('Navigation.push', () {
     tearDown(() {
       HomePage.navigationFunc = null;

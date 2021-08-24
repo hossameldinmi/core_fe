@@ -1,3 +1,4 @@
+import 'package:core_fe_dart/utils.dart';
 
 extension StringUtilsExtension on String {
   /// formate string:
@@ -13,9 +14,16 @@ extension StringUtilsExtension on String {
 }
 
 String _formatText(String text, Map<String, dynamic> args) {
-  args ??= {};
+  var orginalText = text;
   args?.forEach((key, value) {
     text = text.replaceAll('{$key}', value != null ? value.toString() : '');
   });
+  _logger.info({
+    'text': orginalText,
+    'args': args,
+    'result': text,
+  });
   return text;
 }
+
+final _logger = Logger('StringUtilsExtension');

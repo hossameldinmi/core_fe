@@ -1,7 +1,5 @@
-@TestOn('linux && mac-os')
 import 'dart:async';
 import 'dart:io';
-import 'package:core_fe_flutter/utils.dart';
 import 'package:core_fe_infrastructure/src/models/request_options.dart'
     as request_options;
 import 'package:core_fe_infrastructure/src/utils/dio_helper.dart';
@@ -10,16 +8,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:core_fe_infrastructure/src/enums/response_type.dart'
     as response_type;
 
-import '../core_fe_infrastructure.dart';
+import 'package:core_fe_infrastructure/utils.dart';
 import '../shared.dart';
 import 'package:core_fe_dart/extensions.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart'
     as http_response;
+import 'package:core_fe_infrastructure/models.dart';
 
 void main() async {
-  await Initer.addModule(
-      'CoreFeInfrastructureTest', CoreFeInfrastructureTest());
-  await Initer.init();
+  final bytes1 = await file1.readAsBytes();
+
   test('toDioResponseType', () {
     expect(DioHelper.toDioResponseType(response_type.ResponseType.bytes),
         ResponseType.bytes);
@@ -44,17 +42,40 @@ void main() async {
       expect(actual.validateStatus, expected.validateStatus);
     }
 
+    test('expect assertionError if (requestOptions/responseOptions)==null', () {
+      var requestOptions = request_options.RequestOptions(
+        headers: {
+          HttpHeaders.acceptHeader: 'application/json',
+          HttpHeaders.acceptLanguageHeader: 'en'
+        },
+        contentType: ContentType.json,
+        sendTimeout: 200,
+      );
+      var responseOptions = ResponseOptions(
+        receiveTimeout: 100,
+        responseType: response_type.ResponseType.json,
+      );
+
+      ;
+      expect(() => DioHelper.toDioOptions(null, responseOptions),
+          throwsAssertionError);
+      expect(() => DioHelper.toDioOptions(requestOptions, null),
+          throwsAssertionError);
+      expect(() => DioHelper.toDioOptions(null, null), throwsAssertionError);
+    });
     test('convert request options to dioOptions', () {
       var headers = {
         HttpHeaders.acceptHeader: 'application/json',
         HttpHeaders.acceptLanguageHeader: 'en'
       };
-      var options = request_options.RequestOptions(
+      var requestOptions = request_options.RequestOptions(
         headers: headers,
         contentType: ContentType.json,
-        responseType: response_type.ResponseType.json,
-        receiveTimeout: 100,
         sendTimeout: 200,
+      );
+      var responseOptions = ResponseOptions(
+        receiveTimeout: 100,
+        responseType: response_type.ResponseType.json,
       );
 
       var expectedDioOptions = Options(
@@ -63,7 +84,8 @@ void main() async {
           receiveTimeout: 100,
           sendTimeout: 200,
           responseType: ResponseType.json);
-      var actualOptions = DioHelper.toDioOptions(options);
+      var actualOptions =
+          DioHelper.toDioOptions(requestOptions, responseOptions);
       expectOptions(actualOptions, expectedDioOptions);
     });
 
@@ -72,10 +94,12 @@ void main() async {
         HttpHeaders.acceptHeader: 'application/json',
         HttpHeaders.acceptLanguageHeader: 'en'
       };
-      var options = request_options.RequestOptions(
+      var requestOptions = request_options.RequestOptions(
         headers: headers,
         contentType: ContentType.json,
         length: 100,
+      );
+      var responseOptions = ResponseOptions(
         responseType: response_type.ResponseType.json,
       );
 
@@ -86,8 +110,10 @@ void main() async {
             HttpHeaders.acceptLanguageHeader: 'en',
             HttpHeaders.contentLengthHeader: 100,
           },
+          receiveTimeout: 60000,
           responseType: ResponseType.json);
-      var actualOptions = DioHelper.toDioOptions(options);
+      var actualOptions =
+          DioHelper.toDioOptions(requestOptions, responseOptions);
       expectOptions(actualOptions, expectedDioOptions);
     });
 
@@ -99,9 +125,10 @@ void main() async {
       var options = request_options.RequestOptions(
         headers: headers,
         contentType: ContentType.json,
+      );
+      var responseOptions = ResponseOptions(
         responseType: response_type.ResponseType.json,
       );
-
       var expectedDioOptions = Options(
           contentType: ContentType.json.value,
           headers: {
@@ -109,37 +136,32 @@ void main() async {
             HttpHeaders.acceptLanguageHeader: 'en',
             HttpHeaders.contentLengthHeader: 100,
           },
+          receiveTimeout: 60000,
           responseType: ResponseType.json);
-      var actualOptions = DioHelper.toDioOptions(options, 100);
+      var actualOptions = DioHelper.toDioOptions(options, responseOptions, 100);
       expectOptions(actualOptions, expectedDioOptions);
     });
 
     test('convert request options to dioOptions with null header value', () {
       var options = request_options.RequestOptions(
         contentType: ContentType.json,
+      );
+      var responseOptions = ResponseOptions(
         responseType: response_type.ResponseType.json,
       );
-
       var expectedDioOptions = Options(
           contentType: ContentType.json.value,
           headers: {
             HttpHeaders.contentLengthHeader: 100,
           },
+          receiveTimeout: 60000,
           responseType: ResponseType.json);
-      var actualOptions = DioHelper.toDioOptions(options, 100);
+      var actualOptions = DioHelper.toDioOptions(options, responseOptions, 100);
       expectOptions(actualOptions, expectedDioOptions);
     });
   });
 
   group('File Conversion', () {
-    // MultipartFile part1;
-    Stream<List<int>> stream1;
-
-    setUp(() async {
-      // part1 = MultipartFile.fromBytes(await file1.readAsBytes());
-      // stream1 = part1.finalize();
-      stream1 = file1.openRead();
-    });
     group('toMultipartFile', () {
       test('validation when value is null', () {
         expect(() => DioHelper.toMultipartFile(null), throwsAssertionError);
@@ -147,24 +169,23 @@ void main() async {
 
       test('casting when value is file', () async {
         var actualFile = await DioHelper.toMultipartFile(file1);
-        await expectStream(await actualFile.finalize(), stream1);
+        await expectStream(actualFile.finalize(), file1.openRead());
       });
 
       test('casting when value is Stream', () async {
         var actualFile = await DioHelper.toMultipartFile(file1.openRead());
-        await expectStream(actualFile.finalize(), stream1);
+        await expectStream(actualFile.finalize(), file1.openRead());
       });
 
       test('casting when value is MultipartFile', () async {
         var tempPart = await MultipartFile.fromFile(file1.path);
         var actualFile = await DioHelper.toMultipartFile(tempPart);
-        await expectStream(actualFile.finalize(), stream1);
+        await expectStream(actualFile.finalize(), file1.openRead());
       });
 
       test('casting when value is MultipartFile', () async {
-        var actualFile =
-            await DioHelper.toMultipartFile(await file1.readAsBytes());
-        await expectStream(actualFile.finalize(), stream1);
+        var actualFile = await DioHelper.toMultipartFile(bytes1);
+        await expectStream(actualFile.finalize(), file1.openRead());
       });
     });
 
@@ -226,7 +247,7 @@ void main() async {
         await equalsFormData(formData, FormData.fromMap(expectedBody));
       });
 
-      test('expected casting when data is List<List<File>>', () async {},
+      test('expected casting when data is List<List<File>>', () {},
           skip: 'test list on dio');
     });
   });
@@ -235,34 +256,34 @@ void main() async {
     void expectResponse(http_response.HttpResponse actual,
         http_response.HttpResponse expected) {
       expect(actual.extra, expected.extra);
-      expect(actual.headers, expected.headers);
       expect(actual.isRedirect, expected.isRedirect);
       expect(actual.statusCode, expected.statusCode);
       expect(actual.statusMessage, expected.statusMessage);
     }
 
     test('assertion error when data is null', () {
-      expect(() => DioHelper.toHttpResponse<int>(null), throwsAssertionError);
+      expect(
+          () => DioHelper.toHttpResponse<int>(
+              null, JsonUtil.getType<int>().fromJson),
+          throwsAssertionError);
     });
 
     test('response when data is int', () {
       var httpResponse = DioHelper.toHttpResponse<int>(
-        Response(
-          data: 1,
-          isRedirect: false,
-          statusCode: HttpStatus.ok,
-          headers: Headers.fromMap({
-            HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
-          }),
-        ),
-      );
+          Response(
+            data: 1,
+            isRedirect: false,
+            statusCode: HttpStatus.ok,
+            headers: Headers.fromMap({
+              HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
+            }),
+          ),
+          JsonUtil.getType<int>().fromJson);
 
       var expectedResponse = http_response.HttpResponse<int>(
-          data: 1,
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
-          });
+        data: 1,
+        statusCode: HttpStatus.ok,
+      );
 
       expect(httpResponse, expectedResponse);
     });
@@ -273,25 +294,25 @@ void main() async {
         'list': [2, 3, 5]
       };
       var httpResponse = DioHelper.toHttpResponse(
-        Response(
-          data: data,
-          isRedirect: false,
-          statusCode: HttpStatus.ok,
-          headers: Headers.fromMap({
-            HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
-          }),
-        ),
-      );
+          Response(
+            data: data,
+            isRedirect: false,
+            statusCode: HttpStatus.ok,
+            headers: Headers.fromMap({
+              HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
+            }),
+          ),
+          JsonUtil.getMap<String, dynamic>(
+                  valueFromJson: JsonUtil.getType<dynamic>().fromJson)
+              .fromJson);
 
       var expectedResponse = http_response.HttpResponse(
-          data: data,
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
-          });
+        data: data,
+        statusCode: HttpStatus.ok,
+      );
 
       expect(httpResponse.data, isMap);
-      expect((httpResponse.data as Map).equals(expectedResponse.data), true);
+      expect((httpResponse.data).equals(expectedResponse.data), true);
       expectResponse(httpResponse, expectedResponse);
     });
 
@@ -312,19 +333,16 @@ void main() async {
       );
 
       var expectedResponse = http_response.HttpResponse(
-          data: data,
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [Headers.jsonContentType]
-          });
+        data: data,
+        statusCode: HttpStatus.ok,
+      );
 
       expect(httpResponse.data as Type, isNull);
       expectResponse(httpResponse, expectedResponse);
     });
 
     test('response when data is Stream and TResponse is Stream', () async {
-      var data =
-          await getBytesResponseBody(await file1.readAsBytes(), HttpStatus.ok);
+      var data = getBytesResponseBody(bytes1, HttpStatus.ok);
       var httpResponse = DioHelper.toHttpResponse<Stream>(
         Response(
           data: data,
@@ -339,16 +357,12 @@ void main() async {
       );
 
       var expectedResponse = http_response.HttpResponse<Stream<List<int>>>(
-          data: file1.openRead(),
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [
-              ContentType.parse('image/png').value
-            ]
-          });
+        data: file1.openRead(),
+        statusCode: HttpStatus.ok,
+      );
 
       await expectStream(
-          await httpResponse.data as Stream<List<int>>, expectedResponse.data);
+          httpResponse.data as Stream<List<int>>, expectedResponse.data);
       expectResponse(httpResponse, expectedResponse);
     }, timeout: Timeout.none);
 
@@ -366,14 +380,9 @@ void main() async {
       );
 
       var expectedResponse = http_response.HttpResponse<Stream<List<int>>>(
-          data: null,
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [
-              ContentType.parse('image/png').value
-            ],
-            Headers.contentLengthHeader: [null],
-          });
+        data: null,
+        statusCode: HttpStatus.ok,
+      );
 
       expect(httpResponse.data, isNull);
       expectResponse(httpResponse, expectedResponse);
@@ -381,8 +390,7 @@ void main() async {
 
     test('response when data is Stream and TResponse is Stream<List<int>>',
         () async {
-      var data =
-          await getBytesResponseBody(await file1.readAsBytes(), HttpStatus.ok);
+      var data = getBytesResponseBody(bytes1, HttpStatus.ok);
       var httpResponse = DioHelper.toHttpResponse<Stream<List<int>>>(
         Response(
           data: data,
@@ -397,13 +405,9 @@ void main() async {
       );
 
       var expectedResponse = http_response.HttpResponse<Stream<List<int>>>(
-          data: file1.openRead(),
-          statusCode: HttpStatus.ok,
-          headers: {
-            HttpHeaders.contentTypeHeader: [
-              ContentType.parse('image/png').value
-            ]
-          });
+        data: file1.openRead(),
+        statusCode: HttpStatus.ok,
+      );
 
       await expectStream(httpResponse.data, expectedResponse.data);
       expectResponse(httpResponse, expectedResponse);

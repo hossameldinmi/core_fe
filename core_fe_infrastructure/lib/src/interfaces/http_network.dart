@@ -1,48 +1,68 @@
-import 'package:core_fe_infrastructure/src/models/base_request.dart';
-import 'package:core_fe_infrastructure/src/models/http_response.dart';
-import 'package:core_fe_infrastructure/src/models/request_options.dart';
+import 'package:core_fe_infrastructure/models.dart';
 import 'package:flutter/foundation.dart';
-import 'package:core_fe_infrastructure/src/models/base_response.dart';
 
 abstract class IHttpNetworkManager {
   Future<BaseResponse<TResponse>> get<TResponse>(
-      {@required GetRequest request, @required RequestOptions options});
+      {@required GetRequest request,
+      RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions});
 
   Future<BaseResponse<TResponse>> post<TResponse>(
-      {@required PostRequest request, @required RequestOptions options});
+      {@required PostRequest request,
+      RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions});
 
   Future<BaseResponse<TResponse>> postFile<TResponse>(
-      {@required PostFileRequest request, @required RequestOptions options});
+      {@required PostFileRequest request,
+      RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions});
 
   Future<BaseResponse<TResponse>> put<TResponse>(
-      {@required PutRequest request, @required RequestOptions options});
+      {@required PutRequest request,
+      RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions});
 
   Future<BaseResponse<TResponse>> delete<TResponse>(
-      {@required DeleteRequest request, @required RequestOptions options});
+      {@required DeleteRequest request,
+      RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions});
+
   Future<BaseResponse<TResponse>> downloadFile<TResponse>(
       {@required DownloadFileRequest request,
-      @required RequestOptions options});
+      RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions});
 }
 
 abstract class NetworkProvider {
   Future<HttpResponse<TResponse>> get<TResponse>(
-      {@required GetRequest request, @required RequestOptions options});
+      {@required GetRequest request,
+      @required RequestOptions requestOptions,
+      @required ResponseOptions<TResponse> responseOptions});
 
   Future<HttpResponse<TResponse>> post<TResponse>(
-      {@required PostRequest request, @required RequestOptions options});
+      {@required PostRequest request,
+      RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions});
 
   Future<HttpResponse<TResponse>> put<TResponse>(
-      {@required PutRequest request, @required RequestOptions options});
+      {@required PutRequest request,
+      RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions});
 
   Future<HttpResponse<TResponse>> delete<TResponse>(
-      {@required DeleteRequest request, @required RequestOptions options});
+      {@required DeleteRequest request,
+      RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions});
 
   Future<HttpResponse<TResponse>> postFile<TResponse>(
-      {@required PostFileRequest request, @required RequestOptions options});
+      {@required PostFileRequest request,
+      RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions});
 
   Future<HttpResponse<TResponse>> downloadFile<TResponse>(
       {@required DownloadFileRequest request,
-      @required RequestOptions options});
+      RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions});
 }
 
 abstract class HttpHelper {

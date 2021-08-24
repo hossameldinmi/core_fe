@@ -7,6 +7,8 @@ import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:core_fe_dart/extensions.dart';
 import 'package:sembast/sembast_memory.dart';
+import 'package:core_fe_flutter/models.dart';
+import 'package:core_fe_infrastructure/utils.dart';
 
 class SembastStorageProviderImpl extends NoSqlStorageProvider {
   final bool _isInMemoryDb;
@@ -30,8 +32,10 @@ class SembastStorageProviderImpl extends NoSqlStorageProvider {
   final _store = StoreRef.main();
 
   @override
-  Future<void> add<T>(StorageModel<T> object, {bool shared = false}) async {
-    await _store.record(object.key).add(await _db, object.toJson());
+  Future<void> add<T>(StorageModel<T> object,
+      {ToJsonFunc<T> toJsonFunc, bool shared = false}) async {
+    await _store.record(object.key).add(
+        await _db, object.toJson(toJsonFunc ?? JsonUtil.getType<T>().toJson));
   }
 
   @override
@@ -64,7 +68,7 @@ class SembastStorageProviderImpl extends NoSqlStorageProvider {
   }
 
   bool _filterByTags(RecordSnapshot record, List<String> tags) {
-    var recordTags = StorageModel.fromJson(record.value).tags;
+    var recordTags = StorageModel.fromJsonWithoutData(record.value).tags;
     var intersectionList = recordTags.intersection(tags);
     return intersectionList.isNotEmpty;
   }
@@ -72,18 +76,21 @@ class SembastStorageProviderImpl extends NoSqlStorageProvider {
   @override
   Future<StorageModel<T>> get<T>(
     String key, {
+    FromJsonFunc<T> fromJsonFunc,
     bool shared = false,
   }) async {
     var record = await _store.record(key).get(
           await _db,
         ) as Map;
 
-    return StorageModel.fromJson(record);
+    return StorageModel.fromJson(
+        record, fromJsonFunc ?? JsonUtil.getType<T>().fromJson);
   }
 
   @override
-  Future<void> update<T>(StorageModel<T> object, {bool shared = false}) async {
-    await _store.record(object.key).put(await _db, object.toJson());
+  Future<void> update<T>(StorageModel<T> object,
+      {ToJsonFunc<T> toJsonFunc, bool shared = false}) async {
+    await _store.record(object.key).put(await _db, object.toJson(toJsonFunc));
   }
 
   // Completer is used for transforming synchronous code into asynchronous code.

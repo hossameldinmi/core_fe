@@ -13,12 +13,16 @@ void main() {
   test('init settings', () async {
     await settingsProvider.initSettings(settings);
     verify(mockNoSqlStorageManager.addOrUpdate(
-        key: StorageKey.settingsStorageKey, data: settings));
+        key: StorageKey.settingsStorageKey,
+        data: settings,
+        toJsonFunc: anyNamed('toJsonFunc')));
   });
 
   test('get settings', () async {
-    when(mockNoSqlStorageManager.get<Settings>(StorageKey.settingsStorageKey))
-        .thenAnswer((realInvocation) => Future.value(settings));
+    when(mockNoSqlStorageManager.get<Settings>(
+      StorageKey.settingsStorageKey,
+      fromJsonFunc: anyNamed('fromJsonFunc'),
+    )).thenAnswer((realInvocation) => Future.value(settings));
     var actualSettings = await settingsProvider.getSettings();
     expect(actualSettings, settings);
   });
@@ -26,7 +30,10 @@ void main() {
   test('update settings', () async {
     await settingsProvider.updateSettings(settings);
     verify(mockNoSqlStorageManager.addOrUpdate(
-        key: StorageKey.settingsStorageKey, data: settings));
+      key: StorageKey.settingsStorageKey,
+      data: settings,
+      toJsonFunc: anyNamed('toJsonFunc'),
+    ));
   });
 
   test('delete settings', () async {

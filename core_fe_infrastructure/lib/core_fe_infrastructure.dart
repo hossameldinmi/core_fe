@@ -1,3 +1,13 @@
+library core.fe.infrastructure;
+
+export 'constants.dart';
+export 'enums.dart';
+export 'interfaces.dart';
+export 'managers.dart';
+export 'models.dart';
+export 'providers.dart';
+export 'utils.dart';
+
 import 'package:core_fe_dart/utils.dart';
 import 'dart:async';
 import 'package:core_fe_flutter/enums.dart';
@@ -20,58 +30,62 @@ class CoreFeInfrastructureModule implements BaseModule {
   Future<void> setUp() {
     _completer ??= Completer();
     PathProvider.getDocumentPath().then((dbPath) {
-      locator.registerLazySingleton<NoSqlStorageProvider>(
+      Locator.providers.registerLazySingleton<NoSqlStorageProvider>(
           () => SembastStorageProviderImpl(dbPath + _dpName));
-      locator.registerLazySingleton<NoSqlStorageProvider>(
+      Locator.providers.registerLazySingleton<NoSqlStorageProvider>(
           () =>
               SembastStorageProviderImpl(dbPath + _dpName, isInMemoryDb: true),
           instanceName: IocKeys.cachedStorageProvider);
       _completer.complete();
     });
-    locator.registerSingleton<Connectivity>(ConnectivityImpl());
-    locator.registerSingleton<DateTimeWrapper>(DateTimeWrapperImpl());
+    Locator.utils.registerSingleton<Connectivity>(ConnectivityImpl());
+    Locator.utils.registerSingleton<DateTimeWrapper>(DateTimeWrapperImpl());
 
-    locator.registerLazySingleton<HttpHelper>(
-      () => HttpHelperImpl(
-          locator<SessionManagerImpl>(), locator<SettingsManager>()),
+    Locator.utils.registerLazySingleton<HttpHelper>(
+      () => HttpHelperImpl(Locator.managers<SessionManager>(),
+          Locator.managers<SettingsManager>()),
     );
 
-    locator.registerLazySingleton<NoSqlStorageManager>(
+    Locator.managers.registerLazySingleton<NoSqlStorageManager>(
       () => NoSqlStorageManagerImpl(
-        locator<NoSqlStorageProvider>(),
-        locator<DateTimeWrapper>(),
+        Locator.providers<NoSqlStorageProvider>(),
+        Locator.utils<DateTimeWrapper>(),
       ),
     );
 
-    locator.registerLazySingleton<NoSqlStorageManager>(
+    Locator.managers.registerLazySingleton<NoSqlStorageManager>(
         () => NoSqlStorageManagerImpl(
-              locator<NoSqlStorageProvider>(
+              Locator.providers<NoSqlStorageProvider>(
                   instanceName: IocKeys.cachedStorageProvider),
-              locator<DateTimeWrapper>(),
+              Locator.utils<DateTimeWrapper>(),
             ),
         instanceName: IocKeys.cachedStorageManager);
 
-    locator.registerLazySingleton<SessionProvider>(
+    Locator.providers.registerLazySingleton<SessionProvider>(
       () => SessionProviderImpl(
-        locator<NoSqlStorageManager>(),
-        locator<NoSqlStorageManager>(
+        Locator.managers<NoSqlStorageManager>(),
+        Locator.managers<NoSqlStorageManager>(
             instanceName: IocKeys.cachedStorageManager),
       ),
     );
 
-    locator.registerLazySingleton<SessionManager>(
+    Locator.managers.registerLazySingleton<SessionManager>(
       () => SessionManagerImpl(
-        locator<SessionProvider>(),
+        Locator.providers<SessionProvider>(),
       ),
     );
 
-    locator.registerLazySingleton<SettingsProvider>(
-      () => SettingsProviderImpl(locator<NoSqlStorageManager>()),
+    Locator.providers.registerLazySingleton<SettingsProvider>(
+      () => SettingsProviderImpl(Locator.managers<NoSqlStorageManager>()),
     );
 
-    locator.registerLazySingleton<SettingsManager>(
-      () => SettingsManagerImpl(locator<SettingsProvider>(),
-          defaultSettings: Settings(language: Language.ar_EG)),
+    Locator.managers.registerLazySingleton<SettingsManager>(
+      () => SettingsManagerImpl(
+        Locator.providers<SettingsProvider>(),
+        defaultSettings: Settings(
+          language: Language.en_US,
+        ),
+      ),
     );
     return _completer.future;
   }

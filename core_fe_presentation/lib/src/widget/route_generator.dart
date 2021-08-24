@@ -6,7 +6,7 @@ class RouteGenerator {
     routes[route] = widgetBuilder;
   }
 
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     if (routes.containsKey(settings.name)) {
       return MaterialPageRoute(
           builder: routes[settings.name], settings: settings);
