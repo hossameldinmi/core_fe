@@ -18,9 +18,7 @@ import 'package:core_fe_infrastructure/src/enums/response_type.dart';
 import '../shared.dart';
 
 ResponseBody _getJsonResponseBody(dynamic data, int statusCode,
-    {String statusMessage,
-    bool isRedirect = false,
-    String contentTypeHeader = Headers.jsonContentType}) {
+    {String statusMessage, bool isRedirect = false, String contentTypeHeader = Headers.jsonContentType}) {
   return ResponseBody.fromString(json.encode(data), statusCode,
       headers: {
         Headers.contentTypeHeader: [contentTypeHeader],
@@ -57,34 +55,28 @@ void main() async {
       var todo = Todo(
           userId: 1,
           id: 1,
-          title:
-              'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
+          title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
           body:
               'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto');
       when(
         mockHttpClientAdapter.fetch(any, any, any),
-      ).thenAnswer((realInvocation) => Future.value(_getJsonResponseBody(
-          todo.toJson(), HttpStatus.ok,
-          statusMessage: ok)));
+      ).thenAnswer(
+          (realInvocation) => Future.value(_getJsonResponseBody(todo.toJson(), HttpStatus.ok, statusMessage: ok)));
       var response = await httpProvider.get<Todo>(
         request: GetRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/1',
         ),
         requestOptions: RequestOptions(contentType: ContentType.json),
-        responseOptions:
-            ResponseOptions(fromJson: (json) => Todo.fromJson(json)),
+        responseOptions: ResponseOptions(fromJson: (json) => Todo.fromJson(json)),
       );
 
-      var expectedResponse = HttpResponse<Todo>(
-          data: todo, statusCode: HttpStatus.ok, statusMessage: ok);
+      var expectedResponse = HttpResponse<Todo>(data: todo, statusCode: HttpStatus.ok, statusMessage: ok);
       expect(response, equals(expectedResponse));
     });
 
     test('get request with NOT FOUND error response', () async {
       when(mockHttpClientAdapter.fetch(any, any, any)).thenAnswer(
-          (realInvocation) => Future.value(_getJsonResponseBody(
-              null, HttpStatus.notFound,
-              statusMessage: notFound)));
+          (realInvocation) => Future.value(_getJsonResponseBody(null, HttpStatus.notFound, statusMessage: notFound)));
       var response = await httpProvider.get<Todo>(
         request: GetRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/222',
@@ -95,27 +87,23 @@ void main() async {
         ),
       );
 
-      var expectedResponse = HttpResponse<Todo>(
-          data: null, statusCode: HttpStatus.notFound, statusMessage: notFound);
+      var expectedResponse = HttpResponse<Todo>(data: null, statusCode: HttpStatus.notFound, statusMessage: notFound);
       expect(response, expectedResponse);
     });
   });
 
   group('HTTP post', () {
-    test('valid post request with valid HttpStatus.created valid response',
-        () async {
+    test('valid post request with valid HttpStatus.created valid response', () async {
       var todo = Todo(
           userId: 1,
           id: 101,
-          title:
-              'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
+          title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
           body:
               'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto');
       when(
         mockHttpClientAdapter.fetch(any, any, any),
-      ).thenAnswer((realInvocation) => Future.value(_getJsonResponseBody(
-          todo.toJson(), HttpStatus.created,
-          statusMessage: created)));
+      ).thenAnswer((realInvocation) =>
+          Future.value(_getJsonResponseBody(todo.toJson(), HttpStatus.created, statusMessage: created)));
       var response = await httpProvider.post<Todo>(
         request: PostRequest(
           url: 'https://jsonplaceholder.typicode.com/posts',
@@ -127,16 +115,13 @@ void main() async {
         ),
       );
 
-      var expectedResponse = HttpResponse<Todo>(
-          data: todo, statusCode: HttpStatus.created, statusMessage: created);
+      var expectedResponse = HttpResponse<Todo>(data: todo, statusCode: HttpStatus.created, statusMessage: created);
       expect(response, equals(expectedResponse));
     });
 
     test('post request with Not Found error response', () async {
       when(mockHttpClientAdapter.fetch(any, any, any)).thenAnswer(
-          (realInvocation) => Future.value(_getJsonResponseBody(
-              null, HttpStatus.notFound,
-              statusMessage: notFound)));
+          (realInvocation) => Future.value(_getJsonResponseBody(null, HttpStatus.notFound, statusMessage: notFound)));
       var response = await httpProvider.post<Todo>(
         request: PostRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/1',
@@ -148,8 +133,7 @@ void main() async {
         ),
       );
 
-      var expectedResponse = HttpResponse<Todo>(
-          data: null, statusCode: HttpStatus.notFound, statusMessage: notFound);
+      var expectedResponse = HttpResponse<Todo>(data: null, statusCode: HttpStatus.notFound, statusMessage: notFound);
       expect(response, expectedResponse);
     });
   });
@@ -164,9 +148,8 @@ void main() async {
               'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto');
       when(
         mockHttpClientAdapter.fetch(any, any, any),
-      ).thenAnswer((realInvocation) => Future.value(_getJsonResponseBody(
-          todo.toJson(), HttpStatus.ok,
-          statusMessage: ok)));
+      ).thenAnswer(
+          (realInvocation) => Future.value(_getJsonResponseBody(todo.toJson(), HttpStatus.ok, statusMessage: ok)));
       var response = await httpProvider.put<Todo>(
         request: PutRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/2',
@@ -187,10 +170,8 @@ void main() async {
     });
 
     test('put request with Internal Server Error response', () async {
-      when(mockHttpClientAdapter.fetch(any, any, any)).thenAnswer(
-          (realInvocation) => Future.value(_getJsonResponseBody(
-              null, HttpStatus.internalServerError,
-              statusMessage: internalServerError)));
+      when(mockHttpClientAdapter.fetch(any, any, any)).thenAnswer((realInvocation) =>
+          Future.value(_getJsonResponseBody(null, HttpStatus.internalServerError, statusMessage: internalServerError)));
       var response = await httpProvider.put<Todo>(
         request: PutRequest(
           body: null,
@@ -203,9 +184,7 @@ void main() async {
       );
 
       var expectedResponse = HttpResponse<Todo>(
-          data: null,
-          statusCode: HttpStatus.internalServerError,
-          statusMessage: internalServerError);
+          data: null, statusCode: HttpStatus.internalServerError, statusMessage: internalServerError);
       expect(response, expectedResponse);
     });
   });
@@ -214,8 +193,7 @@ void main() async {
     test('valid delete request with valid 200 valid response', () async {
       when(
         mockHttpClientAdapter.fetch(any, any, any),
-      ).thenAnswer((realInvocation) => Future.value(
-          _getJsonResponseBody(null, HttpStatus.ok, statusMessage: ok)));
+      ).thenAnswer((realInvocation) => Future.value(_getJsonResponseBody(null, HttpStatus.ok, statusMessage: ok)));
       var response = await httpProvider.delete<void>(
         request: DeleteRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/2',
@@ -235,9 +213,8 @@ void main() async {
     test('delete request with notFound error response', () async {
       when(
         mockHttpClientAdapter.fetch(any, any, any),
-      ).thenAnswer((realInvocation) => Future.value(_getJsonResponseBody(
-          null, HttpStatus.notFound,
-          statusMessage: notFound)));
+      ).thenAnswer(
+          (realInvocation) => Future.value(_getJsonResponseBody(null, HttpStatus.notFound, statusMessage: notFound)));
       var response = await httpProvider.delete<void>(
         request: DeleteRequest(
           url: 'https://jsonplaceholder.typicode.com/posts/',
@@ -256,21 +233,18 @@ void main() async {
   });
 
   group('Download Files', () {
-    test('download image and get File Object with valid 200 valid response',
-        () async {
+    test('download image and get File Object with valid 200 valid response', () async {
       when(
         mockHttpClientAdapter.fetch(any, any, any),
       ).thenAnswer(
         (realInvocation) async => getBytesResponseBody(bytes1, HttpStatus.ok,
-            contentTypeHeader: ContentType.parse('image/png').value,
-            statusMessage: ok),
+            contentTypeHeader: ContentType.parse('image/png').value, statusMessage: ok),
       );
 
       var response = await httpProvider.downloadFile<File>(
           request: DownloadFileRequest(
             savePath: imagePath,
-            url:
-                'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
+            url: 'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
           ),
           requestOptions: RequestOptions(
             contentType: ContentType.json,
@@ -300,15 +274,13 @@ void main() async {
           mockHttpClientAdapter.fetch(any, any, any),
         ).thenAnswer(
           (realInvocation) async => getBytesResponseBody(bytes1, HttpStatus.ok,
-              contentTypeHeader: ContentType.parse('image/png').value,
-              statusMessage: ok),
+              contentTypeHeader: ContentType.parse('image/png').value, statusMessage: ok),
         );
 
         var response = await httpProvider.downloadFile(
             request: DownloadFileRequest(
               savePath: imagePath,
-              url:
-                  'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
+              url: 'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
             ),
             requestOptions: RequestOptions(
               contentType: ContentType.json,
@@ -316,8 +288,7 @@ void main() async {
             responseOptions: ResponseOptions(responseType: ResponseType.bytes));
         var expectedResponse = HttpResponse(
           data: getBytesResponseBody(bytes1, HttpStatus.ok,
-              contentTypeHeader: ContentType.parse('image/png').value,
-              statusMessage: ok),
+              contentTypeHeader: ContentType.parse('image/png').value, statusMessage: ok),
           statusMessage: ok,
           statusCode: HttpStatus.ok,
         );
@@ -328,8 +299,7 @@ void main() async {
         // expect(response.data, equals(expectedResponse.data));
         var expectedStream = expectedResponse.data.stream.asBroadcastStream();
         var stream = (response.data as ResponseBody).stream.asBroadcastStream();
-        await expectStream(
-            stream.asBroadcastStream(), expectedStream.asBroadcastStream());
+        await expectStream(stream.asBroadcastStream(), expectedStream.asBroadcastStream());
       },
       skip: 'Fix stream error',
     );
@@ -339,15 +309,13 @@ void main() async {
         mockHttpClientAdapter.fetch(any, any, any),
       ).thenAnswer(
         (realInvocation) async => getBytesResponseBody(bytes1, HttpStatus.ok,
-            contentTypeHeader: ContentType.parse('image/png').value,
-            statusMessage: ok),
+            contentTypeHeader: ContentType.parse('image/png').value, statusMessage: ok),
       );
 
       var response = await httpProvider.downloadFile<void>(
         request: DownloadFileRequest(
           savePath: imagePath,
-          url:
-              'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
+          url: 'https://cdn.iconscout.com/icon/free/png-512/flutter-2038877-1720090.png',
         ),
         requestOptions: RequestOptions(
           contentType: ContentType.json,
@@ -371,10 +339,7 @@ void main() async {
           request: PostFileRequest(
               url: 'https://www.googleapis.com/upload/drive/v3/files',
               data: File(imagePath),
-              queryParams: {
-                'uploadType': 'multipart',
-                'API_KEY': 'AIzaSyCscBiYqmCWMcLniZxzFP_aA0qq8B4v6sA'
-              }),
+              queryParams: {'uploadType': 'multipart', 'API_KEY': 'AIzaSyCscBiYqmCWMcLniZxzFP_aA0qq8B4v6sA'}),
           requestOptions: RequestOptions(
             contentType: ContentType.parse('application/multipart'),
           ),

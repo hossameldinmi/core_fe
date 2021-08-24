@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:core_fe_infrastructure/src/interfaces/http_network.dart';
 import 'package:core_fe_infrastructure/src/models/base_request.dart';
 import 'package:core_fe_infrastructure/src/models/request_options.dart';
@@ -16,14 +15,11 @@ class DioHttpProvider implements NetworkProvider {
   DioHttpProvider({Dio dio}) : _dio = dio ?? _getHttpClientInstance();
   @override
   Future<HttpResponse<TResponse>> get<TResponse>(
-      {@required GetRequest request,
-      RequestOptions requestOptions,
-      ResponseOptions<TResponse> responseOptions}) {
+      {@required GetRequest request, RequestOptions requestOptions, ResponseOptions<TResponse> responseOptions}) {
     return _request<TResponse>(
       requestOptions,
       responseOptions,
-      (dioOptions) => _dio.get(request.url,
-          queryParameters: request.queryParams, options: dioOptions),
+      (dioOptions) => _dio.get(request.url, queryParameters: request.queryParams, options: dioOptions),
     );
   }
 
@@ -45,16 +41,12 @@ class DioHttpProvider implements NetworkProvider {
 
   @override
   Future<HttpResponse<TResponse>> put<TResponse>(
-      {@required PutRequest request,
-      RequestOptions requestOptions,
-      ResponseOptions<TResponse> responseOptions}) async {
+      {@required PutRequest request, RequestOptions requestOptions, ResponseOptions<TResponse> responseOptions}) async {
     return _request<TResponse>(
       requestOptions,
       responseOptions,
-      (dioOptions) => _dio.put(request.url,
-          options: dioOptions,
-          data: request.body,
-          queryParameters: request.queryParams),
+      (dioOptions) =>
+          _dio.put(request.url, options: dioOptions, data: request.body, queryParameters: request.queryParams),
     );
   }
 
@@ -104,12 +96,9 @@ class DioHttpProvider implements NetworkProvider {
         (dioOptions) => _dio.download(
               request.url,
               request.savePath,
-              // onReceiveProgress: (count, total) => print(
-              //     'progress:${(count / total * 100).toStringAsFixed(2)}%'),
               options: dioOptions,
             ),
-        resolver: (Response response) => DioHelper.toHttpResponse<TResponse>(
-            response, null, request.savePath));
+        resolver: (Response response) => DioHelper.toHttpResponse<TResponse>(response, null, request.savePath));
   }
 
   static Dio _getHttpClientInstance() {
@@ -129,10 +118,8 @@ class DioHttpProvider implements NetworkProvider {
     return _dio;
   }
 
-  Future<HttpResponse<TResponse>> _request<TResponse>(
-      RequestOptions requestOptions,
-      ResponseOptions<TResponse> responseOptions,
-      Future<Response> Function(Options) request,
+  Future<HttpResponse<TResponse>> _request<TResponse>(RequestOptions requestOptions,
+      ResponseOptions<TResponse> responseOptions, Future<Response> Function(Options) request,
       {HttpResponse<TResponse> Function(Response) resolver}) async {
     _preRequest();
     var dioOptions = DioHelper.toDioOptions(requestOptions, responseOptions);
@@ -146,8 +133,7 @@ class DioHttpProvider implements NetworkProvider {
       if (resolver != null) {
         return resolver(response);
       }
-      return DioHelper.toHttpResponse<TResponse>(
-          response, responseOptions.fromJson);
+      return DioHelper.toHttpResponse<TResponse>(response, responseOptions.fromJson);
     }).whenComplete(_postRequest);
   }
 
