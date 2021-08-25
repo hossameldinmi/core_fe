@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Is Not Null, Empty or Whitespace String Rule', () {
-    final validationRule = IsNotNullEmptyWhitespaceRule<String>.fromMessage(
+    final validationRule = IsNotNullEmptyWhitespaceRule<String?>.fromMessage(
         validationMessage: 'Invalid message');
     test('expected false if value is null', () {
       final actual = validationRule.check(null);

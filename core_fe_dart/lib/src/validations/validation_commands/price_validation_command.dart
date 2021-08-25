@@ -1,12 +1,11 @@
 import 'package:core_fe_dart/src/validations/validation_rules/is_valid_price_rule.dart';
 import 'package:core_fe_dart/validations.dart';
-import 'package:flutter/foundation.dart';
 
 class PriceValidationCommand extends ValidationCommandBase<String> {
   PriceValidationCommand(
     ValidatorObject<String> validatorObject, {
-    @required String requiredMessage,
-    @required String priceInvalidMessage,
+    required String requiredMessage,
+    required String priceInvalidMessage,
     bool isRequired = true,
   }) : super(
             validatorObject: validatorObject,

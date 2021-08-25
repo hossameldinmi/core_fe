@@ -19,34 +19,42 @@ Future<Element> error(Element result, [int milliseconds = 0]) async {
 void main() {
   group('FutureIterable Extensions', () {
     group('wait', () {
-      AsyncSnapshot<Element> d(Comparable data, int index) => AsyncSnapshot(o(data), index);
-      AsyncSnapshot<Element> e(Comparable error, int index) => AsyncSnapshot.error(o(error), index);
-      AsyncSnapshotGroup<Element> g(Iterable<AsyncSnapshot<Element>> l) => AsyncSnapshotGroup(l);
+      AsyncSnapshot<Element> d(Comparable data, int index) =>
+          AsyncSnapshot(o(data), index);
+      AsyncSnapshot<Element> e(Comparable error, int index) =>
+          AsyncSnapshot.error(o(error), index);
+      AsyncSnapshotGroup<Element> g(Iterable<AsyncSnapshot<Element>> l) =>
+          AsyncSnapshotGroup(l);
 
       group('ordered', () {
         test('expected all futures complets successfuly', () async {
-          var result = await [data(o(0)), data(o(1)), data(o(2)), data(o(3))].wait();
+          var result =
+              await [data(o(0)), data(o(1)), data(o(2)), data(o(3))].wait();
           expect(result, g([d(0, 0), d(1, 1), d(2, 2), d(3, 3)]));
         });
         test('expected last futures completed with errors', () async {
-          var result = await [data(o(0)), data(o(1)), error(o(2)), error(o(3))].wait();
+          var result =
+              await [data(o(0)), data(o(1)), error(o(2)), error(o(3))].wait();
           expect(result, g([d(0, 0), d(1, 1), e(2, 2), e(3, 3)]));
         });
 
         test('expected first futures completed with errors', () async {
-          var result = await [error(o(2)), error(o(3)), data(o(0)), data(o(1))].wait();
+          var result =
+              await [error(o(2)), error(o(3)), data(o(0)), data(o(1))].wait();
           expect(result, g([e(2, 0), e(3, 1), d(0, 2), d(1, 3)]));
         });
 
         test('expected all futures completed with errors', () async {
-          var result = await [error(o(2)), error(o(3)), error(o(2)), error(o(3))].wait();
+          var result =
+              await [error(o(2)), error(o(3)), error(o(2)), error(o(3))].wait();
 
           expect(result, g([e(2, 0), e(3, 1), e(2, 2), e(3, 3)]));
         });
 
         test('expected error when any future returns error', () {
           expect(
-            () async => await [data(o(0)), data(o(1)), error(o(2)), error(o(3))].wait(false),
+            () async => await [data(o(0)), data(o(1)), error(o(2)), error(o(3))]
+                .wait(false),
             throwsA(TypeMatcher<Element>().having((e) => e, 'o(2)', o(2))),
           );
         });
@@ -75,12 +83,15 @@ void main() {
     });
 
     group('stream wait', () {
-      AsyncSnapshot<Element> e(dynamic error, int index) => AsyncSnapshot.error(error, index);
-      AsyncSnapshot<Element> r<T>(Comparable id, int index) => AsyncSnapshot(o(id), index);
+      AsyncSnapshot<Element> e(dynamic error, int index) =>
+          AsyncSnapshot.error(error, index);
+      AsyncSnapshot<Element> r<T>(Comparable id, int index) =>
+          AsyncSnapshot(o(id), index);
 
       group('ordered', () {
         test('expected all futures complets successfuly', () async {
-          var result = [data(o(0)), data(o(1)), data(o(2)), data(o(3))].streamWait();
+          var result =
+              [data(o(0)), data(o(1)), data(o(2)), data(o(3))].streamWait();
           await expectLater(
               result,
               emitsInOrder([
@@ -91,7 +102,8 @@ void main() {
               ]));
         });
         test('expected last futures completed with errors', () async {
-          var result = [data(o(0)), data(o(1)), error(o(2)), error(o(3))].streamWait();
+          var result =
+              [data(o(0)), data(o(1)), error(o(2)), error(o(3))].streamWait();
           await expectLater(
               result,
               emitsInOrder([
@@ -103,7 +115,8 @@ void main() {
         });
 
         test('expected first futures completed with errors', () async {
-          var result = [error(o(2)), error(o(3)), data(o(0)), data(o(1))].streamWait();
+          var result =
+              [error(o(2)), error(o(3)), data(o(0)), data(o(1))].streamWait();
           await expectLater(
               result,
               emitsInOrder([
@@ -115,7 +128,8 @@ void main() {
         });
 
         test('expected all futures completed with errors', () async {
-          var result = [error(o(2)), error(o(3)), error(o(2)), error(o(3))].streamWait();
+          var result =
+              [error(o(2)), error(o(3)), error(o(2)), error(o(3))].streamWait();
           await expectLater(
               result,
               emitsInOrder([
@@ -134,7 +148,12 @@ void main() {
                 error(o(2), 2),
                 error(o(3), 3),
               ].streamWait(false),
-              emitsInOrder([r(0, 0), r(1, 1), emitsError(TypeMatcher<Element>().having((e) => e, 'o(2)', o(2)))]));
+              emitsInOrder([
+                r(0, 0),
+                r(1, 1),
+                emitsError(
+                    TypeMatcher<Element>().having((e) => e, 'o(2)', o(2)))
+              ]));
         });
       }, skip: 'fix error on terminal');
 

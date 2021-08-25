@@ -66,13 +66,6 @@ void main() {
         expect(() => TimeInDay.dayPeriod(periodHour: 13), throwsAssertionError);
       });
 
-      test(
-          'Expected AssertionError when Initialize Time with DayPeriod == null',
-          () {
-        expect(() => TimeInDay.dayPeriod(periodHour: 12, period: null),
-            throwsAssertionError);
-      });
-
       test('Expected noon time when Initialize Time with hour = 12 PM', () {
         var time = TimeInDay.dayPeriod(periodHour: 12, period: DayPeriod.pm);
         expect(time, TimeInDay.noon);

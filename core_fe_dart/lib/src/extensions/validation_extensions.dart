@@ -1,4 +1,4 @@
-extension OjbectIterableExtension on Iterable<Object> {
+extension OjbectIterableExtension on Iterable<Object?> {
   /// Returns true if any object in the Iterable is:
   /// - null
   /// - empty
@@ -20,7 +20,7 @@ extension OjbectIterableExtension on Iterable<Object> {
   bool allIsNotNullEmptyOrWhitespace() => !anyIsNullEmptyOrWhitespace();
 }
 
-extension ObjectExtension on Object {
+extension ObjectExtension on Object? {
   /// Returns true if object is:
   /// - null
   /// - empty

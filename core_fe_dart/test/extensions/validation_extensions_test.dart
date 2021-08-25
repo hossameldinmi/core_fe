@@ -5,7 +5,7 @@ void main() {
   group('isNullEmptyOrWhitespace', () {
     group('on String', () {
       test('expected true if value is null', () {
-        String str;
+        String? str;
         expect(str.isNullEmptyOrWhitespace(), true);
       });
 
@@ -27,7 +27,7 @@ void main() {
 
     group('on Object', () {
       test('expected true if object is not intialized', () {
-        Object obj;
+        Object? obj;
         expect(obj.isNullEmptyOrWhitespace(), true);
       });
 
@@ -38,7 +38,7 @@ void main() {
     });
 
     group('on List', () {
-      Iterable list;
+      Iterable? list;
 
       test('expected true if List is not intialized', () {
         expect(list.isNullEmptyOrWhitespace(), true);

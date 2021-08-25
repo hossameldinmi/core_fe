@@ -1,12 +1,12 @@
 import 'package:core_fe_dart/src/exceptions/validation_exception.dart';
-import 'package:meta/meta.dart';
+
 import 'package:core_fe_dart/extensions.dart';
 import '../validation_rule.dart';
 
 class IsNotNullEmptyWhitespaceRule<T> implements ValidationRule<T> {
-  IsNotNullEmptyWhitespaceRule({@required this.validationException});
+  IsNotNullEmptyWhitespaceRule({required this.validationException});
   IsNotNullEmptyWhitespaceRule.fromMessage(
-      {@required String validationMessage, int errorCode})
+      {required String? validationMessage, int? errorCode})
       : this(
             validationException: ValidationException(
                 validationMessage: validationMessage, errorCode: errorCode));
@@ -14,5 +14,5 @@ class IsNotNullEmptyWhitespaceRule<T> implements ValidationRule<T> {
   bool check(T value) => !value.isNullEmptyOrWhitespace();
 
   @override
-  ValidationException validationException;
+  ValidationException? validationException;
 }

@@ -45,17 +45,6 @@ void main() {
       var expectedDate = DateTime(2020, 1, 3, 3, 4, 5);
       expect(actual, expectedDate);
     });
-
-    test('expected assertion error when otherDate=null', () {
-      var date = DateTime(2020, 1, 2, 3, 4, 5);
-      expect(() => date.resetDate(null), throwsAssertionError);
-    });
-
-    test('expected assertion error when date=null', () {
-      DateTime date;
-      var date2 = DateTime(2020, 1, 2, 3, 4, 5);
-      expect(() => date.resetDate(date2), throwsAssertionError);
-    });
   });
 
   group('resetTime', () {
@@ -80,14 +69,6 @@ void main() {
       var date = DateTime(2020, 1, 2, 3, 4, 5);
       var expected = DateTime(2020, 1, 2);
       expect(date.resetTime(), expected);
-    });
-
-    test('expected assertion error when date=null', () {
-      DateTime date;
-      expect(
-          () => date.resetTime(TimeInDay(
-              hour: 5, minute: 6, second: 2, millisecond: 3, microsecond: 5)),
-          throwsAssertionError);
     });
   });
 

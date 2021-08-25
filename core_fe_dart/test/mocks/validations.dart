@@ -8,7 +8,7 @@ class FakeValidationRule<T> implements ValidationRule<T> {
   FakeValidationRule(bool result, this.validationException) : _check = result;
   final bool _check;
   @override
-  ValidationException validationException;
+  ValidationException? validationException;
 
   @override
   bool check(T value) => _check;

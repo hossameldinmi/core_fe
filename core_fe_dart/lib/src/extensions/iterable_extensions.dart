@@ -1,30 +1,28 @@
 import 'package:collection/collection.dart';
 
-extension IterableExtensions<T> on Iterable<T> {
-  bool isEqual(Iterable<T> other,
-      {Equality<T> elementEquality = const DefaultEquality(),
+extension IterableExtensions<T> on Iterable<T?> {
+  bool isEqual(Iterable<T?> other,
+      {Equality<T?> elementEquality = const DefaultEquality(),
       bool isOrderEquality = true}) {
     if (isOrderEquality) {
-      return IterableEquality<T>(elementEquality).equals(this, other);
+      return IterableEquality<T?>(elementEquality).equals(this, other);
     } else {
-      return UnorderedIterableEquality<T>(elementEquality).equals(this, other);
+      return UnorderedIterableEquality<T?>(elementEquality).equals(this, other);
     }
   }
 
-  Iterable<T> intersection(Iterable<T> other) {
+  Iterable<T?> intersection(Iterable<T> other) {
     return where(other.contains);
   }
 
-  Iterable<T> distinct(Iterable<T> other) {
+  Iterable<T?> distinct(Iterable<T> other) {
     var list = where((i) => !other.contains(i)).toList();
     list.addAll(other.where((i) => !contains(i)));
     return list;
   }
 
-  List<R> indexMap<R>(R Function(int, T) mapFunc) {
-    assert(mapFunc != null);
-    assert(this != null);
-    List<R> list;
+  List<R> indexMap<R>(R Function(int, T?) mapFunc) {
+    List<R>? list;
     list ??= <R>[];
     for (var i = 0; i < length; i++) {
       list.add(mapFunc(i, elementAt(i)));
@@ -32,8 +30,7 @@ extension IterableExtensions<T> on Iterable<T> {
     return list;
   }
 
-  Future<List<R>> asyncMap<R>(Future<R> Function(T) mapFunc) async {
-    assert(mapFunc != null);
+  Future<List<R>> asyncMap<R>(Future<R> Function(T?) mapFunc) async {
     var list = <R>[];
     for (var item in this) {
       list.add(await mapFunc(item));
@@ -41,22 +38,15 @@ extension IterableExtensions<T> on Iterable<T> {
     return list;
   }
 
-  //todo:('to be replaced with firstWhereOrNull')
-  T firstWhereOrDefault(bool Function(T) test, {T Function() orElse}) {
-    orElse ??= () => null;
-    return firstWhere(test, orElse: orElse);
-  }
-
-  Future<void> asyncForEach<R>(Future<void> Function(T) action) {
-    assert(action != null);
+  Future<void> asyncForEach<R>(Future<void> Function(T?) action) {
     return Future.forEach(this, action);
   }
 }
 
-extension ListExtension<T> on List<T> {
-  void addOrUpdate(T newElement, {bool Function(T) test}) {
+extension ListExtension<T> on List<T?> {
+  void addOrUpdate(T? newElement, {bool Function(T?)? test}) {
     test ??= (e) => e == newElement;
-    var oldObject = firstWhereOrDefault(test);
+    var oldObject = firstWhereOrNull(test);
     if (oldObject == null) {
       add(newElement);
     } else {
@@ -64,10 +54,11 @@ extension ListExtension<T> on List<T> {
     }
   }
 
-  List<T> replaceManyWith(List<T> other, bool Function(T old, T newItem) test) {
-    var newList = [];
+  List<T?> replaceManyWith(
+      List<T?> other, bool Function(T? old, T? newItem) test) {
+    var newList = <T?>[];
     forEach((old) {
-      var matchedItem = other.firstWhereOrDefault((newItem) {
+      var matchedItem = other.firstWhereOrNull((newItem) {
         return test(old, newItem);
       });
       if (matchedItem != null) {
@@ -80,17 +71,17 @@ extension ListExtension<T> on List<T> {
   }
 
   void replaceWhere(
-      bool Function(T) test, T Function(T oldObject) newElementFactory) {
+      bool Function(T?) test, T? Function(T? oldObject) newElementFactory) {
     where(test).forEach((old) => replaceWith(old, newElementFactory(old)));
   }
 
-  void replaceWith(T old, T newElement) {
+  void replaceWith(T? old, T? newElement) {
     var index = indexOf(old);
     this[index] = newElement;
   }
 
-  T firstWhereOrDefaultIndexed(bool Function(T, int) test,
-      {T Function() orElse}) {
+  T? firstWhereOrDefaultIndexed(bool Function(T?, int) test,
+      {T? Function()? orElse}) {
     for (var i = 0; i < length; i++) {
       var item = this[i];
       if (test(this[i], i)) {
@@ -101,11 +92,10 @@ extension ListExtension<T> on List<T> {
     return orElse();
   }
 
-  Iterable<T> removeNotExisting(Iterable<T> updated,
-      [bool Function(T original, T updated) test]) {
-    assert(updated != null);
+  Iterable<T?> removeNotExisting(Iterable<T?> updated,
+      [bool Function(T? original, T? updated)? test]) {
     test ??= (c, e) => c == e;
-    List<T> removed;
+    List<T?>? removed;
     if (updated.isEmpty) {
       removed = toList();
       clear();
@@ -113,9 +103,9 @@ extension ListExtension<T> on List<T> {
     }
     removed ??= [];
     removeWhere((o) {
-      var isExist = updated.any((u) => test(o, u));
+      var isExist = updated.any((u) => test!(o, u));
       if (!isExist) {
-        removed.add(o);
+        removed!.add(o);
       }
       return !isExist;
     });

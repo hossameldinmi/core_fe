@@ -38,7 +38,6 @@ class TimeInDay extends Equatable implements Comparable<TimeInDay> {
     int microsecond = 0,
     DayPeriod period = DayPeriod.am,
   })  : assert(periodHour > 0 && periodHour <= 12),
-        assert(period != null),
         _value = _getMicroseconds(
           _getHour(periodHour, period),
           minute,

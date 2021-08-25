@@ -63,19 +63,14 @@ void main() {
           Duration(hours: 12, minutes: 20, seconds: 59, milliseconds: 45);
       var duration6 =
           Duration(hours: 15, minutes: 54, seconds: 59, milliseconds: 1);
-      var duration7 = Duration(
-        minutes: 1,
-        seconds: 50,
-        milliseconds: 59,
-        microseconds: 5,
-      );
+      var duration7 =
+          Duration(minutes: 1, seconds: 50, milliseconds: 59, microseconds: 5);
       var duration8 = Duration(
-        hours: 6,
-        minutes: 30,
-        seconds: 30,
-        milliseconds: 59,
-        microseconds: 59,
-      );
+          hours: 6,
+          minutes: 30,
+          seconds: 30,
+          milliseconds: 59,
+          microseconds: 59);
       expect(duration.minutes, 30);
       expect(duration2.minutes, 49);
       expect(duration3.minutes, 59);
@@ -97,18 +92,10 @@ void main() {
           Duration(hours: 12, minutes: 20, seconds: 59, milliseconds: 45);
       var duration6 =
           Duration(hours: 15, minutes: 54, seconds: 59, milliseconds: 1);
-      var duration7 = Duration(
-        minutes: 1,
-        seconds: 1,
-        milliseconds: 59,
-        microseconds: 5,
-      );
-      var duration8 = Duration(
-        hours: 6,
-        minutes: 30,
-        milliseconds: 59,
-        microseconds: 59,
-      );
+      var duration7 =
+          Duration(minutes: 1, seconds: 1, milliseconds: 59, microseconds: 5);
+      var duration8 =
+          Duration(hours: 6, minutes: 30, milliseconds: 59, microseconds: 59);
       expect(duration.seconds, 0);
       expect(duration2.seconds, 49);
       expect(duration3.seconds, 20);
@@ -131,18 +118,10 @@ void main() {
           Duration(hours: 12, minutes: 20, seconds: 59, milliseconds: 999);
       var duration6 =
           Duration(hours: 15, minutes: 54, seconds: 59, milliseconds: 1);
-      var duration7 = Duration(
-        hours: 20,
-        minutes: 1,
-        seconds: 1,
-        microseconds: 500,
-      );
-      var duration8 = Duration(
-        hours: 6,
-        minutes: 30,
-        milliseconds: 500,
-        microseconds: 999,
-      );
+      var duration7 =
+          Duration(hours: 20, minutes: 1, seconds: 1, microseconds: 500);
+      var duration8 =
+          Duration(hours: 6, minutes: 30, milliseconds: 500, microseconds: 999);
       expect(duration.milliseconds, 0);
       expect(duration2.milliseconds, 49);
       expect(duration3.milliseconds, 20);

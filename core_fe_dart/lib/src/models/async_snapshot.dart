@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 @immutable
 class AsyncSnapshot<T> extends Equatable {
-  final T data;
+  final T? data;
   final dynamic error;
   final int index;
 
@@ -25,7 +25,7 @@ class AsyncSnapshot<T> extends Equatable {
       }.toString();
 
   @override
-  List<Object> get props => [index, data, error];
+  List<Object?> get props => [index, data, error];
 }
 
 @immutable
@@ -33,9 +33,9 @@ class AsyncSnapshotGroup<T> extends Equatable {
   final Iterable<AsyncSnapshot<T>> _results;
   AsyncSnapshotGroup(this._results);
   bool get hasErrors => _results.any((r) => r.hasError);
-  bool get hasData => _results != null && _results.any((r) => r.hasData);
-  List<dynamic> get errors =>
-      _results?.where((r) => r.hasError)?.map((r) => r.error)?.toList();
+  bool get hasData => _results.any((r) => r.hasData);
+  List<dynamic>? get errors =>
+      _results.where((r) => r.hasError).map((r) => r.error).toList();
 
   Iterable<AsyncSnapshot<T>> results({bool orderByComplete = false}) {
     if (orderByComplete) {
@@ -46,12 +46,12 @@ class AsyncSnapshotGroup<T> extends Equatable {
     return _results;
   }
 
-  List<T> data({bool orderByComplete = false, bool ignoreErrorResults = true}) {
+  List<T?>? data(
+      {bool orderByComplete = false, bool ignoreErrorResults = true}) {
     return results(orderByComplete: orderByComplete)
-            ?.where((r) => r.hasData || (!ignoreErrorResults && r.hasError))
-            ?.map((r) => r.data)
-            ?.toList() ??
-        <T>[];
+        .where((r) => r.hasData || (!ignoreErrorResults && r.hasError))
+        .map((r) => r.data)
+        .toList();
   }
 
   @override

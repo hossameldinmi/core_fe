@@ -1,5 +1,4 @@
 import 'package:core_fe_dart/src/validations/validator_object.dart';
-import 'package:meta/meta.dart';
 
 /// The validation Rule orchestrator that adds validations to the [validatorObject]
 abstract class ValidationCommandBase<T> {
@@ -29,15 +28,15 @@ abstract class ValidationCommandBase<T> {
   /// ```
   /// [ref close to this in xamarin]: https://docs.microsoft.com/en-us/xamarin/xamarin-forms/enterprise-application-patterns/validation
   ValidationCommandBase(
-      {@required this.validatorObject,
-      @required void Function() excuteCallBack,
+      {required this.validatorObject,
+      required void Function() excuteCallBack,
       bool autoExcute = false})
       : _excuteCallBack = excuteCallBack {
     if (autoExcute) {
       excute();
     }
   }
-  final ValidatorObject<T> validatorObject;
+  final ValidatorObject<T>? validatorObject;
   final void Function() _excuteCallBack;
 
   /// Adds Validation Rulles to the [ValidatorObject].

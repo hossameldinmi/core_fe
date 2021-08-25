@@ -1,16 +1,15 @@
 import 'package:core_fe_dart/src/exceptions/validation_exception.dart';
 import 'package:core_fe_dart/src/validations/validation_rule.dart';
-import 'package:meta/meta.dart';
 
 class IsRegexMatchedRule implements ValidationRule<String> {
   IsRegexMatchedRule(
-      {@required this.validationException, @required String pattern})
+      {required this.validationException, required String pattern})
       : _pattern = pattern;
 
   IsRegexMatchedRule.fromMessage(
-      {@required String validationMessage,
-      @required String pattern,
-      int errorCode})
+      {required String validationMessage,
+      required String pattern,
+      int? errorCode})
       : this(
           validationException: ValidationException(
               validationMessage: validationMessage, errorCode: errorCode),
@@ -27,5 +26,5 @@ class IsRegexMatchedRule implements ValidationRule<String> {
 
   final String _pattern;
   @override
-  ValidationException validationException;
+  ValidationException? validationException;
 }
