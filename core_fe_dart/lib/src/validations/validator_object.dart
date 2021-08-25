@@ -10,19 +10,14 @@ class ValidatorObject<T> {
   final BehaviorSubject<T?> _valueSubject;
 
   final List<ValidationRule<T>> _validations = <ValidationRule<T>>[];
-  UnmodifiableListView<ValidationRule<T?>> get validations =>
-      UnmodifiableListView<ValidationRule<T>>(_validations);
+  UnmodifiableListView<ValidationRule<T?>> get validations => UnmodifiableListView<ValidationRule<T>>(_validations);
 
-  late List<Tuple2<ValidationRule<T?>, bool>> _validationResults;
-  UnmodifiableListView<Tuple2<ValidationRule<T?>, bool>>
-      get validationResults =>
-          UnmodifiableListView<Tuple2<ValidationRule<T?>, bool>>(
-              _validationResults);
+  List<Tuple2<ValidationRule<T?>, bool>> _validationResults = [];
+  UnmodifiableListView<Tuple2<ValidationRule<T?>, bool>> get validationResults =>
+      UnmodifiableListView<Tuple2<ValidationRule<T?>, bool>>(_validationResults);
 
-  UnmodifiableListView<ValidationException?> get errors =>
-      UnmodifiableListView<ValidationException?>(validationResults
-          .where((vs) => !vs.item2)
-          .map((vs) => vs.item1.validationException));
+  UnmodifiableListView<ValidationException?> get errors => UnmodifiableListView<ValidationException?>(
+      validationResults.where((vs) => !vs.item2).map((vs) => vs.item1.validationException));
 
   T? get value => _valueSubject.value;
   set value(T? value) => _valueSubject.add(value);
@@ -32,8 +27,7 @@ class ValidatorObject<T> {
 
   bool isValid({bool throwException = false}) {
     _validationResults.clear();
-    _validationResults =
-        validations.map((v) => Tuple2(v, v.check(value))).toList();
+    _validationResults = validations.map((v) => Tuple2(v, v.check(value))).toList();
 
     if (throwException && errors.isNotEmpty) {
       throw errors.first!;
