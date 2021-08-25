@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:core_fe_dart/enums.dart';
 import 'package:meta/meta.dart';
 import 'package:core_fe_dart/extensions.dart';
@@ -6,10 +7,10 @@ import 'package:core_fe_dart/extensions.dart';
 @immutable
 class Language extends Enum {
   const Language(
-      {@required this.name,
-      @required this.languageCode,
-      @required this.countryCode,
-      String locale,
+      {required this.name,
+      required this.languageCode,
+      required this.countryCode,
+      String? locale,
       this.flowDirection = FlowDirection.ltr})
       : _locale = locale,
         super();
@@ -28,10 +29,8 @@ class Language extends Enum {
 
   /// name that can be used for display eg. `عربي - مصر`,`English-US`
   final String name;
-  final String _locale;
-  String get locale => _locale.isNullEmptyOrWhitespace()
-      ? '$languageCode' '_' '$countryCode'
-      : _locale;
+  final String? _locale;
+  String? get locale => _locale.isNullEmptyOrWhitespace() ? '$languageCode' '_' '$countryCode' : _locale;
 
   /// `English-US` language
   static const Language en_US = Language(
@@ -42,11 +41,8 @@ class Language extends Enum {
 
   /// `Arabic-Egypt` language
   /// `عربي - مصر`
-  static const Language ar_EG = Language(
-      name: 'عربي - مصر',
-      languageCode: 'ar',
-      countryCode: 'EG',
-      flowDirection: FlowDirection.rtl);
+  static const Language ar_EG =
+      Language(name: 'عربي - مصر', languageCode: 'ar', countryCode: 'EG', flowDirection: FlowDirection.rtl);
 
   static List<Language> get languages => [en_US, ar_EG];
   Locale toLocale() {
@@ -55,16 +51,15 @@ class Language extends Enum {
 
   factory Language.fromLocale(String locale) {
     assert(!locale.isNullEmptyOrWhitespace());
-    var lang =
-        languages.firstWhere((l) => l.locale == locale, orElse: () => null);
-    if (lang.isNullEmptyOrWhitespace()) {
+    var lang = languages.firstWhereOrNull((l) => l.locale == locale);
+    if (lang == null) {
       throw ArgumentError.value(locale, 'locale', 'locale $locale not exists');
     }
     return lang;
   }
 
   @override
-  List<Object> get props => [locale];
+  List<Object?> get props => [locale];
 }
 
 enum FlowDirection { rtl, ltr }

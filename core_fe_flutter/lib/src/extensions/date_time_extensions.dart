@@ -12,7 +12,7 @@ extension DateTimeExtension on DateTime {
   ///     date.format(format:DateTimeFormat.shortDateFormat);                          // 2020-12-13
   ///     date.format(format:DateTimeFormat.shortDateFormat,language:Language.ar_Eg);  //٢٠٢٠–١٢–١٣
   /// ```
-  String format({DateTimeFormat format, Language language = Language.en_US}) {
+  String format({DateTimeFormat? format, Language language = Language.en_US}) {
     format ??= DateTimeFormat.isoFormat;
     return format.formatterFunc(this, language);
   }
@@ -37,7 +37,7 @@ extension DateTimeExtension on DateTime {
 extension StringDateTimeFormatExtension on String {
   /// parse string from certain format to DateTime object
   /// [formatIn]: String input format, default is [DateTimeFormat.isoFormat]
-  DateTime parseToDateTime({DateTimeFormat formatIn}) {
+  DateTime? parseToDateTime({DateTimeFormat? formatIn}) {
     formatIn ??= DateTimeFormat.isoFormat;
     var date = formatIn.toDateTimeFunc(this);
     return date;

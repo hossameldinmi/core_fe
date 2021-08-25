@@ -3,12 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:core_fe_flutter/extensions.dart';
 
-void _format(DateTime date, DateTimeFormat format, String expectedDateStr,
+void _format(DateTime date, DateTimeFormat? format, String expectedDateStr,
     [Language language = Language.en_US]) {
   expect(date.format(format: format, language: language), expectedDateStr);
 }
 
-void _parse(DateTime expectedDate, DateTimeFormat format, String dateStr) {
+void _parse(DateTime expectedDate, DateTimeFormat? format, String dateStr) {
   expect(dateStr.parseToDateTime(formatIn: format), expectedDate);
 }
 
@@ -19,7 +19,7 @@ void main() async {
   final dateUtc = DateTime.utc(2020, 12, 13, 14, 15, 16, 170, 180);
   final dateUtc2 = DateTime.utc(2020, 6, 6, 6, 6, 6, 6, 6);
 
-  DateTimeFormat _dateTimeFormat;
+  DateTimeFormat? _dateTimeFormat;
 
   test('toDate only', () {
     expect(date.toDate(), DateTime(2020, 12, 13));
