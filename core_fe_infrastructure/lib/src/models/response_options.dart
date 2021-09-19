@@ -5,10 +5,10 @@ import 'package:equatable/equatable.dart';
 
 @immutable
 class ResponseOptions<TResponse> extends Equatable {
-  final int receiveTimeout;
-  final ResponseType responseType;
-  final FromJsonFunc<TResponse> fromJson;
-  final bool Function(int) validateStatus;
+  final int? receiveTimeout;
+  final ResponseType? responseType;
+  final FromJsonFunc<TResponse>? fromJson;
+  final bool Function(int?)? validateStatus;
 
   ResponseOptions({
     this.receiveTimeout = 60000,
@@ -18,10 +18,10 @@ class ResponseOptions<TResponse> extends Equatable {
   });
 
   ResponseOptions<TResponse> copyWith({
-    int receiveTimeout,
-    ResponseType responseType,
-    FromJsonFunc<TResponse> fromJson,
-    bool Function(int) validateStatus,
+    int? receiveTimeout,
+    ResponseType? responseType,
+    FromJsonFunc<TResponse>? fromJson,
+    bool Function(int?)? validateStatus,
   }) {
     return ResponseOptions<TResponse>(
       receiveTimeout: receiveTimeout ?? this.receiveTimeout,
@@ -34,8 +34,8 @@ class ResponseOptions<TResponse> extends Equatable {
   ResponseOptions<TResponse> mergeWith({
     int receiveTimeout = 60000,
     ResponseType responseType = ResponseType.json,
-    FromJsonFunc<TResponse> fromJson,
-    bool Function(int) validateStatus,
+    FromJsonFunc<TResponse>? fromJson,
+    bool Function(int?)? validateStatus,
   }) {
     return ResponseOptions<TResponse>(
       receiveTimeout: this.receiveTimeout ?? receiveTimeout,
@@ -46,6 +46,5 @@ class ResponseOptions<TResponse> extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [receiveTimeout, responseType, fromJson, validateStatus];
+  List<Object?> get props => [receiveTimeout, responseType, fromJson, validateStatus];
 }

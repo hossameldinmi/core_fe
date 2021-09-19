@@ -7,10 +7,10 @@ class Todo extends Equatable {
     this.body,
   });
 
-  final int userId;
-  final int id;
-  final String title;
-  final String body;
+  final int? userId;
+  final int? id;
+  final String? title;
+  final String? body;
 
   factory Todo.fromJson(Map<String, dynamic> json) => Todo(
         userId: json['userId'],
@@ -27,5 +27,5 @@ class Todo extends Equatable {
       };
 
   @override
-  List<Object> get props => [userId, id, title, body];
+  List<Object?> get props => [userId, id, title, body];
 }

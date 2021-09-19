@@ -6,5 +6,5 @@ class JsonModel<T> {
   final ToJsonFunc<T> toJson;
   final FromJsonFunc<T> fromJson;
 
-  JsonModel({@required this.fromJson, @required this.toJson});
+  JsonModel({required this.fromJson, required this.toJson});
 }

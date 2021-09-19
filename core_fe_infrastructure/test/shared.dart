@@ -23,8 +23,7 @@ void deleteFile(String imagePath) {
   return File(imagePath).deleteSync();
 }
 
-Future<void> expectStream(
-    Stream<List<int>> actual, Stream<List<int>> expected) async {
+Future<void> expectStream(Stream<List<int>> actual, Stream<List<int>> expected) async {
   var actualBytes = await actual.toBytes();
   var expectedBytes = await expected.toBytes();
   expect(actualBytes.length, expectedBytes.length);
@@ -32,36 +31,28 @@ Future<void> expectStream(
   expect(actualBytes, equals(expectedBytes));
 }
 
-Future<void> expectMultiepartFile(
-    MultipartFile actual, MultipartFile expected) async {
+Future<void> expectMultiepartFile(MultipartFile actual, MultipartFile expected) async {
   await expectStream(actual.finalize(), expected.finalize());
   expect(actual.length, expected.length);
 }
 
 ResponseBody getBytesResponseBody(List<int> bytes, int statusCode,
-    {String statusMessage,
-    bool isRedirect = false,
-    String contentTypeHeader = Headers.jsonContentType}) {
+    {String? statusMessage, bool isRedirect = false, String contentTypeHeader = Headers.jsonContentType}) {
   return ResponseBody.fromBytes(bytes, statusCode,
       headers: {
         Headers.contentTypeHeader: [contentTypeHeader],
-        Headers.contentLengthHeader: [(bytes?.length).toString()],
+        Headers.contentLengthHeader: [(bytes.length).toString()],
       },
       isRedirect: isRedirect,
       statusMessage: statusMessage);
 }
 
-Future<ResponseBody> getStreamResponseBody(
-    Stream<Uint8List> stream, int statusCode,
-    {String statusMessage,
-    bool isRedirect = false,
-    String contentTypeHeader}) async {
+Future<ResponseBody> getStreamResponseBody(Stream<Uint8List> stream, int statusCode,
+    {String? statusMessage, bool isRedirect = false, String? contentTypeHeader}) async {
   return ResponseBody(stream, statusCode,
       headers: {
-        Headers.contentTypeHeader: [
-          contentTypeHeader ?? ContentType.binary.value
-        ],
-        Headers.contentLengthHeader: [(await stream?.length)?.toString()],
+        Headers.contentTypeHeader: [contentTypeHeader ?? ContentType.binary.value],
+        Headers.contentLengthHeader: [(await stream.length).toString()],
       },
       isRedirect: isRedirect,
       statusMessage: statusMessage);

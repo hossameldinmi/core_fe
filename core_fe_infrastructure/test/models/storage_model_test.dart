@@ -13,18 +13,6 @@ const kData = 'data';
 
 void main() async {
   group('init', () {
-    test('validate key if null', () {
-      expect(
-          () => StorageModel<int>(
-              key: null,
-              createdDate: DateTime.now(),
-              updatedDate: DateTime.now(),
-              data: 1,
-              expiryDate: expiryDate,
-              tags: ['t1', 't2']),
-          throwsAssertionError);
-    });
-
     test('validate key if empty', () {
       expect(
           () => StorageModel<int>(
@@ -43,28 +31,6 @@ void main() async {
               key: '',
               createdDate: DateTime.now(),
               updatedDate: DateTime.now(),
-              data: 1,
-              expiryDate: expiryDate,
-              tags: ['t1', 't2']),
-          throwsAssertionError);
-    });
-    test('validate createdDate if null', () {
-      expect(
-          () => StorageModel<int>(
-              key: 'k1',
-              createdDate: null,
-              updatedDate: DateTime.now(),
-              data: 1,
-              expiryDate: expiryDate,
-              tags: ['t1', 't2']),
-          throwsAssertionError);
-    });
-    test('validate updatedDate if null', () {
-      expect(
-          () => StorageModel<int>(
-              key: 'k1',
-              createdDate: DateTime.now(),
-              updatedDate: null,
               data: 1,
               expiryDate: expiryDate,
               tags: ['t1', 't2']),
@@ -106,12 +72,7 @@ void main() async {
 
     test('serialization when expiryDate is Null', () {
       var storageModel = StorageModel<int>(
-          key: 'k1',
-          createdDate: createdDate,
-          updatedDate: updatedDate,
-          data: 1,
-          expiryDate: null,
-          tags: ['t1', 't2']);
+          key: 'k1', createdDate: createdDate, updatedDate: updatedDate, data: 1, expiryDate: null, tags: ['t1', 't2']);
 
       var expectedJson = {
         StorageModel.kKey: 'k1',
@@ -124,7 +85,7 @@ void main() async {
       expect(storageModel.toJson(JsonUtil.getType<int>().toJson), expectedJson);
     });
     test('serialization when data is Null', () {
-      var storageModel = StorageModel<int>(
+      var storageModel = StorageModel<int?>(
           key: 'k1',
           createdDate: createdDate,
           updatedDate: updatedDate,
@@ -145,12 +106,7 @@ void main() async {
 
     test('serialization when tags is null', () {
       var storageModel = StorageModel<int>(
-          key: 'k1',
-          createdDate: createdDate,
-          updatedDate: updatedDate,
-          data: 1,
-          expiryDate: expiryDate,
-          tags: null);
+          key: 'k1', createdDate: createdDate, updatedDate: updatedDate, data: 1, expiryDate: expiryDate, tags: null);
 
       var expectedJson = {
         StorageModel.kKey: 'k1',
@@ -181,8 +137,7 @@ void main() async {
           expiryDate: expiryDate,
           tags: ['t1', 't2']);
 
-      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson),
-          expected);
+      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson), expected);
     });
 
     test('deserialize object with Null expiryDate', () {
@@ -195,15 +150,9 @@ void main() async {
         kData: 1
       };
       var expected = StorageModel<int>(
-          key: 'k1',
-          createdDate: createdDate,
-          updatedDate: updatedDate,
-          data: 1,
-          expiryDate: null,
-          tags: ['t1', 't2']);
+          key: 'k1', createdDate: createdDate, updatedDate: updatedDate, data: 1, expiryDate: null, tags: ['t1', 't2']);
 
-      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson),
-          expected);
+      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson), expected);
     });
 
     test('deserialize object with Null data', () {
@@ -215,7 +164,7 @@ void main() async {
         kExpiryDate: expiryDate.format(),
         kData: null
       };
-      var expected = StorageModel<int>(
+      var expected = StorageModel<int?>(
           key: 'k1',
           createdDate: createdDate,
           updatedDate: updatedDate,
@@ -223,8 +172,7 @@ void main() async {
           expiryDate: expiryDate,
           tags: ['t1', 't2']);
 
-      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson),
-          expected);
+      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson), expected);
     });
 
     test('deserialize object with Tags is Null', () {
@@ -237,15 +185,9 @@ void main() async {
         kData: 1
       };
       var expected = StorageModel<int>(
-          key: 'k1',
-          createdDate: createdDate,
-          updatedDate: updatedDate,
-          data: 1,
-          expiryDate: expiryDate,
-          tags: null);
+          key: 'k1', createdDate: createdDate, updatedDate: updatedDate, data: 1, expiryDate: expiryDate, tags: null);
 
-      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson),
-          expected);
+      expect(StorageModel<int>.fromJson(json, JsonUtil.getType<int>().fromJson), expected);
     });
   });
 

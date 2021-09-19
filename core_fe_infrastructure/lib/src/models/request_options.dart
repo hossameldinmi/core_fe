@@ -5,26 +5,26 @@ import 'package:equatable/equatable.dart';
 
 @immutable
 class RequestOptions extends Equatable {
-  final Map<String, dynamic> headers; // headers
+  final Map<String, dynamic>? headers; // headers
   final ContentType contentType;
-  final int sendTimeout;
-  final int length;
+  final int? sendTimeout;
+  final int? length;
 
   RequestOptions({
     this.headers,
-    ContentType contentType,
+    ContentType? contentType,
     this.sendTimeout,
     this.length,
   }) : contentType = contentType ?? ContentType.json;
 
   RequestOptions copyWith({
-    Map<String, dynamic> headers,
-    ContentType contentType,
-    int receiveTimeout,
-    int sendTimeout,
-    bool Function(int) validateStatus,
-    int length,
-    ResponseType responseType,
+    Map<String, dynamic>? headers,
+    ContentType? contentType,
+    int? receiveTimeout,
+    int? sendTimeout,
+    bool Function(int)? validateStatus,
+    int? length,
+    ResponseType? responseType,
   }) {
     return RequestOptions(
       contentType: contentType ?? this.contentType,
@@ -35,5 +35,5 @@ class RequestOptions extends Equatable {
   }
 
   @override
-  List<Object> get props => [headers, contentType, sendTimeout, length];
+  List<Object?> get props => [headers, contentType, sendTimeout, length];
 }

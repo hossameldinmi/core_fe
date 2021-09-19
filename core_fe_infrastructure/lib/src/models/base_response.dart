@@ -5,8 +5,8 @@ import 'package:equatable/equatable.dart';
 @immutable
 class BaseResponse<TResponse> extends Equatable {
   final TResponse data;
-  final int statusCode;
-  final String statusMessage;
+  final int? statusCode;
+  final String? statusMessage;
   BaseResponse(this.data, this.statusCode, this.statusMessage);
 
   BaseResponse.fromHttpResponse(HttpResponse<TResponse> response)
@@ -14,5 +14,5 @@ class BaseResponse<TResponse> extends Equatable {
         statusCode = response.statusCode,
         statusMessage = response.statusMessage;
   @override
-  List<Object> get props => [data, statusCode, statusMessage];
+  List<Object?> get props => [data, statusCode, statusMessage];
 }

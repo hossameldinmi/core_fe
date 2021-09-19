@@ -9,7 +9,7 @@ class Locator {
   static final utils = Locator();
   final _instance = GetIt.asNewInstance();
 
-  T? call<T>({String? instanceName}) => _instance<T>(instanceName: instanceName!);
+  T call<T>({String? instanceName}) => _instance<T>(instanceName: instanceName!);
   T get<T extends Object>({String? instanceName, dynamic args}) =>
       _instance.get<T>(instanceName: instanceName, param1: args);
 

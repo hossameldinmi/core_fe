@@ -18,29 +18,15 @@ void main() async {
 
   tearDown(_iNoSqlStorageProvider.deleteAll);
 
-  StorageModel<T> createInstance<T>(
-      {@required String key, T data, List<String> tags}) {
-    return StorageModel<T>(
-        key: key,
-        data: data,
-        tags: tags,
-        expiryDate: expiryDate,
-        createdDate: createdDate,
-        updatedDate: updatedDate);
-  }
+  StorageModel<T> r<T>({required String key, T? data, List<String>? tags}) => StorageModel<T>(
+      key: key, data: data, tags: tags, expiryDate: expiryDate, createdDate: createdDate, updatedDate: updatedDate);
 
   group('db checks', () {
     test('test dbNames databases', () async {
       var _iNoSqlStorageProvider2 = getInstance('App2');
-      await _iNoSqlStorageProvider.add(createInstance<String>(
-        key: 'k1',
-        data: 'app1',
-      ));
+      await _iNoSqlStorageProvider.add(r(key: 'k1', data: 'app1'));
 
-      await _iNoSqlStorageProvider2.add(createInstance<String>(
-        key: 'k1',
-        data: 'app2',
-      ));
+      await _iNoSqlStorageProvider2.add(r(key: 'k1', data: 'app2'));
 
       var r1 = await _iNoSqlStorageProvider.get<String>('k1');
       var r2 = await _iNoSqlStorageProvider2.get<String>('k1');
@@ -55,24 +41,17 @@ void main() async {
   });
   group('adding records', () {
     test('add record to database', () async {
-      var record = createInstance<String>(key: 'k1', data: 'app3');
+      var record = r(key: 'k1', data: 'app3');
 
       await _iNoSqlStorageProvider.add(record);
 
-      var actualRecord = await _iNoSqlStorageProvider.get<String>('k1');
+      var actualRecord = await _iNoSqlStorageProvider.get<String>('k1').then((value) => value!);
       expect(actualRecord, record);
     });
 
     test('add multiple records to database', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app1',
-      );
-
-      var record2 = createInstance<String>(
-        key: 'k2',
-        data: 'app2',
-      );
+      var record = r(key: 'k1', data: 'app1');
+      var record2 = r(key: 'k2', data: 'app2');
 
       await _iNoSqlStorageProvider.add(record);
       await _iNoSqlStorageProvider.add(record2);
@@ -85,15 +64,8 @@ void main() async {
     });
 
     test('add record with existing key => Not Add', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app1',
-      );
-
-      var record2 = createInstance<String>(
-        key: 'k1',
-        data: 'app2',
-      );
+      var record = r(key: 'k1', data: 'app1');
+      var record2 = r(key: 'k1', data: 'app2');
 
       await _iNoSqlStorageProvider.add(record);
       await _iNoSqlStorageProvider.add(record2);
@@ -106,10 +78,7 @@ void main() async {
   });
   group('get records', () {
     test('retrieve added record', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-      );
+      var record = r(key: 'k1', data: 'app3');
 
       await _iNoSqlStorageProvider.add(record);
 
@@ -125,16 +94,8 @@ void main() async {
 
   group('find records key', () {
     test('find existing keys', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-        tags: ['t1'],
-      );
-
-      var record2 = createInstance<String>(
-        key: 'k2',
-        data: 'app3',
-      );
+      var record = r(key: 'k1', data: 'app3', tags: ['t1']);
+      var record2 = r(key: 'k2', data: 'app3');
 
       await _iNoSqlStorageProvider.add(record);
       await _iNoSqlStorageProvider.add(record2);
@@ -144,16 +105,8 @@ void main() async {
     });
 
     test('find existing keys by tag', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-        tags: ['t1'],
-      );
-
-      var record2 = createInstance<String>(
-        key: 'k2',
-        data: 'app3',
-      );
+      var record = r(key: 'k1', data: 'app3', tags: ['t1']);
+      var record2 = r(key: 'k2', data: 'app3');
 
       await _iNoSqlStorageProvider.add(record);
       await _iNoSqlStorageProvider.add(record2);
@@ -163,17 +116,8 @@ void main() async {
     });
 
     test('find many existing keys by tag', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-        tags: ['t1'],
-      );
-
-      var record2 = createInstance<String>(
-        key: 'k2',
-        data: 'app3',
-        tags: ['t1', 't2'],
-      );
+      var record = r(key: 'k1', data: 'app3', tags: ['t1']);
+      var record2 = r(key: 'k2', data: 'app3', tags: ['t1', 't2']);
 
       await _iNoSqlStorageProvider.add(record);
       await _iNoSqlStorageProvider.add(record2);
@@ -183,17 +127,8 @@ void main() async {
     });
 
     test('find non existing keys by tag', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-        tags: ['t1'],
-      );
-
-      var record2 = createInstance<String>(
-        key: 'k2',
-        data: 'app3',
-        tags: ['t1', 't2'],
-      );
+      var record = r(key: 'k1', data: 'app3', tags: ['t1']);
+      var record2 = r(key: 'k2', data: 'app3', tags: ['t1', 't2']);
 
       await _iNoSqlStorageProvider.add(record);
       await _iNoSqlStorageProvider.add(record2);
@@ -203,41 +138,12 @@ void main() async {
     });
 
     test('find existing keys by many tag', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-        tags: ['t1'],
-      );
-
-      var record2 = createInstance<String>(
-        key: 'k2',
-        data: 'app3',
-        tags: ['t1', 't2'],
-      );
-
-      var record3 = createInstance<String>(
-        key: 'k3',
-        data: 'app3',
-        tags: ['t3', 't4'],
-      );
-
-      var record4 = createInstance<String>(
-        key: 'k4',
-        data: 'app3',
-        tags: ['t3', 't5'],
-      );
-
-      var record5 = createInstance<String>(
-        key: 'k5',
-        data: 'app3',
-        tags: ['t6', 't5'],
-      );
-
-      var record6 = createInstance<String>(
-        key: 'k6',
-        data: 'app3',
-        tags: ['t3'],
-      );
+      var record = r(key: 'k1', data: 'app3', tags: ['t1']);
+      var record2 = r(key: 'k2', data: 'app3', tags: ['t1', 't2']);
+      var record3 = r(key: 'k3', data: 'app3', tags: ['t3', 't4']);
+      var record4 = r(key: 'k4', data: 'app3', tags: ['t3', 't5']);
+      var record5 = r(key: 'k5', data: 'app3', tags: ['t6', 't5']);
+      var record6 = r(key: 'k6', data: 'app3', tags: ['t3']);
 
       await _iNoSqlStorageProvider.add(record);
       await _iNoSqlStorageProvider.add(record2);
@@ -246,17 +152,13 @@ void main() async {
       await _iNoSqlStorageProvider.add(record5);
       await _iNoSqlStorageProvider.add(record6);
 
-      var keys =
-          await _iNoSqlStorageProvider.findAllKeys(tags: ['t2', 't3', 't5']);
+      var keys = await _iNoSqlStorageProvider.findAllKeys(tags: ['t2', 't3', 't5']);
       expect(keys, equals(['k2', 'k3', 'k4', 'k5', 'k6']));
     });
   });
   group('delete records', () {
     test('delete existing record', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-      );
+      var record = r(key: 'k1', data: 'app3');
 
       await _iNoSqlStorageProvider.add(record);
 
@@ -272,14 +174,9 @@ void main() async {
     });
 
     test('insure deleting specific key record', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-      );
-      var record2 = createInstance<String>(
-        key: 'k2',
-        data: 'app3',
-      );
+      var record = r(key: 'k1', data: 'app3');
+      var record2 = r(key: 'k2', data: 'app3');
+
       await _iNoSqlStorageProvider.add(record);
       await _iNoSqlStorageProvider.add(record2);
       await _iNoSqlStorageProvider.delete('k1');
@@ -293,20 +190,17 @@ void main() async {
 
   group('delete all records', () {
     test('delete all existing records', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-      );
-      var record2 = createInstance<String>(
-        key: 'k2',
-        data: 'app3',
-      );
+      var record = r(key: 'k1', data: 'app3');
+      var record2 = r(key: 'k2', data: 'app3');
+
       await _iNoSqlStorageProvider.add(record);
       await _iNoSqlStorageProvider.add(record2);
       await _iNoSqlStorageProvider.deleteAll();
+
       var actualRecord = await _iNoSqlStorageProvider.get<String>('k1');
       var actualRecord2 = await _iNoSqlStorageProvider.get<String>('k2');
       var allkeys = await _iNoSqlStorageProvider.findAllKeys();
+
       expect(actualRecord, null);
       expect(actualRecord2, null);
       expect(allkeys, isEmpty);
@@ -321,23 +215,10 @@ void main() async {
     });
 
     test('delete existing keys by tag', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-        tags: ['t1'],
-      );
+      var record = r(key: 'k1', data: 'app3', tags: ['t1']);
+      var record2 = r(key: 'k2', data: 'app3', tags: ['t1', 't2']);
 
-      var record2 = createInstance<String>(
-        key: 'k2',
-        data: 'app3',
-        tags: ['t1', 't2'],
-      );
-
-      var record3 = createInstance<String>(
-        key: 'k3',
-        data: 'app3',
-        tags: ['t3'],
-      );
+      var record3 = r(key: 'k3', data: 'app3', tags: ['t3']);
 
       await Future.wait([
         _iNoSqlStorageProvider.add(record),
@@ -355,23 +236,9 @@ void main() async {
     });
 
     test('delete non existing tags', () async {
-      var record = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-        tags: ['t1'],
-      );
-
-      var record2 = createInstance<String>(
-        key: 'k2',
-        data: 'app3',
-        tags: ['t1', 't2'],
-      );
-
-      var record3 = createInstance<String>(
-        key: 'k3',
-        data: 'app3',
-        tags: ['t2'],
-      );
+      var record = r(key: 'k1', data: 'app3', tags: ['t1']);
+      var record2 = r(key: 'k2', data: 'app3', tags: ['t1', 't2']);
+      var record3 = r(key: 'k3', data: 'app3', tags: ['t2']);
 
       await _iNoSqlStorageProvider.add(record);
       await _iNoSqlStorageProvider.add(record2);
@@ -387,41 +254,12 @@ void main() async {
     });
 
     test('delete multiple existing tags', () async {
-      var record1 = createInstance<String>(
-        key: 'k1',
-        data: 'app3',
-        tags: ['t1'],
-      );
-
-      var record2 = createInstance<String>(
-        key: 'k2',
-        data: 'app3',
-        tags: ['t1', 't2'],
-      );
-
-      var record3 = createInstance<String>(
-        key: 'k3',
-        data: 'app3',
-        tags: ['t3', 't4'],
-      );
-
-      var record4 = createInstance<String>(
-        key: 'k4',
-        data: 'app3',
-        tags: ['t3', 't5'],
-      );
-
-      var record5 = createInstance<String>(
-        key: 'k5',
-        data: 'app3',
-        tags: ['t6', 't5'],
-      );
-
-      var record6 = createInstance<String>(
-        key: 'k6',
-        data: 'app3',
-        tags: ['t3'],
-      );
+      var record1 = r(key: 'k1', data: 'app3', tags: ['t1']);
+      var record2 = r(key: 'k2', data: 'app3', tags: ['t1', 't2']);
+      var record3 = r(key: 'k3', data: 'app3', tags: ['t3', 't4']);
+      var record4 = r(key: 'k4', data: 'app3', tags: ['t3', 't5']);
+      var record5 = r(key: 'k5', data: 'app3', tags: ['t6', 't5']);
+      var record6 = r(key: 'k6', data: 'app3', tags: ['t3']);
 
       await _iNoSqlStorageProvider.add(record1);
       await _iNoSqlStorageProvider.add(record2);
@@ -431,8 +269,7 @@ void main() async {
       await _iNoSqlStorageProvider.add(record6);
 
       await _iNoSqlStorageProvider.deleteAll(tags: ['t2', 't3', 't5']);
-      var keys =
-          await _iNoSqlStorageProvider.findAllKeys(tags: ['t2', 't3', 't5']);
+      var keys = await _iNoSqlStorageProvider.findAllKeys(tags: ['t2', 't3', 't5']);
 
       var actualRecord1 = await _iNoSqlStorageProvider.get<String>('k1');
       var actualRecord2 = await _iNoSqlStorageProvider.get<String>('k2');

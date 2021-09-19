@@ -71,7 +71,7 @@ void main() {
         'token': userSession.token,
         'user_id': userSession.userId,
         'secret': 'eyJ1c04iOiJVc2VyTmFtZSIsInVzUiI6InVzZXIifQ==',
-        'expiry_date': userSession.expiryDate.format(),
+        'expiry_date': userSession.expiryDate!.format(),
       };
 
       var actual = UserSession.fromMap(map);
@@ -84,7 +84,7 @@ void main() {
         'token': userSession.token,
         'user_id': userSession.userId,
         'secret': 'eyJ1c04iOiJVc2VyTmFtZSIsInVzUiI6InVzZXIifQ==',
-        'expiry_date': userSession.expiryDate.format(),
+        'expiry_date': userSession.expiryDate!.format(),
       };
 
       var actual = userSession.toMap();

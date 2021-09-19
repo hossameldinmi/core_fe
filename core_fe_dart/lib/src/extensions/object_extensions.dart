@@ -19,7 +19,7 @@ extension ItemFold on Object? {
     }
   }
 
-  Future<dynamic> castAllIn<T>(Future<T> Function(dynamic) castCallBack) async {
+  Future<dynamic> castAllIn<T>(Future<T?> Function(Object) castCallBack) async {
     var data = this;
     if (data == null) return Future.value();
     if (data is Map) {

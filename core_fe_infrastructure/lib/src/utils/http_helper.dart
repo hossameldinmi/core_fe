@@ -18,55 +18,51 @@ class HttpHelperImpl implements HttpHelper {
 
     // add language header
     var settings = await _settingsManager.getSettings();
-    headers[HttpHeaders.acceptLanguageHeader] =
-        '${settings.language.languageCode}';
+    if (settings != null) {
+      headers[HttpHeaders.acceptLanguageHeader] = settings.language.languageCode;
+    }
 
     // add credentials header
     if (!await _sessionManager.isAnonymousSession()) {
       var isAnonymousSession = await _sessionManager.isAnonymousSession();
       if (!isAnonymousSession) {
         var currentSession = await _sessionManager.getCurrentSession();
-        headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${currentSession.token}';
+        if (currentSession != null) {
+          headers[HttpHeaders.authorizationHeader] = 'Bearer ${currentSession.token}';
+        }
       }
     }
     return headers;
   }
 
   @override
-  BaseResponse<TResponse> resolveResponse<TResponse>(
-      HttpResponse<TResponse> response) {
+  BaseResponse<TResponse?> resolveResponse<TResponse>(HttpResponse<TResponse?> response) {
     var responseData = response.data;
-    TResponse data;
-    if (validateStatus(response.statusCode)) {
+    TResponse? data;
+    if (validateStatus(response.statusCode!)) {
       data = responseData;
     } else {
       handleException(response);
     }
-    var result = BaseResponse<TResponse>(
-        data, response.statusCode, response.statusMessage);
+    var result = BaseResponse<TResponse?>(data, response.statusCode, response.statusMessage);
     return result;
   }
 
   @override
-  bool validateStatus(int statusCode) {
-    return statusCode < HttpStatus.badRequest;
+  bool validateStatus(int? statusCode) {
+    //todo: check this later
+    return statusCode! < HttpStatus.badRequest;
   }
 
   @override
   void handleException(HttpResponse response) {
     if (response.statusCode == HttpStatus.unauthorized) {
-      throw AuthorizationException(
-          errorCode: response.statusCode, errorMessage: response.statusMessage);
-    } else if (response.statusCode >= HttpStatus.badRequest &&
-        response.statusCode < HttpStatus.internalServerError) {
-      throw ClientException(
-          errorCode: response.statusCode, errorMessage: response.statusMessage);
-    } else if (response.statusCode >= HttpStatus.internalServerError) {
+      throw AuthorizationException(errorCode: response.statusCode, errorMessage: response.statusMessage);
+    } else if (response.statusCode! >= HttpStatus.badRequest && response.statusCode! < HttpStatus.internalServerError) {
+      throw ClientException(errorCode: response.statusCode, errorMessage: response.statusMessage);
+    } else if (response.statusCode! >= HttpStatus.internalServerError) {
       throw ServerException(
-          errorCode: response.statusCode,
-          errorMessage: response.statusMessage,
-          errorDetails: response.statusMessage);
+          errorCode: response.statusCode, errorMessage: response.statusMessage, errorDetails: response.statusMessage);
     }
   }
 }
