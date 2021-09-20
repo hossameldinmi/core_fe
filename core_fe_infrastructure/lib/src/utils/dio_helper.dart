@@ -47,7 +47,7 @@ class DioHelper {
           data = fromJsonFunc!(response.data);
         }
         // if data is stream
-        else if (response.data is ResponseBody && (response.data as ResponseBody).stream != null) {
+        else if (response.data is ResponseBody) {
           if (TResponse == Stream ||
               TResponse.toString() == 'Stream<dynamic>' ||
               TResponse.toString() == 'Stream<List<int>>' ||
