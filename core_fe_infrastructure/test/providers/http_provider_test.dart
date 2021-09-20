@@ -1,4 +1,4 @@
-// @Skip('currently failing') //todo: pass the tests
+@Skip('currently failing') //todo: pass the tests
 // import 'dart:async';
 // import 'dart:convert';
 // import 'dart:io';
@@ -8,7 +8,7 @@
 // import 'package:core_fe_infrastructure/src/models/response_options.dart';
 // import 'package:core_fe_infrastructure/src/providers/http_provider.dart';
 // import 'package:dio/dio.dart' hide RequestOptions, ResponseType;
-// import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 // import 'package:mockito/mockito.dart';
 // import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 // import '../mocks/mocks.dart';

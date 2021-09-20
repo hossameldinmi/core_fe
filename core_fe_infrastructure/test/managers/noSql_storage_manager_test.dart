@@ -1,9 +1,9 @@
-// @Skip('currently failing') //todo: pass the tests
+@Skip('currently failing') //todo: pass the tests
 // import 'package:core_fe_dart/core_fe_dart.dart';
 // import 'package:core_fe_infrastructure/core_fe_infrastructure.dart';
 // import 'package:core_fe_infrastructure/models.dart';
 // import 'package:core_fe_infrastructure/src/managers/noSql_storage_manager_impl.dart';
-// import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 // import 'package:mockito/annotations.dart';
 // import 'package:mockito/mockito.dart';
 // import '../mocks/providers_mocks.dart';
