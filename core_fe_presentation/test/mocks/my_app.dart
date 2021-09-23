@@ -1,7 +1,7 @@
 import 'package:core_fe_presentation/src/widget/route_generator.dart';
-import 'package:core_fe_presentation/test_lib/mocks/page1.dart';
 import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
+import 'mocks.dart';
 
 class MyApp extends StatelessWidget {
   final String initialRoute;
@@ -29,7 +29,7 @@ Map<String, Widget Function(BuildContext)> routes() => {
       Page2.route: (cxt) => Page2(),
     };
 
-class MockNavigatorObserver extends Mock implements NavigatorObserver {}
+class MockNavigatorObserver extends Mock with NavigatorObserver {}
 
 final mockObserver = MockNavigatorObserver();
 typedef NavigationFunc<T> = Future<T> Function(BuildContext);

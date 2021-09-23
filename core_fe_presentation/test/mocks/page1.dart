@@ -1,23 +1,23 @@
+import 'package:core_fe_presentation/core_fe_presentation.dart';
 import 'package:flutter/material.dart';
-
 import 'my_app.dart';
 
 class HomePage extends StatefulWidget {
   static const route = '/';
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
   final String title = route;
-  static NavigationFunc navigationFunc;
+  static NavigationFunc? navigationFunc;
   @override
   _HomePageState createState() => _HomePageState(navigationFunc);
 }
 
 class _HomePageState extends State<HomePage> {
   _HomePageState(this.navigationFunc);
-  NavigationFunc navigationFunc;
-  Object navResponse;
+  NavigationFunc? navigationFunc;
+  Object? navResponse;
   void navigate() async {
     try {
-      var response = await navigationFunc(context);
+      var response = await navigationFunc!(context);
       setState(() {
         navResponse = response;
       });
@@ -28,7 +28,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var args = ModalRoute.of(context).settings;
+    var args = RouteUtil.argsOf(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
             Text(
               navResponse?.toString() ?? '',
             ),
-            Text(args.arguments?.toString() ?? ''),
+            Text(args?.toString() ?? ''),
           ],
         ),
       ),
@@ -54,20 +55,20 @@ class _HomePageState extends State<HomePage> {
 
 class Page1 extends StatefulWidget {
   static const route = '/Page1';
-  Page1({Key key}) : super(key: key);
+  Page1({Key? key}) : super(key: key);
   final String title = route;
-  static NavigationFunc navigationFunc;
+  static NavigationFunc? navigationFunc;
   @override
   _Page1State createState() => _Page1State(navigationFunc);
 }
 
 class _Page1State extends State<Page1> {
   _Page1State(this.navigationFunc);
-  NavigationFunc navigationFunc;
-  Object navResponse;
+  NavigationFunc? navigationFunc;
+  Object? navResponse;
   void navigate() async {
     try {
-      var response = await navigationFunc(context);
+      var response = await navigationFunc!(context);
       setState(() {
         navResponse = response;
       });
@@ -78,7 +79,7 @@ class _Page1State extends State<Page1> {
 
   @override
   Widget build(BuildContext context) {
-    var args = ModalRoute.of(context).settings;
+    var args = RouteUtil.argsOf(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -89,7 +90,7 @@ class _Page1State extends State<Page1> {
             Text(
               navResponse?.toString() ?? '',
             ),
-            Text(args.arguments?.toString() ?? ''),
+            Text(args?.toString() ?? ''),
           ],
         ),
       ),
@@ -104,20 +105,20 @@ class _Page1State extends State<Page1> {
 
 class Page2 extends StatefulWidget {
   static const route = '/Page2';
-  Page2({Key key}) : super(key: key);
+  Page2({Key? key}) : super(key: key);
   final String title = route;
-  static NavigationFunc navigationFunc;
+  static NavigationFunc? navigationFunc;
   @override
   _Page2State createState() => _Page2State(navigationFunc);
 }
 
 class _Page2State extends State<Page2> {
   _Page2State(this.navigationFunc);
-  final NavigationFunc navigationFunc;
-  Object navResponse;
+  final NavigationFunc? navigationFunc;
+  Object? navResponse;
   void navigate() async {
     try {
-      var response = await navigationFunc(context);
+      var response = await navigationFunc!(context);
       setState(() {
         navResponse = response;
       });
@@ -128,7 +129,8 @@ class _Page2State extends State<Page2> {
 
   @override
   Widget build(BuildContext context) {
-    var args = ModalRoute.of(context).settings;
+    var args = RouteUtil.argsOf(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -139,7 +141,7 @@ class _Page2State extends State<Page2> {
             Text(
               navResponse?.toString() ?? '',
             ),
-            Text(args.arguments?.toString() ?? ''),
+            Text(args?.toString() ?? ''),
           ],
         ),
       ),

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 abstract class BaseState with ChangeNotifier {
   bool get isLoading => _isLoading;
   bool _isLoading = false;
-  String get busyMessage => _busyMessage;
-  String _busyMessage;
-  void showLoading({String message}) {
+  String? get busyMessage => _busyMessage;
+  String? _busyMessage;
+  void showLoading({String? message}) {
     _isLoading = true;
     _busyMessage = message;
     notify();

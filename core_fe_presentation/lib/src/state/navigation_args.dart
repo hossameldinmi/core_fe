@@ -4,20 +4,15 @@ import 'navigation_direction.dart';
 @immutable
 class NavigationArgs {
   final NavigationDirection direction;
-  final Object param;
-  final String prevRoute;
-  NavigationArgs(
-      {@required this.param,
-      this.direction = NavigationDirection.newPage,
-      this.prevRoute});
+  final Object? param;
+  final String? prevRoute;
+  NavigationArgs({required this.param, this.direction = NavigationDirection.newPage, this.prevRoute});
 
   NavigationArgs copyWith({
-    NavigationDirection direction,
-    Object param,
-    String prevRoute,
+    NavigationDirection? direction,
+    Object? param,
+    String? prevRoute,
   }) =>
       NavigationArgs(
-          direction: direction ?? this.direction,
-          param: param ?? this.param,
-          prevRoute: prevRoute ?? this.prevRoute);
+          direction: direction ?? this.direction, param: param ?? this.param, prevRoute: prevRoute ?? this.prevRoute);
 }
