@@ -15,8 +15,8 @@ void main() {
     Future<void> expectCasting(dynamic input, dynamic expected) async {
       expect((input as Object?).castAllInSync<double>(toDouble), expected);
       expect(
-          await input
-              .castAllIn<double>((value) => Future.delayed(Duration(milliseconds: 1)).then((v) => toDouble(value))),
+          await input.castAllIn<double>(
+              (value) => Future.delayed(const Duration(milliseconds: 1)).then((v) => toDouble(value))),
           expected);
     }
 

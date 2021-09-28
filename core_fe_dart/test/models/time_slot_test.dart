@@ -13,8 +13,7 @@ void main() {
 
   group('generateByRange', () {
     test('expected morning slots', () {
-      var list = TimeSlot.generateByRange(
-          TimeInDay.midNight, TimeInDay.noon, Duration(hours: 1));
+      var list = TimeSlot.generateByRange(TimeInDay.midNight, TimeInDay.noon, const Duration(hours: 1));
       expect(list, [
         TimeSlot(TimeInDay.midNight, TimeInDay(hour: 1)),
         TimeSlot(TimeInDay(hour: 1), TimeInDay(hour: 2)),
@@ -32,8 +31,7 @@ void main() {
     });
 
     test('expected night slots ', () {
-      var list = TimeSlot.generateByRange(
-          TimeInDay.noon, TimeInDay.endOfDay, Duration(hours: 1));
+      var list = TimeSlot.generateByRange(TimeInDay.noon, TimeInDay.endOfDay, const Duration(hours: 1));
       expect(list, [
         TimeSlot(TimeInDay.noon, TimeInDay(hour: 13)),
         TimeSlot(TimeInDay(hour: 13), TimeInDay(hour: 14)),
@@ -54,8 +52,8 @@ void main() {
       var list = TimeSlot.generateByRange(
         TimeInDay.noon,
         TimeInDay.endOfDay,
-        Duration(hours: 2),
-        span: Duration(hours: 1),
+        const Duration(hours: 2),
+        span: const Duration(hours: 1),
       );
       expect(list, [
         TimeSlot(TimeInDay.noon, TimeInDay(hour: 14)),

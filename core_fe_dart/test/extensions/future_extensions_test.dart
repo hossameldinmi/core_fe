@@ -47,7 +47,7 @@ void main() {
         test('expected error when any future returns error', () {
           expect(
             () async => await [data(o(0)), data(o(1)), error(o(2)), error(o(3))].wait(false),
-            throwsA(TypeMatcher<Element>().having((e) => e, 'o(2)', o(2))),
+            throwsA(const TypeMatcher<Element>().having((e) => e, 'o(2)', o(2))),
           );
         });
       });
@@ -134,7 +134,8 @@ void main() {
                 error(o(2), 2),
                 error(o(3), 3),
               ].streamWait(false),
-              emitsInOrder([r(0, 0), r(1, 1), emitsError(TypeMatcher<Element>().having((e) => e, 'o(2)', o(2)))]));
+              emitsInOrder(
+                  [r(0, 0), r(1, 1), emitsError(const TypeMatcher<Element>().having((e) => e, 'o(2)', o(2)))]));
         });
       }, skip: 'fix error on terminal');
 

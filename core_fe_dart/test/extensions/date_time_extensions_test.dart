@@ -38,8 +38,7 @@ void main() {
       expect(actual.isUtc, expectedDate.isUtc);
     });
 
-    test('expected newDate and ignoring new hours and minutes when resetting',
-        () {
+    test('expected newDate and ignoring new hours and minutes when resetting', () {
       var date = DateTime(2020, 1, 2, 3, 4, 5);
       var actual = date.resetDate(DateTime(2020, 1, 3, 5, 7, 8));
       var expectedDate = DateTime(2020, 1, 3, 3, 4, 5);
@@ -50,16 +49,14 @@ void main() {
   group('resetTime', () {
     test('expected newDate when resetting', () {
       var date = DateTime(2020, 1, 2, 3, 4, 5);
-      var actual = date.resetTime(TimeInDay(
-          hour: 5, minute: 6, second: 2, millisecond: 3, microsecond: 5));
+      var actual = date.resetTime(TimeInDay(hour: 5, minute: 6, second: 2, millisecond: 3, microsecond: 5));
       var expectedDate = DateTime(2020, 1, 2, 5, 6, 2, 3, 5);
       expect(actual, expectedDate);
     });
 
     test('expected UTC newDate when resetting ', () {
       var date = DateTime.utc(2020, 1, 2, 3, 4, 5);
-      var actual = date.resetTime(TimeInDay(
-          hour: 5, minute: 6, second: 2, millisecond: 3, microsecond: 5));
+      var actual = date.resetTime(TimeInDay(hour: 5, minute: 6, second: 2, millisecond: 3, microsecond: 5));
       var expectedDate = DateTime.utc(2020, 1, 2, 5, 6, 2, 3, 5);
       expect(actual, expectedDate);
       expect(actual.isUtc, expectedDate.isUtc);
@@ -79,7 +76,7 @@ void main() {
     });
 
     test('expected false when date is NOT today', () {
-      var date = DateTime.now().subtract(Duration(days: 1));
+      var date = DateTime.now().subtract(const Duration(days: 1));
       expect(date.isToday(), false);
     });
   });

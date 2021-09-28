@@ -4,19 +4,17 @@ import 'package:equatable/equatable.dart';
 class TimeSlot extends Equatable {
   final TimeInDay start;
   final TimeInDay end;
-  TimeSlot(this.start, this.end);
+  const TimeSlot(this.start, this.end);
   TimeSlot.fromDateTimes(DateTime dateTime1, DateTime dateTime2)
       : start = TimeInDay.fromDateTime(dateTime1),
         end = TimeInDay.fromDateTime(dateTime2);
-  static List<TimeSlot> generateByDurations(
-      TimeInDay seed, int length, Duration duration,
+  static List<TimeSlot> generateByDurations(TimeInDay seed, int length, Duration duration,
       {Duration span = Duration.zero, bool trimIfException = true}) {
     var list = [TimeSlot(seed, seed.add(duration))];
     try {
       for (var i = 1; i < length; i++) {
         if (span != Duration.zero && i == length - 1) {
-          list.add(TimeSlot(list[i - 1].end.add(span),
-              list[i - 1].end.add(span).add(duration)));
+          list.add(TimeSlot(list[i - 1].end.add(span), list[i - 1].end.add(span).add(duration)));
         }
         list.add(TimeSlot(list[i - 1].end, list[i - 1].end.add(duration)));
       }
@@ -34,10 +32,8 @@ class TimeSlot extends Equatable {
     return time.isBetween(start, end, includeSameMoment: includeSameMoment);
   }
 
-  static List<TimeSlot> generateByRange(
-      TimeInDay seed, TimeInDay end, Duration duration,
-      {Duration span = Duration.zero,
-      TimeAddOption option = TimeAddOption.exception}) {
+  static List<TimeSlot> generateByRange(TimeInDay seed, TimeInDay end, Duration duration,
+      {Duration span = Duration.zero, TimeAddOption option = TimeAddOption.exception}) {
     var list = [TimeSlot(seed, seed.add(duration))];
     try {
       while (_getNewTime(list, span, duration).isBefore(end)) {
@@ -46,22 +42,20 @@ class TimeSlot extends Equatable {
         }
         list.add(list.last.addToEnd(duration));
       }
-    } finally {
+      return list;
+    } catch (ex) {
       return list;
     }
   }
 
-  static TimeInDay _getNewTime(
-      List<TimeSlot> list, Duration span, Duration duration) {
+  static TimeInDay _getNewTime(List<TimeSlot> list, Duration span, Duration duration) {
     return list.last.addToEnd(span).addToEnd(duration).end;
   }
 
-  TimeSlot shift(Duration duration,
-          [TimeAddOption option = TimeAddOption.exception]) =>
+  TimeSlot shift(Duration duration, [TimeAddOption option = TimeAddOption.exception]) =>
       TimeSlot(start.add(duration, option), end.add(duration, option));
 
-  TimeSlot addToEnd(Duration duration,
-          [TimeAddOption option = TimeAddOption.exception]) =>
+  TimeSlot addToEnd(Duration duration, [TimeAddOption option = TimeAddOption.exception]) =>
       TimeSlot(end, end.add(duration, option));
   @override
   List<Object> get props => [start, end];

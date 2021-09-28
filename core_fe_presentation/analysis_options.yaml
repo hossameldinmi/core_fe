@@ -1,14 +1,11 @@
-  
-# Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
-# for details. All rights reserved. Use of this source code is governed by a
-# BSD-style license that can be found in the LICENSE file.
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
 #
-# Google internally enforced rules. See README.md for more information,
-# including a list of lints that are intentionally _not_ enforced.
-#
-# Include this file if you want to always use the latest version. If your
-# continuous build and/or pre-submit check lints then they will likely fail
-# whenever a new version of `package:pedantic` is released. To avoid this,
-# specify a specific version of `analysis_options.yaml` instead.
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+# The following line activates a set of recommended lints for Flutter apps,
+# packages, and plugins designed to encourage good coding practices.
 
 include: ../core_fe_dart/analysis_options.yaml

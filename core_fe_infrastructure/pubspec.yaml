@@ -2,7 +2,6 @@ name: core_fe_infrastructure
 description: Infrastructure and Data Access Core Layer, and all framework
   specific implementations.
 version: 0.1.2
-author: hossameldinmi@gmail.com
 homepage: null
 publish_to: none
 
@@ -26,11 +25,11 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.1.1
+  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
   mockito: ^5.0.15
   mocktail: ^0.1.4
-  pedantic: ^1.11.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
