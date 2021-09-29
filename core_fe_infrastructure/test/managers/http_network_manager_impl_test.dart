@@ -74,7 +74,7 @@ void main() {
     });
 
     test('expect updating default headers', () async {
-      final options = RequestOptions(headers: {'dh1': 'New DefaultValue'});
+      final options = RequestOptions(headers: const {'dh1': 'New DefaultValue'});
 
       var updatedOptions = await networkManager.updateRequestOptions(options);
 
@@ -99,7 +99,7 @@ void main() {
       expect(updatedOptions, expectedOptions);
     });
     test('expect default ResponseOptions when passing Empty initalized Object', () {
-      final options = ResponseOptions<int>();
+      const options = ResponseOptions<int>();
       var updatedOptions = networkManager.updateResponseOptions<int>(options);
       var expectedOptions = ResponseOptions(
         responseType: ResponseType.json,
@@ -110,7 +110,7 @@ void main() {
       expect(updatedOptions, expectedOptions);
     });
     test('expect new ResponseOptions with new receiveTimeout', () {
-      final options = ResponseOptions<int>(receiveTimeout: 2000);
+      const options = ResponseOptions<int>(receiveTimeout: 2000);
       var updatedOptions = networkManager.updateResponseOptions<int>(options);
       var expectedOptions = ResponseOptions(
         responseType: ResponseType.json,
@@ -122,7 +122,7 @@ void main() {
     });
 
     test('expect new ResponseOptions with new responseType', () {
-      final options = ResponseOptions<int>(
+      const options = ResponseOptions<int>(
         receiveTimeout: 2000,
         responseType: ResponseType.plain,
       );
@@ -139,7 +139,7 @@ void main() {
 
   group('get', () {
     test('valid GET request with valid 200 valid response', () async {
-      var todo = Todo(
+      const todo = Todo(
           userId: 1,
           id: 1,
           title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
@@ -165,7 +165,7 @@ void main() {
       when(() => mockHttpHelper.resolveResponse(httpResponse)).thenReturn(BaseResponse.fromHttpResponse(httpResponse));
       var response = await networkManager.get<Todo>(request: getRequest, responseOptions: responseOptions);
 
-      var expectedResponse = BaseResponse<Todo>(todo, HttpStatus.ok, ok);
+      const expectedResponse = BaseResponse<Todo>(todo, HttpStatus.ok, ok);
 
       expect(response, equals(expectedResponse));
     });
@@ -173,7 +173,7 @@ void main() {
 
   group('POST', () {
     test('valid POST request with valid 200 valid response', () async {
-      var todo = Todo(
+      const todo = Todo(
           userId: 1,
           id: 1,
           title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
@@ -193,7 +193,7 @@ void main() {
       when(() => mockHttpHelper.resolveResponse(httpResponse)).thenReturn(BaseResponse.fromHttpResponse(httpResponse));
       var response = await networkManager.post<Todo>(request: postRequest, responseOptions: responseOptions);
 
-      var expectedResponse = BaseResponse<Todo>(todo, HttpStatus.ok, ok);
+      const expectedResponse = BaseResponse<Todo>(todo, HttpStatus.ok, ok);
 
       expect(response, equals(expectedResponse));
     });
@@ -201,7 +201,7 @@ void main() {
 
   group('PUT', () {
     test('valid put request with valid 200 valid response', () async {
-      var todo = Todo(
+      const todo = Todo(
           userId: 1,
           id: 2,
           title: 'Hossam Eldin',
@@ -221,7 +221,7 @@ void main() {
       when(() => mockHttpHelper.resolveResponse(httpResponse)).thenReturn(BaseResponse.fromHttpResponse(httpResponse));
       var response = await networkManager.put<Todo>(request: putRequest, responseOptions: responseOptions);
 
-      var expectedResponse = BaseResponse<Todo>(todo, HttpStatus.ok, ok);
+      const expectedResponse = BaseResponse<Todo>(todo, HttpStatus.ok, ok);
       expect(response, equals(expectedResponse));
     });
   });
@@ -247,7 +247,7 @@ void main() {
         requestOptions: requestOptions,
       );
 
-      var expectedResponse = BaseResponse<void>(null, HttpStatus.ok, ok);
+      const expectedResponse = BaseResponse<void>(null, HttpStatus.ok, ok);
       expect(response, equals(expectedResponse));
     });
   });
@@ -274,7 +274,7 @@ void main() {
         requestOptions: requestOptions,
       );
 
-      var expectedResponse = BaseResponse<void>(null, HttpStatus.ok, ok);
+      const expectedResponse = BaseResponse<void>(null, HttpStatus.ok, ok);
       expect(response, equals(expectedResponse));
     });
   });
@@ -298,7 +298,7 @@ void main() {
       requestOptions: requestOptions,
     );
 
-    var expectedResponse = BaseResponse<void>(null, HttpStatus.ok, ok);
+    const expectedResponse = BaseResponse<void>(null, HttpStatus.ok, ok);
     expect(response, equals(expectedResponse));
   });
 }

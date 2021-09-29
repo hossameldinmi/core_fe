@@ -17,7 +17,7 @@ import '../shared.dart';
 void main() {
   var mockSessionManager = MockSessionManager();
   var mockSettingsManager = MockSettingsManager();
-  var settings = Settings(language: Language.ar_EG);
+  const settings = Settings(language: Language.arEG);
   var httpHelper = HttpHelperImpl(mockSessionManager, mockSettingsManager);
   group('getDefaultHeaders', () {
     test('default headers when session is anonymous', () async {
@@ -28,7 +28,7 @@ void main() {
 
       var expectedHeaders = {
         HttpHeaders.acceptHeader: ContentType.json.value,
-        HttpHeaders.acceptLanguageHeader: '${settings.language.languageCode}',
+        HttpHeaders.acceptLanguageHeader: settings.language.languageCode,
       };
 
       expect(headers, equals(expectedHeaders));
@@ -44,7 +44,7 @@ void main() {
 
       var expectedHeaders = {
         HttpHeaders.acceptHeader: ContentType.json.value,
-        HttpHeaders.acceptLanguageHeader: '${settings.language.languageCode}',
+        HttpHeaders.acceptLanguageHeader: settings.language.languageCode,
         HttpHeaders.authorizationHeader: 'Bearer ${session.token}',
       };
 
@@ -60,7 +60,7 @@ void main() {
         statusMessage: ok,
       );
 
-      var expectedResponse = BaseResponse<int>(
+      const expectedResponse = BaseResponse<int>(
         2,
         HttpStatus.ok,
         ok,

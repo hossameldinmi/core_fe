@@ -9,7 +9,7 @@ import '../mocks/providers_mocks.dart';
 void main() {
   final mockSettingsProvider = MockSettingsProvider();
   final settingsManager = SettingsManagerImpl(mockSettingsProvider);
-  var settings = Settings(language: Language.en_US);
+  var settings = const Settings(language: Language.enUS);
   test('init settings', () async {
     await settingsManager.initSettings(settings);
     verify(mockSettingsProvider.initSettings(settings));

@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 @immutable
 class Settings extends Equatable {
   final Language language;
-  Settings({
+  const Settings({
     required this.language,
   });
 

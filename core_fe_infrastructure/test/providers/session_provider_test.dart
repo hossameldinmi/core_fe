@@ -11,7 +11,7 @@ MockNoSqlStorageManager _mockCachedINoSqlStorageManager = MockNoSqlStorageManage
 MockNoSqlStorageManager _mockNoSqlStorageManager = MockNoSqlStorageManager();
 void main() {
   var _sessionProvider = SessionProviderImpl(_mockNoSqlStorageManager, _mockCachedINoSqlStorageManager);
-  final tomorrowDate = DateTime.now().add(Duration(days: 1));
+  final tomorrowDate = DateTime.now().add(const Duration(days: 1));
   var userSession = UserSession(
       expiryDate: tomorrowDate, token: 'TOKEN', userRole: UserRole.user, userId: 'ID1', username: 'UserName');
   test('valid session start', () async {

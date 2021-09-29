@@ -77,8 +77,8 @@ class CoreFeInfrastructureModule implements BaseModule {
     Locator.managers.registerLazySingleton<SettingsManager>(
       () => SettingsManagerImpl(
         Locator.providers<SettingsProvider>(),
-        defaultSettings: Settings(
-          language: Language.en_US,
+        defaultSettings: const Settings(
+          language: Language.enUS,
         ),
       ),
     );

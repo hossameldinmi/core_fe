@@ -1,4 +1,4 @@
-import 'package:core_fe_infrastructure/src/interfaces/noSql_storage.dart';
+import 'package:core_fe_infrastructure/src/interfaces/no_sql_storage.dart';
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
 import 'package:core_fe_dart/utils.dart';
 import 'package:core_fe_dart/extensions.dart';

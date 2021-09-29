@@ -1,5 +1,5 @@
 import 'package:core_fe_infrastructure/src/constants/storage_key.dart';
-import 'package:core_fe_infrastructure/src/interfaces/noSql_storage.dart';
+import 'package:core_fe_infrastructure/src/interfaces/no_sql_storage.dart';
 import 'package:core_fe_infrastructure/src/interfaces/session_manager.dart';
 import 'package:core_fe_infrastructure/src/models/user_session.dart';
 

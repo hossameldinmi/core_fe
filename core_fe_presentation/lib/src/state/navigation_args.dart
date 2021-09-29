@@ -6,7 +6,7 @@ class NavigationArgs {
   final NavigationDirection direction;
   final Object? param;
   final String? prevRoute;
-  NavigationArgs({required this.param, this.direction = NavigationDirection.newPage, this.prevRoute});
+  const NavigationArgs({required this.param, this.direction = NavigationDirection.newPage, this.prevRoute});
 
   NavigationArgs copyWith({
     NavigationDirection? direction,

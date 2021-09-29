@@ -33,7 +33,7 @@ class Language extends Enum {
   String? get locale => _locale.isNullEmptyOrWhitespace() ? '$languageCode' '_' '$countryCode' : _locale;
 
   /// `English-US` language
-  static const Language en_US = Language(
+  static const enUS = Language(
     name: 'English-US',
     languageCode: 'en',
     countryCode: 'US',
@@ -41,10 +41,10 @@ class Language extends Enum {
 
   /// `Arabic-Egypt` language
   /// `عربي - مصر`
-  static const Language ar_EG =
+  static const Language arEG =
       Language(name: 'عربي - مصر', languageCode: 'ar', countryCode: 'EG', flowDirection: FlowDirection.rtl);
 
-  static List<Language> get languages => [en_US, ar_EG];
+  static List<Language> get languages => [enUS, arEG];
   Locale toLocale() {
     return Locale(languageCode.toLowerCase(), countryCode);
   }

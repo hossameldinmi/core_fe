@@ -76,8 +76,7 @@ class HttpResponse<T> extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [data, statusCode, statusMessage, extra, isRedirect];
+  List<Object?> get props => [data, statusCode, statusMessage, extra, isRedirect];
 }
 
 class Progress extends Equatable {
@@ -85,7 +84,7 @@ class Progress extends Equatable {
   final double count;
   final double total;
 
-  Progress({required this.status, required this.count, required this.total});
+  const Progress({required this.status, required this.count, required this.total});
   double get percentage => count / total * 100;
 
   @override

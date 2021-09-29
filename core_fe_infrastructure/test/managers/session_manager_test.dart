@@ -11,8 +11,8 @@ void main() {
   var _mockSessionProvider = MockSessionProvider();
   var _sessionManager = SessionManagerImpl(_mockSessionProvider);
   final nowDate = DateTime.now();
-  final beforeNowDate = nowDate.subtract(Duration(seconds: 1));
-  final tomorrowDate = DateTime.now().add(Duration(days: 1));
+  final beforeNowDate = nowDate.subtract(const Duration(seconds: 1));
+  final tomorrowDate = DateTime.now().add(const Duration(days: 1));
 
   test('valid session start', () async {
     var userSession = UserSession(
@@ -106,7 +106,6 @@ void main() {
     });
     test('update Credentials with Invalid Credentials ', () async {
       when(_mockSessionProvider.getCurrentSession()).thenAnswer((realInvocation) async => userSession);
-      ;
       expect(() async => await _sessionManager.updateCredentials(token: null, expiryDate: null), throwsAssertionError);
       expect(() async => await _sessionManager.updateCredentials(token: null, expiryDate: tomorrowDate),
           throwsAssertionError);

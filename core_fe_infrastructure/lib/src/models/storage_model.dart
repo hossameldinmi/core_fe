@@ -52,6 +52,9 @@ class StorageModel<T> {
   bool isExpired() => DateTime.now().isAfter(expiryDate!);
 
   @override
+  int get hashCode => key.hashCode;
+
+  @override
   bool operator ==(Object other) {
     var result = (other is StorageModel<T> &&
         key == other.key &&

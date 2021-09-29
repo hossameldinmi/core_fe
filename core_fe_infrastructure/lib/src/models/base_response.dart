@@ -7,7 +7,7 @@ class BaseResponse<TResponse> extends Equatable {
   final TResponse data;
   final int? statusCode;
   final String? statusMessage;
-  BaseResponse(this.data, this.statusCode, this.statusMessage);
+  const BaseResponse(this.data, this.statusCode, this.statusMessage);
 
   BaseResponse.fromHttpResponse(HttpResponse<TResponse> response)
       : data = response.data,

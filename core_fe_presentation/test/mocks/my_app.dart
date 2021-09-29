@@ -5,7 +5,7 @@ import 'mocks.dart';
 
 class MyApp extends StatelessWidget {
   final String initialRoute;
-  MyApp(this.initialRoute);
+  const MyApp(this.initialRoute, {Key? key}) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
 }
 
 Map<String, Widget Function(BuildContext)> routes() => {
-      HomePage.route: (cxt) => HomePage(),
-      Page1.route: (cxt) => Page1(),
-      Page2.route: (cxt) => Page2(),
+      HomePage.route: (cxt) => const HomePage(),
+      Page1.route: (cxt) => const Page1(),
+      Page2.route: (cxt) => const Page2(),
     };
 
 class MockNavigatorObserver extends Mock with NavigatorObserver {}

@@ -28,12 +28,12 @@ abstract class NoSqlStorageManager {
 
 abstract class NoSqlStorageProvider {
   Future<void> add<T>(
-    StorageModel<T> data, {
+    StorageModel<T> object, {
     ToJsonFunc<T>? toJsonFunc,
     bool shared = false,
   });
   Future<void> update<T>(
-    StorageModel<T> data, {
+    StorageModel<T> object, {
     ToJsonFunc<T>? toJsonFunc,
     bool shared = false,
   });

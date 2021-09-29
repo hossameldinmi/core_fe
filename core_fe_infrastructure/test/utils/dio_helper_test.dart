@@ -43,7 +43,7 @@ void main() async {
         contentType: ContentType.json,
         sendTimeout: 200,
       );
-      var responseOptions = ResponseOptions(
+      const responseOptions = ResponseOptions(
         receiveTimeout: 100,
         responseType: response_type.ResponseType.json,
       );
@@ -65,7 +65,7 @@ void main() async {
         contentType: ContentType.json,
         length: 100,
       );
-      var responseOptions = ResponseOptions(
+      const responseOptions = ResponseOptions(
         responseType: response_type.ResponseType.json,
       );
 
@@ -88,7 +88,7 @@ void main() async {
         headers: headers,
         contentType: ContentType.json,
       );
-      var responseOptions = ResponseOptions(
+      const responseOptions = ResponseOptions(
         responseType: response_type.ResponseType.json,
       );
       var expectedDioOptions = Options(
@@ -108,7 +108,7 @@ void main() async {
       var options = request_options.RequestOptions(
         contentType: ContentType.json,
       );
-      var responseOptions = ResponseOptions(
+      const responseOptions = ResponseOptions(
         responseType: response_type.ResponseType.json,
       );
       var expectedDioOptions = Options(

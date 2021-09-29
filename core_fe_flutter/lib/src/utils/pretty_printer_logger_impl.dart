@@ -298,7 +298,7 @@ class CustomPrinter extends LogPrinter {
 
   String stringify(dynamic message) {
     if (message is Map || message is Iterable) {
-      var encoder = JsonEncoder.withIndent('  ');
+      const encoder = JsonEncoder.withIndent('  ');
       return encoder.convert(message);
     } else {
       return message.toString();
@@ -390,7 +390,9 @@ class CustomPrinter extends LogPrinter {
     }
 
     if (time != null) {
-      buffer..add(color('$verticalLine $time'))..add(color(_middleBorder));
+      buffer
+        ..add(color('$verticalLine $time'))
+        ..add(color(_middleBorder));
     }
 
     for (var line in stringify(message.message).split('\n')) {

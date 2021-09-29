@@ -10,7 +10,7 @@ class ResponseOptions<TResponse> extends Equatable {
   final FromJsonFunc<TResponse>? fromJson;
   final bool Function(int?)? validateStatus;
 
-  ResponseOptions({
+  const ResponseOptions({
     this.receiveTimeout = 60000,
     this.fromJson,
     this.validateStatus,

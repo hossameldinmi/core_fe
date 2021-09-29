@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:core_fe_infrastructure/src/interfaces/noSql_storage.dart';
+import 'package:core_fe_infrastructure/src/interfaces/no_sql_storage.dart';
 import 'package:core_fe_infrastructure/src/models/storage_model.dart';
 import 'package:core_fe_infrastructure/src/utils/permission_handler.dart';
 import 'package:sembast/sembast.dart';

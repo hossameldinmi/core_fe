@@ -130,7 +130,7 @@ class DioHttpProvider implements NetworkProvider {
       if (error is DioError) {
         return error.response!;
       } else {
-        print(error.toString());
+        // print(error.toString());
       }
     }).then((response) {
       if (resolver != null) {

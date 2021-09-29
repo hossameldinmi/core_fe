@@ -3,8 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:core_fe_flutter/extensions.dart';
 
-void _format(DateTime date, DateTimeFormat? format, String expectedDateStr,
-    [Language language = Language.en_US]) {
+void _format(DateTime date, DateTimeFormat? format, String expectedDateStr, [Language language = Language.enUS]) {
   expect(date.format(format: format, language: language), expectedDateStr);
 }
 
@@ -13,7 +12,7 @@ void _parse(DateTime expectedDate, DateTimeFormat? format, String dateStr) {
 }
 
 void main() async {
-  await initializeDateFormatting(Language.en_US.locale);
+  await initializeDateFormatting(Language.enUS.locale);
   final date = DateTime(2020, 12, 13, 14, 15, 16, 170, 180);
   final date2 = DateTime(2020, 6, 6, 6, 6, 6, 6, 6);
   final dateUtc = DateTime.utc(2020, 12, 13, 14, 15, 16, 170, 180);
@@ -49,10 +48,8 @@ void main() async {
 
     group('Parsing', () {
       test('expected UTC isoFormat EN parsing ', () {
-        _parse(
-            dateUtc.toLocal(), _dateTimeFormat, '2020-12-13T14:15:16.170180Z');
-        _parse(
-            dateUtc2.toLocal(), _dateTimeFormat, '2020-06-06T06:06:06.006006Z');
+        _parse(dateUtc.toLocal(), _dateTimeFormat, '2020-12-13T14:15:16.170180Z');
+        _parse(dateUtc2.toLocal(), _dateTimeFormat, '2020-06-06T06:06:06.006006Z');
       });
     });
   });
@@ -61,10 +58,10 @@ void main() async {
     setUp(() {
       _dateTimeFormat = DateTimeFormat.shortDateFormat;
     });
-    final dateStr = '2020-12-13';
-    final dateStrAr = '٢٠٢٠-١٢-١٣';
-    final date2Str = '2020-06-06';
-    final date2StrAr = '٢٠٢٠-٠٦-٠٦';
+    const dateStr = '2020-12-13';
+    const dateStrAr = '٢٠٢٠-١٢-١٣';
+    const date2Str = '2020-06-06';
+    const date2StrAr = '٢٠٢٠-٠٦-٠٦';
 
     group('Formatting', () {
       test('expected shortDateFormat EN formatting ', () {
@@ -73,8 +70,8 @@ void main() async {
       });
 
       test('expected shortDateFormat Ar formatting ', () {
-        _format(date, _dateTimeFormat, dateStrAr, Language.ar_EG);
-        _format(date2, _dateTimeFormat, date2StrAr, Language.ar_EG);
+        _format(date, _dateTimeFormat, dateStrAr, Language.arEG);
+        _format(date2, _dateTimeFormat, date2StrAr, Language.arEG);
       });
     });
     group('Parsing', () {
