@@ -212,12 +212,12 @@ void main() {
 
     group('indexMap', () {
       test('empty', () {
-        expect(<int>[].indexMap((i, o) => i * o!), []);
+        expect(<int>[].indexMap((i, o) => i * o), []);
       });
       test('not empty', () {
-        expect([0, 1, 2, 3].indexMap((i, o) => i * o!), [0, 1, 4, 9]);
-        expect([1].indexMap((i, o) => i * o!), [0]);
-        expect([1, 1, 1, 1, 1].indexMap((i, o) => i * o!), [0, 1, 2, 3, 4]);
+        expect([0, 1, 2, 3].indexMap((i, o) => i * o), [0, 1, 4, 9]);
+        expect([1].indexMap((i, o) => i * o), [0]);
+        expect([1, 1, 1, 1, 1].indexMap((i, o) => i * o), [0, 1, 2, 3, 4]);
       });
     });
   });
@@ -240,14 +240,14 @@ void main() {
       test('expected replace all items with new value', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S3', 'S3', 'S3'];
-        list1.replaceWhere((s) => s!.contains('S'), (oldObject) => 'S3');
+        list1.replaceWhere((s) => s.contains('S'), (oldObject) => 'S3');
         expect(list1, list2);
       });
 
       test('expected replace NO items with new value', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S1', 'S2', 'S3'];
-        list1.replaceWhere((s) => s!.contains('H'), (oldObject) => 'S3');
+        list1.replaceWhere((s) => s.contains('H'), (oldObject) => 'S3');
         expect(list1, list2);
       });
     });
@@ -272,7 +272,7 @@ void main() {
       test('expected replace first item ONLY with the new value', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S3', 'S2', 'S3'];
-        list1.addOrUpdate('S3', test: (s) => s!.contains('S'));
+        list1.addOrUpdate('S3', test: (s) => s.contains('S'));
         expect(list1, list2);
       });
 
