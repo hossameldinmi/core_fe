@@ -13,11 +13,10 @@ void main() {
     }
 
     Future<void> expectCasting(dynamic input, dynamic expected) async {
-      expect((input as Object).castAllInSync<double>(toDouble), expected);
+      expect((input as Object?).castAllInSync<double>(toDouble), expected);
       expect(
-          await (input as Object).castAllIn<double>((value) =>
-              Future.delayed(Duration(milliseconds: 1))
-                  .then((v) => toDouble(value))),
+          await input.castAllIn<double>(
+              (value) => Future.delayed(const Duration(milliseconds: 1)).then((v) => toDouble(value))),
           expected);
     }
 
@@ -36,13 +35,10 @@ void main() {
       });
 
       test('expected Map<String,double> when value is Map<String,String>', () {
-        expectCasting(
-            {'str1': str1, 'str2': str2}, {'str1': double1, 'str2': double2});
+        expectCasting({'str1': str1, 'str2': str2}, {'str1': double1, 'str2': double2});
       });
 
-      test(
-          'expected Map<String,dynamic> when value is Map<String,dynamic>(List<String> & String)',
-          () {
+      test('expected Map<String,dynamic> when value is Map<String,dynamic>(List<String> & String)', () {
         expectCasting({
           'str1': [str1, str2],
           'str2': str1
@@ -52,9 +48,7 @@ void main() {
         });
       });
 
-      test(
-          'expected List<Map<String,dynamic>> when value is List<Map<String,dynamic>>(List<String> & String)',
-          () {
+      test('expected List<Map<String,dynamic>> when value is List<Map<String,dynamic>>(List<String> & String)', () {
         expectCasting([
           {
             'str1': [str1, str2],

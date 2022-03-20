@@ -1,23 +1,22 @@
 import 'package:core_fe_dart/extensions.dart';
 import 'package:core_fe_infrastructure/src/interfaces/session_manager.dart';
 import 'package:core_fe_infrastructure/src/models/user_session.dart';
-import 'package:meta/meta.dart';
 import 'package:core_fe_dart/enums.dart';
 
 class SessionManagerImpl implements SessionManager {
-  final SessionProvider _sessionProvider;
+  final SessionProvider? _sessionProvider;
   SessionManagerImpl(
     this._sessionProvider,
   );
   @override
   Future<void> startSession({
-    @required String username,
-    @required String token,
-    @required String userId,
-    @required DateTime expiryDate,
-    UserRole userRole = UserRole.user,
+    required String? username,
+    required String? token,
+    required String? userId,
+    required DateTime? expiryDate,
+    UserRole? userRole = UserRole.user,
   }) {
-    return _sessionProvider.startSession(
+    return _sessionProvider!.startSession(
       UserSession(
         username: username,
         token: token,
@@ -30,13 +29,13 @@ class SessionManagerImpl implements SessionManager {
 
   @override
   Future<void> endSession() async {
-    return _sessionProvider.endSession();
+    return _sessionProvider!.endSession();
   }
 
   @override
-  Future<UserSession> getCurrentSession() async {
+  Future<UserSession?> getCurrentSession() async {
     try {
-      return _sessionProvider.getCurrentSession();
+      return _sessionProvider!.getCurrentSession();
     } on AssertionError {
       return null;
     }
@@ -44,31 +43,27 @@ class SessionManagerImpl implements SessionManager {
 
   @override
   Future<bool> isAnonymousSession() async {
-    return getCurrentSession().then((userSession) =>
-        [userSession, userSession?.token].anyIsNullEmptyOrWhitespace());
+    return getCurrentSession().then((userSession) => [userSession, userSession?.token].anyIsNullEmptyOrWhitespace());
   }
 
   @override
   Future<bool> isSessionExpired() async {
     return getCurrentSession().then(
-      (userSession) => userSession.isExpired,
+      (userSession) => userSession!.isExpired,
     );
   }
 
   @override
-  Future<void> updateCredentials(
-      {@required String token, @required DateTime expiryDate}) async {
+  Future<void> updateCredentials({required String? token, required DateTime? expiryDate}) async {
     return getCurrentSession()
         .then(
-          (userSession) =>
-              _updateSession(userSession, token: token, expiryDate: expiryDate),
+          (userSession) => _updateSession(userSession!, token: token, expiryDate: expiryDate),
         )
         .then(
-          (userSession) => _sessionProvider.updateSession(userSession),
+          (userSession) => _sessionProvider!.updateSession(userSession),
         );
   }
 
-  UserSession _updateSession(UserSession userSession,
-          {@required String token, @required DateTime expiryDate}) =>
+  UserSession _updateSession(UserSession userSession, {required String? token, required DateTime? expiryDate}) =>
       userSession.updateCredentials(token: token, expiryDate: expiryDate);
 }

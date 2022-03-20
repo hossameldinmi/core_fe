@@ -5,7 +5,7 @@ import 'package:core_fe_infrastructure/models.dart';
 void main() {
   group('MergeWith', () {
     test('expected ResponseOptions when passed options<int> is null', () async {
-      var responseOptions = ResponseOptions<int>();
+      const responseOptions = ResponseOptions<int>();
       var epectedResponseOptions = responseOptions.mergeWith();
 
       expect(responseOptions, epectedResponseOptions);

@@ -10,13 +10,13 @@ void main() async {
         const TypeMatcher<ArgumentError>().having(
           (e) => e.message,
           'Type is not registered in JsonUtil.getType',
-          equals('Key [Map<dynamic, dynamic>] is not a premitive type'),
+          equals('Key [Map<dynamic, dynamic>] is not supported'),
         ),
       ),
     );
   });
   group('int', () {
-    test('expected succeeded serialization & deserialization', () {
+    test('expected serialization & deserialization', () {
       const value = 1;
       var json = 1;
 
@@ -27,9 +27,9 @@ void main() async {
       expect(actualValue, value);
     });
 
-    test('expected succeeded serialization & deserialization when null', () {
-      const int value = null;
-      const json = value;
+    test('expected serialization & deserialization when null', () {
+      const int? value = null;
+      const int? json = null;
 
       var actualValue = JsonUtil.getType<int>().fromJson(json);
       var actualJson = JsonUtil.getType<int>().toJson(value);
@@ -40,7 +40,7 @@ void main() async {
   });
 
   group('num', () {
-    test('expected succeeded serialization & deserialization', () {
+    test('expected serialization & deserialization', () {
       num value = 1.01;
       var json = 1.01;
 
@@ -53,12 +53,11 @@ void main() async {
 
     test('expected failed deserialization', () {
       var value = '1.01';
-      expect(() => JsonUtil.getType<num>().fromJson(value),
-          throwsA(const TypeMatcher<TypeError>()));
+      expect(() => JsonUtil.getType<num>().fromJson(value), throwsA(const TypeMatcher<TypeError>()));
     });
 
-    test('expected succeeded serialization & deserialization when null', () {
-      const num value = null;
+    test('expected serialization & deserialization when null', () {
+      const num? value = null;
       const json = value;
 
       var actualValue = JsonUtil.getType<num>().fromJson(json);
@@ -70,7 +69,7 @@ void main() async {
   });
 
   group('double', () {
-    test('expected succeeded serialization & deserialization', () {
+    test('expected serialization & deserialization', () {
       var value = 1.01;
       var json = 1.01;
 
@@ -81,8 +80,7 @@ void main() async {
       expect(actualValue, value);
     });
 
-    test('expected succeeded serialization & deserialization when value is int',
-        () {
+    test('expected serialization & deserialization when value is int', () {
       var json = 1.toDouble();
 
       var actualJson = JsonUtil.getType<double>().toJson(1);
@@ -90,8 +88,8 @@ void main() async {
       expect(actualJson, json);
     });
 
-    test('expected succeeded serialization & deserialization when null', () {
-      const double value = null;
+    test('expected serialization & deserialization when null', () {
+      const double? value = null;
       const json = value;
 
       var actualValue = JsonUtil.getType<double>().fromJson(json);
@@ -103,7 +101,7 @@ void main() async {
   });
 
   group('string', () {
-    test('expected succeeded serialization & deserialization', () {
+    test('expected serialization & deserialization', () {
       var value = 'string';
       var json = 'string';
 
@@ -114,7 +112,7 @@ void main() async {
       expect(actualValue, value);
     });
 
-    test('expected succeeded serialization & deserialization when number', () {
+    test('expected serialization & deserialization when number', () {
       var value = '1.01';
       var json = '1.01';
 
@@ -125,8 +123,8 @@ void main() async {
       expect(actualValue, value);
     });
 
-    test('expected succeeded serialization & deserialization when null', () {
-      const String value = null;
+    test('expected serialization & deserialization when null', () {
+      const String? value = null;
       const json = value;
 
       var actualValue = JsonUtil.getType<String>().fromJson(json);
@@ -138,7 +136,7 @@ void main() async {
   });
 
   group('Iterable', () {
-    test('expected succeeded serialization & deserialization', () {
+    test('expected serialization & deserialization', () {
       var value = ['string1', 'string2', 'string3'];
       var json = value;
 
@@ -149,7 +147,7 @@ void main() async {
       expect(actualValue, value);
     });
 
-    test('expected succeeded serialization & deserialization when empty', () {
+    test('expected serialization & deserialization when empty', () {
       var value = <String>[];
       var json = value;
 
@@ -160,9 +158,9 @@ void main() async {
       expect(actualValue, value);
     });
 
-    test('expected succeeded serialization & deserialization when null', () {
-      const List<String> value = null;
-      var json = value;
+    test('expected serialization & deserialization when null', () {
+      const List<String?>? value = null;
+      const List<String?>? json = null;
 
       var actualValue = JsonUtil.getIterable<String>().fromJson(json);
       var actualJson = JsonUtil.getIterable<String>().toJson(value);

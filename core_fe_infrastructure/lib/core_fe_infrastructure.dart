@@ -23,27 +23,24 @@ import 'src/interfaces/http_network.dart';
 
 class CoreFeInfrastructureModule implements BaseModule {
   CoreFeInfrastructureModule(this._dpName);
-  Completer<void> _completer;
+  Completer<void>? _completer;
   final String _dpName;
 
   @override
   Future<void> setUp() {
     _completer ??= Completer();
     PathProvider.getDocumentPath().then((dbPath) {
+      Locator.providers.registerLazySingleton<NoSqlStorageProvider>(() => SembastStorageProviderImpl(dbPath + _dpName));
       Locator.providers.registerLazySingleton<NoSqlStorageProvider>(
-          () => SembastStorageProviderImpl(dbPath + _dpName));
-      Locator.providers.registerLazySingleton<NoSqlStorageProvider>(
-          () =>
-              SembastStorageProviderImpl(dbPath + _dpName, isInMemoryDb: true),
+          () => SembastStorageProviderImpl(dbPath + _dpName, isInMemoryDb: true),
           instanceName: IocKeys.cachedStorageProvider);
-      _completer.complete();
+      _completer!.complete();
     });
     Locator.utils.registerSingleton<Connectivity>(ConnectivityImpl());
     Locator.utils.registerSingleton<DateTimeWrapper>(DateTimeWrapperImpl());
 
     Locator.utils.registerLazySingleton<HttpHelper>(
-      () => HttpHelperImpl(Locator.managers<SessionManager>(),
-          Locator.managers<SettingsManager>()),
+      () => HttpHelperImpl(Locator.managers<SessionManager>(), Locator.managers<SettingsManager>()),
     );
 
     Locator.managers.registerLazySingleton<NoSqlStorageManager>(
@@ -55,8 +52,7 @@ class CoreFeInfrastructureModule implements BaseModule {
 
     Locator.managers.registerLazySingleton<NoSqlStorageManager>(
         () => NoSqlStorageManagerImpl(
-              Locator.providers<NoSqlStorageProvider>(
-                  instanceName: IocKeys.cachedStorageProvider),
+              Locator.providers<NoSqlStorageProvider>(instanceName: IocKeys.cachedStorageProvider),
               Locator.utils<DateTimeWrapper>(),
             ),
         instanceName: IocKeys.cachedStorageManager);
@@ -64,8 +60,7 @@ class CoreFeInfrastructureModule implements BaseModule {
     Locator.providers.registerLazySingleton<SessionProvider>(
       () => SessionProviderImpl(
         Locator.managers<NoSqlStorageManager>(),
-        Locator.managers<NoSqlStorageManager>(
-            instanceName: IocKeys.cachedStorageManager),
+        Locator.managers<NoSqlStorageManager>(instanceName: IocKeys.cachedStorageManager),
       ),
     );
 
@@ -82,11 +77,11 @@ class CoreFeInfrastructureModule implements BaseModule {
     Locator.managers.registerLazySingleton<SettingsManager>(
       () => SettingsManagerImpl(
         Locator.providers<SettingsProvider>(),
-        defaultSettings: Settings(
-          language: Language.en_US,
+        defaultSettings: const Settings(
+          language: Language.enUS,
         ),
       ),
     );
-    return _completer.future;
+    return _completer!.future;
   }
 }

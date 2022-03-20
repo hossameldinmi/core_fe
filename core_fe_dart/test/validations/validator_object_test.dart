@@ -5,16 +5,12 @@ import 'package:matcher/matcher.dart';
 import '../mocks/validations.dart';
 
 void main() {
-  ValidatorObject<String> validatorObject;
+  late ValidatorObject<String> validatorObject;
   const _value = 'Test Case';
   setUp(() {
     validatorObject = ValidatorObject<String>(_value);
   });
-  group('add Validation', () {
-    test('', () {
-      expect(() => validatorObject.add(null), throwsAssertionError);
-    });
-  });
+  group('add Validation', () {});
   FakeValidationRule<T> _getRole<T>(bool result,
       {validationMessage = 'Not Valid', errorCode = 1}) {
     var exception = ValidationException(
@@ -30,7 +26,7 @@ void main() {
 
     //assert
     expect(actual, true);
-    expect(validatorObject.errors?.length, 0);
+    expect(validatorObject.errors.length, 0);
     expect(validatorObject.validations.length, 0);
   });
   test('expected isValid if Object rule is passed', () {

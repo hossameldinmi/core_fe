@@ -9,26 +9,25 @@ class Locator {
   static final utils = Locator();
   final _instance = GetIt.asNewInstance();
 
-  T call<T>({String instanceName}) => _instance<T>(instanceName: instanceName);
-  T get<T>({String instanceName, dynamic args}) =>
+  T call<T>({String? instanceName}) => _instance<T>(instanceName: instanceName!);
+  T get<T extends Object>({String? instanceName, dynamic args}) =>
       _instance.get<T>(instanceName: instanceName, param1: args);
 
-  void registerSingleton<T>(T instance, {String instanceName}) {
+  void registerSingleton<T extends Object>(T instance, {String? instanceName}) {
     _instance.registerSingleton<T>(instance, instanceName: instanceName);
   }
 
-  void registerFactoryParam<T, TParam1, TParam2>(
-      T Function(TParam1, TParam2) factoryFunc,
-      {String instanceName}) {
+  void registerFactoryParam<T extends Object, TParam1, TParam2>(T Function(TParam1, TParam2) factoryFunc,
+      {String? instanceName}) {
     _instance.registerFactoryParam<T, TParam1, TParam2>(
       factoryFunc,
       instanceName: instanceName,
     );
   }
 
-  void registerLazySingleton<T>(
+  void registerLazySingleton<T extends Object>(
     T Function() factoryFunc, {
-    String instanceName,
+    String? instanceName,
   }) {
     _instance.registerLazySingleton(
       factoryFunc,
@@ -36,7 +35,7 @@ class Locator {
     );
   }
 
-  void registerFactory<T>(T Function() factory, {String instanceName}) {
+  void registerFactory<T extends Object>(T Function() factory, {String? instanceName}) {
     _instance.registerFactory<T>(factory, instanceName: instanceName);
   }
 
@@ -58,9 +57,8 @@ class CustomModule implements BaseModule {
 class Initer {
   static final Map<String, BaseModule> _modules = {};
   static Future<void> loadModules() {
-    return _modules.values.asyncMap((e) => e.setUp());
+    return _modules.values.asyncMap(((e) => e!.setUp()));
   }
 
-  static void addModule(String key, BaseModule module) =>
-      _modules[key] = module;
+  static void addModule(String key, BaseModule module) => _modules[key] = module;
 }

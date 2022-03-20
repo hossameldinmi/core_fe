@@ -3,14 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Required Validation Command', () {
-    RequiredValidationCommand<String> requiredValidationCommand;
-    ValidatorObject<String> validatorObject;
+    RequiredValidationCommand<String?> requiredValidationCommand;
+    late ValidatorObject<String?> validatorObject;
 
-    void intilizeValidatorObject(String input) {
-      validatorObject = ValidatorObject<String>(input);
-      requiredValidationCommand = RequiredValidationCommand<String>(
-          validatorObject,
-          requiredMessage: '');
+    void intilizeValidatorObject(String? input) {
+      validatorObject = ValidatorObject<String?>(input);
+      requiredValidationCommand = RequiredValidationCommand<String?>(validatorObject, requiredMessage: '');
       requiredValidationCommand.excute();
     }
 

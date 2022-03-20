@@ -7,26 +7,21 @@ import '../mocks/models.dart';
 void main() {
   group('IterableExtensions', () {
     group('isEqual', () {
-      test('(List<Srirng>) value equality => Orderd: equal| Not-Ordered:Equal',
-          () {
+      test('(List<Srirng>) value equality => Orderd: equal| Not-Ordered:Equal', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S1', 'S2', 'S3'];
         expect(list1.isEqual(list2), true);
         expect(list1.isEqual(list2, isOrderEquality: false), true);
       });
 
-      test(
-          '(List<Srirng>) value equality => Orderd: NOT equal| Not-Ordered:NOT Equal',
-          () {
+      test('(List<Srirng>) value equality => Orderd: NOT equal| Not-Ordered:NOT Equal', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S3', 'S2', 'S6'];
         expect(list1.isEqual(list2), false);
         expect(list1.isEqual(list2, isOrderEquality: false), false);
       });
 
-      test(
-          '(List<Srirng>) reference equality => Orderd: NOT equal| Not-Ordered:Equal',
-          () {
+      test('(List<Srirng>) reference equality => Orderd: NOT equal| Not-Ordered:Equal', () {
         var s1 = 'S1';
         var s2 = 'S2';
         var s3 = 'S3';
@@ -38,9 +33,7 @@ void main() {
         expect(list1.isEqual(list2, isOrderEquality: false), true);
       });
 
-      test(
-          '(List<Srirng>) reference equality => Orderd: equal| Not-Ordered:Equal',
-          () {
+      test('(List<Srirng>) reference equality => Orderd: equal| Not-Ordered:Equal', () {
         var s1 = 'S1';
         var s1C = 'S1';
         var s2 = 'S2';
@@ -52,9 +45,7 @@ void main() {
         expect(list1.isEqual(list2), true);
         expect(list1.isEqual(list2, isOrderEquality: false), true);
       });
-      test(
-          '(List<List<Srirng>>) reference equality => Orderd: NOT equal| Not-Ordered:Equal',
-          () {
+      test('(List<List<Srirng>>) reference equality => Orderd: NOT equal| Not-Ordered:Equal', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S1', 'S2', 'S3'];
         final list3 = ['S3', 'S2', 'S1'];
@@ -65,9 +56,7 @@ void main() {
         expect(list4.isEqual(list5, isOrderEquality: false), true);
       });
 
-      test(
-          '(List<List<Srirng>>) reference equality => Orderd: NOT equal| Not-Ordered:Equal',
-          () {
+      test('(List<List<Srirng>>) reference equality => Orderd: NOT equal| Not-Ordered:Equal', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S1', 'S2', 'S3'];
         final list3 = ['S3', 'S2', 'S1'];
@@ -78,9 +67,7 @@ void main() {
         expect(list4.isEqual(list5, isOrderEquality: false), true);
       });
 
-      test(
-          '(List<List<Srirng>>) value equality => Orderd: NOT equal| Not-Ordered:Equal',
-          () {
+      test('(List<List<Srirng>>) value equality => Orderd: NOT equal| Not-Ordered:Equal', () {
         final list1 = ['S1', 'S2', 'S3'];
         final list2 = ['S1', 'S2', 'S3'];
         final list3 = ['S3', 'S2', 'S1'];
@@ -91,16 +78,11 @@ void main() {
           ['S3', 'S2', 'S1']
         ];
 
-        expect(list4.isEqual(list5, elementEquality: ListEquality()), true);
-        expect(
-            list4.isEqual(list5,
-                elementEquality: ListEquality(), isOrderEquality: false),
-            true);
+        expect(list4.isEqual(list5, elementEquality: const ListEquality()), true);
+        expect(list4.isEqual(list5, elementEquality: const ListEquality(), isOrderEquality: false), true);
       });
 
-      test(
-          '(List<List<Srirng>>) value equality => Orderd: equal| Not-Ordered:Equal',
-          () {
+      test('(List<List<Srirng>>) value equality => Orderd: equal| Not-Ordered:Equal', () {
         final list1 = [
           ['S1', 'S2', 'S3'],
           ['S1', 'S2', 'S3'],
@@ -111,11 +93,8 @@ void main() {
           ['S1', 'S2', 'S3'],
           ['S3', 'S2', 'S1']
         ];
-        expect(list1.isEqual(list2, elementEquality: ListEquality()), true);
-        expect(
-            list1.isEqual(list2,
-                elementEquality: ListEquality(), isOrderEquality: false),
-            true);
+        expect(list1.isEqual(list2, elementEquality: const ListEquality()), true);
+        expect(list1.isEqual(list2, elementEquality: const ListEquality(), isOrderEquality: false), true);
       });
 
       test('List<List<Srirng>>) value equality - NOT equal', () {
@@ -129,11 +108,8 @@ void main() {
           ['S3', 'S2', 'S1'],
           ['S1', 'S2', 'S3']
         ];
-        expect(list1.isEqual(list2, elementEquality: ListEquality()), false);
-        expect(
-            list1.isEqual(list2,
-                elementEquality: ListEquality(), isOrderEquality: false),
-            true);
+        expect(list1.isEqual(list2, elementEquality: const ListEquality()), false);
+        expect(list1.isEqual(list2, elementEquality: const ListEquality(), isOrderEquality: false), true);
       });
 
       test('(List<List<Srirng>>) value equality - NOT equal', () {
@@ -146,11 +122,8 @@ void main() {
           ['S3', 'S2', 'S1']
         ];
         final list5 = [list1, list3, list2];
-        expect(list4.isEqual(list5, elementEquality: ListEquality()), false);
-        expect(
-            list4.isEqual(list5,
-                elementEquality: ListEquality(), isOrderEquality: false),
-            true);
+        expect(list4.isEqual(list5, elementEquality: const ListEquality()), false);
+        expect(list4.isEqual(list5, elementEquality: const ListEquality(), isOrderEquality: false), true);
       });
     });
     group('intersection', () {
@@ -218,8 +191,7 @@ void main() {
             ]);
       }, skip: 'TODO: provide 2D intersection impl');
 
-      test('List<List<Srirng>>) 2D value intersection with no matching records',
-          () {
+      test('List<List<Srirng>>) 2D value intersection with no matching records', () {
         final list1 = [
           ['S1', 'S2', 'S3'],
           ['S1', 'S2', 'S3'],
@@ -240,9 +212,7 @@ void main() {
 
     group('indexMap', () {
       test('empty', () {
-        List list;
-        expect(() => list.indexMap((i, o) => i * o), throwsAssertionError);
-        expect([].indexMap((i, o) => i * o), []);
+        expect(<int>[].indexMap((i, o) => i * o), []);
       });
       test('not empty', () {
         expect([0, 1, 2, 3].indexMap((i, o) => i * o), [0, 1, 4, 9]);
@@ -325,11 +295,6 @@ void main() {
     });
 
     group('removeExisting', () {
-      test('null updated list', () {
-        var originalList = [o(0), o(1), o(2), o(3)];
-        expect(
-            () => originalList.removeNotExisting(null), throwsAssertionError);
-      });
       test('no items removed if updatedlist is same with original', () {
         var originalList = [o(0), o(1), o(2), o(3)];
         var updatedList = [o(0), o(1), o(2), o(3)];

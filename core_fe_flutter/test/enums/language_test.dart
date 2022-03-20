@@ -8,13 +8,13 @@ void main() async {
   }
 
   test('toLocale & fromLocale', () {
-    matchEnum(Language.en_US, 'en_US');
-    matchEnum(Language.ar_EG, 'ar_EG');
+    matchEnum(Language.enUS, 'en_US');
+    matchEnum(Language.arEG, 'ar_EG');
     expect(() => Language.fromLocale('ar_AR'), throwsArgumentError);
   });
 
   test('equality', () {
-    expect(Language.ar_EG, Language.ar_EG);
-    expect(Language.ar_EG, isNot(Language.en_US));
+    expect(Language.arEG, Language.arEG);
+    expect(Language.arEG, isNot(Language.enUS));
   });
 }

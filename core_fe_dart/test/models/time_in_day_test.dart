@@ -7,8 +7,7 @@ void main() {
       test('Expected run normaly when Initialize Time with hour = 0', () {
         expect(() => TimeInDay(), returnsNormally);
       });
-      test('Expected run normaly when Initialize Time with hour less than 24',
-          () {
+      test('Expected run normaly when Initialize Time with hour less than 24', () {
         expect(() => TimeInDay(hour: 23), returnsNormally);
       });
 
@@ -17,40 +16,29 @@ void main() {
         expect(time, TimeInDay.endOfDay);
       });
 
-      test(
-          'Expected run normaly when initialize Time with hour = 23 and minute with less than 60',
-          () {
+      test('Expected run normaly when initialize Time with hour = 23 and minute with less than 60', () {
         expect(() => TimeInDay(hour: 23, minute: 24), returnsNormally);
       });
       test('Expected AssertionError when initialize with invalid values', () {
         expect(() => TimeInDay(hour: 24, minute: 60), throwsAssertionError);
         expect(() => TimeInDay(hour: 23, minute: 60), throwsAssertionError);
         expect(() => TimeInDay(hour: 23, second: 60), throwsAssertionError);
-        expect(
-            () => TimeInDay(hour: 23, millisecond: 1000), throwsAssertionError);
-        expect(
-            () => TimeInDay(hour: 23, microsecond: 1000), throwsAssertionError);
+        expect(() => TimeInDay(hour: 23, millisecond: 1000), throwsAssertionError);
+        expect(() => TimeInDay(hour: 23, microsecond: 1000), throwsAssertionError);
         expect(() => TimeInDay(hour: 24, second: 60), throwsAssertionError);
-        expect(
-            () => TimeInDay(hour: 24, millisecond: 1000), throwsAssertionError);
+        expect(() => TimeInDay(hour: 24, millisecond: 1000), throwsAssertionError);
         expect(() => TimeInDay(hour: 24, microsecond: 1), throwsAssertionError);
       });
-      test(
-          'Expected run normaly when initialize Time with hour = 23 and second with less than 60',
-          () {
+      test('Expected run normaly when initialize Time with hour = 23 and second with less than 60', () {
         expect(() => TimeInDay(hour: 23, second: 24), returnsNormally);
       });
 
-      test(
-          'Expected run normaly when initialize Time with hour = 23 and millisecond with less than 1000',
-          () {
+      test('Expected run normaly when initialize Time with hour = 23 and millisecond with less than 1000', () {
         expect(() => TimeInDay(hour: 23, millisecond: 24), returnsNormally);
         expect(() => TimeInDay(hour: 23, millisecond: 999), returnsNormally);
       });
 
-      test(
-          'Expected run normaly when initialize Time with hour = 23 and microsecond with less than 1000',
-          () {
+      test('Expected run normaly when initialize Time with hour = 23 and microsecond with less than 1000', () {
         expect(() => TimeInDay(hour: 23, microsecond: 24), returnsNormally);
         expect(() => TimeInDay(hour: 23, microsecond: 999), returnsNormally);
       });
@@ -66,13 +54,6 @@ void main() {
         expect(() => TimeInDay.dayPeriod(periodHour: 13), throwsAssertionError);
       });
 
-      test(
-          'Expected AssertionError when Initialize Time with DayPeriod == null',
-          () {
-        expect(() => TimeInDay.dayPeriod(periodHour: 12, period: null),
-            throwsAssertionError);
-      });
-
       test('Expected noon time when Initialize Time with hour = 12 PM', () {
         var time = TimeInDay.dayPeriod(periodHour: 12, period: DayPeriod.pm);
         expect(time, TimeInDay.noon);
@@ -83,8 +64,7 @@ void main() {
         expect(time.hour, 18);
       });
 
-      test('Expected hour=12 when Initialize Time with period=PM and hour=12',
-          () {
+      test('Expected hour=12 when Initialize Time with period=PM and hour=12', () {
         var time = TimeInDay.dayPeriod(periodHour: 12, period: DayPeriod.pm);
         expect(time.hour, 12);
         expect(time, equals(TimeInDay.noon));
@@ -111,21 +91,16 @@ void main() {
       var time = TimeInDay(hour: 1);
       expect(time.hour, 1);
     });
-    test(
-        'expected exact hour if time has extra minutes,seconds,milliseconds and microseconds',
-        () {
+    test('expected exact hour if time has extra minutes,seconds,milliseconds and microseconds', () {
       var hour = 3;
       var time = TimeInDay(hour: hour, minute: 30);
       var time2 = TimeInDay(hour: hour, minute: 49);
       var time3 = TimeInDay(hour: hour, minute: 30, second: 20);
       var time4 = TimeInDay(hour: hour, minute: 49, second: 50);
-      var time5 =
-          TimeInDay(hour: hour, minute: 49, second: 59, millisecond: 45);
+      var time5 = TimeInDay(hour: hour, minute: 49, second: 59, millisecond: 45);
       var time6 = TimeInDay(hour: hour, minute: 49, second: 59, millisecond: 1);
-      var time7 = TimeInDay(
-          hour: hour, minute: 49, second: 59, millisecond: 59, microsecond: 5);
-      var time8 = TimeInDay(
-          hour: hour, minute: 49, second: 59, millisecond: 59, microsecond: 59);
+      var time7 = TimeInDay(hour: hour, minute: 49, second: 59, millisecond: 59, microsecond: 5);
+      var time8 = TimeInDay(hour: hour, minute: 49, second: 59, millisecond: 59, microsecond: 59);
       var time9 = TimeInDay.endOfDay;
       expect(time.hour, hour);
       expect(time2.hour, hour);
@@ -141,9 +116,7 @@ void main() {
   });
 
   group('hourOfPeriod', () {
-    test(
-        'expected exact hourOfPeriod if time has extra minutes,seconds,milliseconds and microseconds',
-        () {
+    test('expected exact hourOfPeriod if time has extra minutes,seconds,milliseconds and microseconds', () {
       var time = TimeInDay(hour: 1, minute: 30);
       var time2 = TimeInDay(hour: 12, minute: 49);
       var time3 = TimeInDay(hour: 16, minute: 30, second: 20);
@@ -273,8 +246,7 @@ void main() {
 
   group('generateByDurations', () {
     test('expected exact Time List', () {
-      var list = TimeInDay.generateByDurations(
-          TimeInDay.midNight, 24, Duration(hours: 1));
+      var list = TimeInDay.generateByDurations(TimeInDay.midNight, 24, const Duration(hours: 1));
       expect(list, [
         TimeInDay.midNight,
         TimeInDay(hour: 1),
@@ -304,8 +276,7 @@ void main() {
     });
 
     test('expected exact Time List', () {
-      var list = TimeInDay.generateByDurations(
-          TimeInDay.midNight, 25, Duration(hours: 1));
+      var list = TimeInDay.generateByDurations(TimeInDay.midNight, 25, const Duration(hours: 1));
       expect(list, [
         TimeInDay.midNight,
         TimeInDay(hour: 1),
@@ -335,15 +306,13 @@ void main() {
       ]);
     });
     test('expected list with only 1 Time if length = 1', () {
-      var list = TimeInDay.generateByDurations(
-          TimeInDay.midNight, 1, Duration(hours: 1));
+      var list = TimeInDay.generateByDurations(TimeInDay.midNight, 1, const Duration(hours: 1));
       expect(list, [
         TimeInDay.midNight,
       ]);
     });
     test('expected trimed List if time exceded the day Time', () {
-      var list =
-          TimeInDay.generateByDurations(TimeInDay.noon, 24, Duration(hours: 1));
+      var list = TimeInDay.generateByDurations(TimeInDay.noon, 24, const Duration(hours: 1));
       expect(list, [
         TimeInDay(hour: 12),
         TimeInDay(hour: 13),
@@ -362,10 +331,7 @@ void main() {
     });
 
     test('expected exception if time exceded the day Time', () {
-      expect(
-          () => TimeInDay.generateByDurations(
-              TimeInDay.noon, 24, Duration(hours: 1),
-              trimIfException: false),
+      expect(() => TimeInDay.generateByDurations(TimeInDay.noon, 24, const Duration(hours: 1), trimIfException: false),
           throwsArgumentError);
     });
   });
@@ -380,17 +346,14 @@ void main() {
     });
 
     test('expcetd false when ignoring equallity between two times', () {
-      expect(
-          TimeInDay.midNight.isAfter(TimeInDay.midNight, orSameMoment: false),
-          false);
+      expect(TimeInDay.midNight.isAfter(TimeInDay.midNight, orSameMoment: false), false);
     });
   });
 
   group('isBefore', () {
     test('expcetd true when time is before another', () {
       expect(TimeInDay.noon.isBefore(TimeInDay(hour: 23)), true);
-      expect(TimeInDay.noon.isBefore(TimeInDay(hour: 23), orSameMoment: false),
-          true);
+      expect(TimeInDay.noon.isBefore(TimeInDay(hour: 23), orSameMoment: false), true);
     });
 
     test('expcetd true when two times are equal', () {
@@ -398,48 +361,29 @@ void main() {
     });
 
     test('expcetd false when ignoring equallity between two times', () {
-      expect(
-          TimeInDay.noon.isBefore(TimeInDay.noon, orSameMoment: false), false);
+      expect(TimeInDay.noon.isBefore(TimeInDay.noon, orSameMoment: false), false);
     });
   });
 
   group('isBetween', () {
     test('expcetd true when time is between two times', () {
-      expect(TimeInDay.noon.isBetween(TimeInDay.midNight, TimeInDay.endOfDay),
-          true);
-      expect(
-          TimeInDay.noon.isBetween(TimeInDay.midNight, TimeInDay.endOfDay,
-              includeSameMoment: false),
-          true);
+      expect(TimeInDay.noon.isBetween(TimeInDay.midNight, TimeInDay.endOfDay), true);
+      expect(TimeInDay.noon.isBetween(TimeInDay.midNight, TimeInDay.endOfDay, includeSameMoment: false), true);
     });
 
     test('expcetd true when time is is equal on of the times', () {
-      expect(
-          TimeInDay.noon.isBetween(TimeInDay.noon, TimeInDay.endOfDay), true);
-      expect(
-          TimeInDay.noon.isBetween(TimeInDay.midNight, TimeInDay.noon), true);
+      expect(TimeInDay.noon.isBetween(TimeInDay.noon, TimeInDay.endOfDay), true);
+      expect(TimeInDay.noon.isBetween(TimeInDay.midNight, TimeInDay.noon), true);
     });
 
-    test(
-        'expcetd false when time is is equal on of the times, but ignoring this equality',
-        () {
-      expect(
-          TimeInDay.noon.isBetween(TimeInDay.noon, TimeInDay.endOfDay,
-              includeSameMoment: false),
-          false);
-      expect(
-          TimeInDay.noon.isBetween(TimeInDay.midNight, TimeInDay.noon,
-              includeSameMoment: false),
-          false);
+    test('expcetd false when time is is equal on of the times, but ignoring this equality', () {
+      expect(TimeInDay.noon.isBetween(TimeInDay.noon, TimeInDay.endOfDay, includeSameMoment: false), false);
+      expect(TimeInDay.noon.isBetween(TimeInDay.midNight, TimeInDay.noon, includeSameMoment: false), false);
     });
 
     test('expcetd false when time is NOT between two times', () {
-      expect(TimeInDay.midNight.isBetween(TimeInDay.noon, TimeInDay.endOfDay),
-          false);
-      expect(
-          TimeInDay.midNight.isBetween(TimeInDay.noon, TimeInDay.endOfDay,
-              includeSameMoment: false),
-          false);
+      expect(TimeInDay.midNight.isBetween(TimeInDay.noon, TimeInDay.endOfDay), false);
+      expect(TimeInDay.midNight.isBetween(TimeInDay.noon, TimeInDay.endOfDay, includeSameMoment: false), false);
     });
   });
 
@@ -447,36 +391,23 @@ void main() {
     test('expected exact hour when adding', () {
       var date = TimeInDay.noon;
 
-      var actualDate = date.add(Duration(hours: 1));
+      var actualDate = date.add(const Duration(hours: 1));
       var expected = TimeInDay(hour: 13);
       expect(actualDate, expected);
-      expect(TimeInDay(hour: 23).add(Duration(hours: 1)), TimeInDay.endOfDay);
+      expect(TimeInDay(hour: 23).add(const Duration(hours: 1)), TimeInDay.endOfDay);
     });
 
-    test(
-        'expected expection when adding a duration that results to exceed the max time in day',
-        () {
-      expect(() => TimeInDay(hour: 23).add(Duration(hours: 2)),
-          throwsArgumentError);
-      expect(() => TimeInDay.endOfDay.add(Duration(hours: 2)),
-          throwsArgumentError);
+    test('expected expection when adding a duration that results to exceed the max time in day', () {
+      expect(() => TimeInDay(hour: 23).add(const Duration(hours: 2)), throwsArgumentError);
+      expect(() => TimeInDay.endOfDay.add(const Duration(hours: 2)), throwsArgumentError);
     });
 
-    test(
-        'expected duration time a duration that results to exceed the max time in day',
-        () {
-      expect(
-          TimeInDay(hour: 23)
-              .add(Duration(hours: 2), TimeAddOption.startFromZero),
-          TimeInDay(hour: 2));
+    test('expected duration time a duration that results to exceed the max time in day', () {
+      expect(TimeInDay(hour: 23).add(const Duration(hours: 2), TimeAddOption.startFromZero), TimeInDay(hour: 2));
     });
 
-    test(
-        'expected overflow when adding a duration that results to exceed the max time in day',
-        () {
-      expect(
-          TimeInDay(hour: 23).add(Duration(hours: 2), TimeAddOption.overflow),
-          TimeInDay(hour: 1));
+    test('expected overflow when adding a duration that results to exceed the max time in day', () {
+      expect(TimeInDay(hour: 23).add(const Duration(hours: 2), TimeAddOption.overflow), TimeInDay(hour: 1));
     });
   });
 

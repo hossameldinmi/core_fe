@@ -5,14 +5,14 @@ import 'package:equatable/equatable.dart';
 @immutable
 class HttpResponse<T> extends Equatable {
   HttpResponse({
-    @required this.data,
-    @required this.statusCode,
+    required this.data,
+    required this.statusCode,
     // this.headers,
     // this.request,
     this.isRedirect = false,
     this.statusMessage,
     // this.redirects,
-    Map<String, dynamic> extra,
+    Map<String, dynamic>? extra,
   }) : extra = extra ?? {};
 
   /// Response body. may have been transformed, please refer to [ResponseType].
@@ -25,12 +25,12 @@ class HttpResponse<T> extends Equatable {
   // RequestOptions request;
 
   /// Http status code.
-  final int statusCode;
+  final int? statusCode;
 
   /// Returns the reason phrase associated with the status code.
   /// The reason phrase must be set before the body is written
   /// to. Setting the reason phrase after writing to the body.
-  final String statusMessage;
+  final String? statusMessage;
 
   /// Custom field that you can retrieve it later in `then`.
   final Map<String, dynamic> extra;
@@ -46,7 +46,7 @@ class HttpResponse<T> extends Equatable {
   /// Whether this response is a redirect.
   /// ** Attention **: Whether this field is available depends on whether the
   /// implementation of the adapter supports it or not.
-  final bool isRedirect;
+  final bool? isRedirect;
 
   /// Return the final real request uri (maybe redirect).
   ///
@@ -57,17 +57,17 @@ class HttpResponse<T> extends Equatable {
   /// We are more concerned about `data` field.
 
   HttpResponse<TResponse> copyWith<TResponse>({
-    TResponse data,
-    int statusCode,
-    Map<String, dynamic> headers,
+    TResponse? data,
+    int? statusCode,
+    Map<String, dynamic>? headers,
     // this.request,
-    bool isRedirect,
-    String statusMessage,
+    bool? isRedirect,
+    String? statusMessage,
     // this.redirects,
-    Map<String, dynamic> extra,
+    Map<String, dynamic>? extra,
   }) {
     return HttpResponse<TResponse>(
-        data: data ?? this.data,
+        data: data ?? this.data as TResponse,
         statusCode: statusCode ?? this.statusCode,
         // headers: headers ?? this.headers,
         isRedirect: isRedirect ?? this.isRedirect,
@@ -76,8 +76,7 @@ class HttpResponse<T> extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [data, statusCode, statusMessage, extra, isRedirect];
+  List<Object?> get props => [data, statusCode, statusMessage, extra, isRedirect];
 }
 
 class Progress extends Equatable {
@@ -85,7 +84,7 @@ class Progress extends Equatable {
   final double count;
   final double total;
 
-  Progress({@required this.status, @required this.count, @required this.total});
+  const Progress({required this.status, required this.count, required this.total});
   double get percentage => count / total * 100;
 
   @override

@@ -5,14 +5,14 @@ import 'package:core_fe_flutter/src/enums/date_time_format.dart';
 extension DateTimeExtension on DateTime {
   /// format DateTime object to specific string format
   /// [format]: output format, default is [DateTimeFormat.isoFormat]
-  /// [language] can be inserted to return the desired localized string default:[Language.en_US]
+  /// [language] can be inserted to return the desired localized string default:[Language.enUS]
   /// ```
   ///     var date=DateTime(2020, 12, 13, 14, 15, 16, 170, 180);
   ///     date.format();                                                               // 2020-12-13T14:15:16.170180Z
   ///     date.format(format:DateTimeFormat.shortDateFormat);                          // 2020-12-13
-  ///     date.format(format:DateTimeFormat.shortDateFormat,language:Language.ar_Eg);  //٢٠٢٠–١٢–١٣
+  ///     date.format(format:DateTimeFormat.shortDateFormat,language:Language.arEG);  //٢٠٢٠–١٢–١٣
   /// ```
-  String format({DateTimeFormat format, Language language = Language.en_US}) {
+  String format({DateTimeFormat? format, Language language = Language.enUS}) {
     format ??= DateTimeFormat.isoFormat;
     return format.formatterFunc(this, language);
   }
@@ -37,7 +37,7 @@ extension DateTimeExtension on DateTime {
 extension StringDateTimeFormatExtension on String {
   /// parse string from certain format to DateTime object
   /// [formatIn]: String input format, default is [DateTimeFormat.isoFormat]
-  DateTime parseToDateTime({DateTimeFormat formatIn}) {
+  DateTime? parseToDateTime({DateTimeFormat? formatIn}) {
     formatIn ??= DateTimeFormat.isoFormat;
     var date = formatIn.toDateTimeFunc(this);
     return date;

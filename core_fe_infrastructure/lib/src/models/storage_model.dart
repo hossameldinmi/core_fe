@@ -6,55 +6,53 @@ import 'package:core_fe_flutter/models.dart';
 @immutable
 class StorageModel<T> {
   StorageModel(
-      {@required this.key,
-      @required this.data,
-      @required this.createdDate,
-      @required this.updatedDate,
+      {required this.key,
+      required this.data,
+      required this.createdDate,
+      required this.updatedDate,
       this.expiryDate,
       this.tags})
-      : assert(!key.isNullEmptyOrWhitespace()),
-        assert(createdDate != null),
-        assert(updatedDate != null);
-  final T data;
+      : assert(!key.isNullEmptyOrWhitespace());
+  final T? data;
   final String key;
   final DateTime createdDate;
   final DateTime updatedDate;
-  final DateTime expiryDate;
-  final List<String> tags;
+  final DateTime? expiryDate;
+  final List<String>? tags;
 
   @override
   String toString() =>
       'StorageModel<$T>\n$kKey:$key\ndata:$data\ncreatedDate:$createdDate\nupdatedDate:$updatedDate\nexpiryDate:$expiryDate\n$kTags:$tags\n-----';
 
-  factory StorageModel.fromJson(
-      Map<String, dynamic> map, FromJsonFunc<T> dataFromJsonFunc) {
+  factory StorageModel.fromJson(Map<String, dynamic>? map, FromJsonFunc<T?> dataFromJsonFunc) {
     return StorageModel.fromJsonWithoutData(map, dataFromJsonFunc);
   }
 
-  factory StorageModel.fromJsonWithoutData(Map<String, dynamic> map,
-      [FromJsonFunc<T> dataFromJsonFunc]) {
-    if (map == null) {
-      return null;
-    }
+  factory StorageModel.fromJsonWithoutData(Map<String, dynamic>? map, [FromJsonFunc<T?>? dataFromJsonFunc]) {
+    ArgumentError.checkNotNull(map);
+
     return StorageModel<T>(
-        key: map[kKey],
+        key: map![kKey],
         data: dataFromJsonFunc != null ? dataFromJsonFunc(map[_kData]) : null,
-        createdDate: (map[_kCreatedDate] as String)?.parseToDateTime(),
-        updatedDate: (map[_kUpdatedDate] as String)?.parseToDateTime(),
-        expiryDate: (map[_kExpiryDate] as String)?.parseToDateTime(),
-        tags: (map[kTags] as List)?.map((model) => model as String)?.toList());
+        createdDate: (map[_kCreatedDate] as String?)!.parseToDateTime()!,
+        updatedDate: (map[_kUpdatedDate] as String?)!.parseToDateTime()!,
+        expiryDate: (map[_kExpiryDate] as String?)?.parseToDateTime(),
+        tags: (map[kTags] as List?)?.map((model) => model as String).toList());
   }
 
   Map<String, dynamic> toJson(ToJsonFunc<T> dataToJsonFunc) => {
         kKey: key,
-        _kData: dataToJsonFunc(data),
+        _kData: data != null ? dataToJsonFunc(data!) : null,
         _kCreatedDate: createdDate.format(),
         _kUpdatedDate: updatedDate.format(),
-        _kExpiryDate: expiryDate != null ? expiryDate.format() : null,
+        _kExpiryDate: expiryDate != null ? expiryDate!.format() : null,
         kTags: tags,
       };
 
-  bool isExpired() => DateTime.now().isAfter(expiryDate);
+  bool isExpired() => DateTime.now().isAfter(expiryDate!);
+
+  @override
+  int get hashCode => key.hashCode;
 
   @override
   bool operator ==(Object other) {
@@ -64,7 +62,7 @@ class StorageModel<T> {
         createdDate == other.createdDate &&
         updatedDate == other.updatedDate &&
         expiryDate == other.expiryDate &&
-        tags.isEqual(other.tags, isOrderEquality: false));
+        (tags ?? []).isEqual(other.tags ?? [], isOrderEquality: false));
     return result;
   }
 

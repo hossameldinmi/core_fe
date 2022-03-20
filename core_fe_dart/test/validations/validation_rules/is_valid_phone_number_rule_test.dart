@@ -15,9 +15,9 @@ void main() {
     expect(actual, false);
   });
 
-  test('expected false if value is null', () {
-    expect(validationRule.check(null), false);
-  });
+  // test('expected false if value is null', () {
+  //   expect(validationRule.check(null), false);
+  // });
 
   test('expected false if value is empty', () {
     final actual = validationRule.check('');

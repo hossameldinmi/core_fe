@@ -1,8 +1,6 @@
-import 'package:meta/meta.dart';
-
 class Logger {
   final String _className;
-  static LoggerProvider _logger;
+  static LoggerProvider? _logger;
   static void initLogger(LoggerProvider loggerProvider) {
     _logger = loggerProvider;
   }
@@ -11,11 +9,11 @@ class Logger {
 
   void debug(
     dynamic message, {
-    String methodName,
+    String? methodName,
     dynamic args,
     dynamic output,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   }) {
     if (showStackTrace) stackTrace ??= StackTrace.current;
@@ -33,11 +31,11 @@ class Logger {
 
   void info(
     dynamic message, {
-    String methodName,
+    String? methodName,
     dynamic args,
     dynamic output,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   }) {
     if (showStackTrace) stackTrace ??= StackTrace.current;
@@ -56,11 +54,11 @@ class Logger {
 
   void error(
     dynamic message, {
-    String methodName,
+    String? methodName,
     dynamic args,
     dynamic output,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   }) {
     if (showStackTrace) stackTrace ??= StackTrace.current;
@@ -79,12 +77,12 @@ class Logger {
 
   void success(
     dynamic message, {
-    String className,
-    String methodName,
+    String? className,
+    String? methodName,
     dynamic args,
     dynamic output,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   }) {
     if (showStackTrace) stackTrace ??= StackTrace.current;
@@ -103,12 +101,12 @@ class Logger {
 
   void warning(
     dynamic message, {
-    String className,
-    String methodName,
+    String? className,
+    String? methodName,
     dynamic args,
     dynamic output,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   }) {
     if (showStackTrace) stackTrace ??= StackTrace.current;
@@ -127,11 +125,11 @@ class Logger {
 
   void verbose(
     dynamic message, {
-    String methodName,
+    String? methodName,
     dynamic args,
     dynamic output,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   }) {
     if (showStackTrace) stackTrace ??= StackTrace.current;
@@ -148,65 +146,65 @@ class Logger {
   }
 
   void event({
-    @required String eventName,
-    Map<String, String> args,
+    required String eventName,
+    Map<String, String>? args,
   }) {
     _logger?.event(eventName: eventName, args: args);
   }
 
-  List<Map<String, dynamic>> getLogs() => _logger?.getLogs();
+  List<Map<String, dynamic>>? getLogs() => _logger?.getLogs();
 }
 
 abstract class LoggerProvider {
   void debug({
-    @required LogObject logObject,
+    required LogObject logObject,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   });
   void info({
-    @required LogObject logObject,
+    required LogObject logObject,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   });
   void error({
-    @required LogObject logObject,
+    required LogObject logObject,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   });
 
   void success({
-    @required LogObject logObject,
+    required LogObject logObject,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   });
 
   void warning({
-    @required LogObject logObject,
+    required LogObject logObject,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   });
   void verbose({
-    @required LogObject logObject,
+    required LogObject logObject,
     dynamic error,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
     bool showStackTrace = false,
   });
   void event({
-    @required String eventName,
-    Map<String, String> args,
+    required String eventName,
+    Map<String, String>? args,
   });
 
   List<Map<String, dynamic>> getLogs();
 }
 
 class LogObject {
-  final String className;
-  final String methodName;
+  final String? className;
+  final String? methodName;
   final dynamic message;
   final dynamic args;
   final dynamic output;

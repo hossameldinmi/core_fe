@@ -39,9 +39,7 @@ void main() {
       expect(result, false);
     });
 
-    test(
-        'Map<String, List<int>>) key&value equality| without valueEquality impl => NOT equal',
-        () {
+    test('Map<String, List<int>>) key&value equality| without valueEquality impl => NOT equal', () {
       final m1 = <String, List<int>>{
         'k1': [1, 2, 3],
         'k2': [4, 5, 6],
@@ -56,8 +54,7 @@ void main() {
       expect(result, false);
     });
 
-    test(
-        'Map<String, List<int>>) key&value equality| without valueEquality impl| value:reference equality => equal',
+    test('Map<String, List<int>>) key&value equality| without valueEquality impl| value:reference equality => equal',
         () {
       final l1 = [1, 2, 3];
       final l2 = [4, 5, 6];
@@ -81,11 +78,10 @@ void main() {
         'k2': [4, 5, 6],
         'k3': [7, 8, 9]
       };
-      final result = m1.equals(m2, valueEquality: ListEquality());
+      final result = m1.equals(m2, valueEquality: const ListEquality());
       expect(result, true);
     });
-    test('Map<String,List<int>>) key:not-equal | value: equal => not equal',
-        () {
+    test('Map<String,List<int>>) key:not-equal | value: equal => not equal', () {
       final m1 = <String, List<int>>{
         'k1': [1, 2, 3],
         'k2': [1, 2, 3],
@@ -111,9 +107,7 @@ void main() {
       expect(result, expected);
     });
 
-    test(
-        'Map<String,int>) key&value intersection on 2 identical maps with different order',
-        () {
+    test('Map<String,int>) key&value intersection on 2 identical maps with different order', () {
       final m1 = {'k1': 1, 'k2': 2, 'k3': 3};
       final m2 = {'k3': 3, 'k2': 2, 'k1': 1};
       final result = m1.intersection(m2);
@@ -121,17 +115,14 @@ void main() {
       expect(result, expected);
     });
 
-    test('Map<String,int>) key&value intersection on with no matching values',
-        () {
+    test('Map<String,int>) key&value intersection on with no matching values', () {
       final m1 = {'k1': 1, 'k2': 2, 'k3': 3};
       final m2 = {'k1': 3, 'k2': 1, 'k3': 4};
       final result = m1.intersection(m2);
       expect(result, {});
     });
 
-    test(
-        'Map<String,int>) key&value intersection on with no matching keys&values',
-        () {
+    test('Map<String,int>) key&value intersection on with no matching keys&values', () {
       final m1 = {'k1': 1, 'k2': 2, 'k3': 3};
       final m2 = {'k5': 3, 'k6': 1, 'k7': 4};
       final result = m1.intersection(m2);
@@ -158,8 +149,7 @@ void main() {
       expect(result, expected);
     }, skip: 'TODO: implement List value equality');
 
-    test('Map<String, List<int>>) key&value reference equality intersection',
-        () {
+    test('Map<String, List<int>>) key&value reference equality intersection', () {
       final l1 = [1, 2, 3];
       final l2 = [4, 5, 6];
       final l3 = [7, 8, 9];
@@ -171,8 +161,7 @@ void main() {
       var expected = {'k1': l1, 'k2': l2, 'k3': l3};
       expect(result, expected);
     });
-    test('Map<String, List<int>>) key&value two identical Maps intersection',
-        () {
+    test('Map<String, List<int>>) key&value two identical Maps intersection', () {
       final m1 = {
         'k1': [1, 2, 3],
         'k2': [4, 5, 6],

@@ -1,26 +1,26 @@
 name: core_fe_flutter
 description: Shared Flutter specific utilities
-version: 0.0.1
-author: null
-homepage: null
+version: 0.1.2
+homepage: 'www.hossameldinmi.dev'
 publish_to: none
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  collection: ^1.15.0
   flutter:
     sdk: flutter
-  get_it: ^4.0.2
+  get_it: ^7.2.0
   intl: ^0.17.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
   core_fe_dart:
     path: ../core_fe_dart
-  pedantic: ^1.9.0
-  logger: ^0.9.4
+  flutter_lints: ^1.0.4
+  flutter_test:
+    sdk: flutter
+  logger: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

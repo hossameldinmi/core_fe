@@ -5,8 +5,7 @@ extension MapExtensions<TKey, TValue> on Map<TKey, TValue> {
   bool equals(Map<TKey, TValue> other,
       {Equality<TKey> keyEquality = const DefaultEquality(),
       Equality<TValue> valueEquality = const DefaultEquality()}) {
-    var listEquality =
-        MapEquality<TKey, TValue>(keys: keyEquality, values: valueEquality);
+    var listEquality = MapEquality<TKey, TValue>(keys: keyEquality, values: valueEquality);
     return listEquality.equals(this, other);
   }
 
@@ -21,11 +20,8 @@ extension MapExtensions<TKey, TValue> on Map<TKey, TValue> {
   }
 
   Future<Map<TKey2, TValue2>> asyncMap<TKey2, TValue2>(
-          Future<MapEntry<TKey2, TValue2>> Function(MapEntry<TKey, TValue>)
-              convert) =>
+          Future<MapEntry<TKey2, TValue2>> Function(MapEntry<TKey, TValue>) convert) =>
       entries.asyncMap(convert).then((list) => Map.fromEntries(list));
 
-  Future<void> asyncForEach(
-          Future<void> Function(MapEntry<TKey, TValue>) action) =>
-      entries.asyncForEach(action);
+  Future<void> asyncForEach(Future<void> Function(MapEntry<TKey, TValue>) action) => entries.asyncForEach(action);
 }

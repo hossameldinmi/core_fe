@@ -5,8 +5,8 @@ import 'package:meta/meta.dart';
 @immutable
 class Settings extends Equatable {
   final Language language;
-  Settings({
-    @required this.language,
+  const Settings({
+    required this.language,
   });
 
   Map<String, dynamic> toMap() {
@@ -15,10 +15,10 @@ class Settings extends Equatable {
     };
   }
 
-  factory Settings.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
+  factory Settings.fromMap(Map<String, dynamic>? map) {
+    ArgumentError.checkNotNull(map, 'map');
     return Settings(
-      language: Language.fromLocale(map['language']),
+      language: Language.fromLocale(map!['language']),
     );
   }
 

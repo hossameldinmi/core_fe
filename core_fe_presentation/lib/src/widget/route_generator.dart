@@ -8,8 +8,7 @@ class RouteGenerator {
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     if (routes.containsKey(settings.name)) {
-      return MaterialPageRoute(
-          builder: routes[settings.name], settings: settings);
+      return MaterialPageRoute(builder: routes[settings.name]!, settings: settings);
     } else {
       return MaterialPageRoute(builder: (_) {
         return Scaffold(

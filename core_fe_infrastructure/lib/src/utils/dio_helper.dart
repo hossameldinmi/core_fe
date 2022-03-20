@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:core_fe_infrastructure/src/enums/response_type.dart'
-    as response_type;
+import 'package:core_fe_infrastructure/src/enums/response_type.dart' as response_type;
 import 'package:dio/dio.dart' hide RequestOptions;
 import 'package:meta/meta.dart';
 import 'package:core_fe_infrastructure/src/models/http_response.dart';
@@ -13,11 +12,7 @@ import 'package:core_fe_flutter/models.dart';
 import 'package:core_fe_infrastructure/models.dart';
 
 class DioHelper {
-  static Options toDioOptions(
-      RequestOptions requestOptions, ResponseOptions responseOptions,
-      [int length]) {
-    assert(requestOptions != null);
-    assert(responseOptions != null);
+  static Options toDioOptions(RequestOptions requestOptions, ResponseOptions responseOptions, [int? length]) {
     var headers = <String, dynamic>{};
     if (requestOptions.length != null) {
       headers[HttpHeaders.contentLengthHeader] = requestOptions.length;
@@ -34,10 +29,10 @@ class DioHelper {
         validateStatus: responseOptions.validateStatus);
   }
 
-  static HttpResponse<TResponse> toHttpResponse<TResponse>(Response response,
-      [FromJsonFunc<TResponse> fromJsonFunc, String savePath]) {
+  static HttpResponse<TResponse?> toHttpResponse<TResponse>(Response response,
+      [FromJsonFunc<TResponse?>? fromJsonFunc, String? savePath]) {
     assert(!response.isNullEmptyOrWhitespace());
-    TResponse data;
+    TResponse? data;
 
     // if TResponse is dynamic
     if (TResponse == dynamic) {
@@ -46,36 +41,32 @@ class DioHelper {
       data = null;
     } else {
       // if data is not null
-      if (!(response.data as Object).isNullEmptyOrWhitespace()) {
-        if (response.headers[HttpHeaders.contentTypeHeader] // if data is json
+      if (!(response.data as Object?).isNullEmptyOrWhitespace()) {
+        if (response.headers[HttpHeaders.contentTypeHeader]! // if data is json
             .contains(Headers.jsonContentType)) {
-          data = fromJsonFunc(response.data);
+          data = fromJsonFunc!(response.data);
         }
         // if data is stream
-        else if (response.data is ResponseBody &&
-            (response.data as ResponseBody).stream != null) {
+        else if (response.data is ResponseBody) {
           if (TResponse == Stream ||
               TResponse.toString() == 'Stream<dynamic>' ||
               TResponse.toString() == 'Stream<List<int>>' ||
               TResponse.toString() == 'Stream<Uint8List>') {
             var streamController = BehaviorSubject<Uint8List>();
             // data = (response.data as ResponseBody).stream as TResponse;
-            var subscription = (response.data as ResponseBody)
-                .stream
-                .asBroadcastStream()
-                .listen(streamController.add);
+            var subscription = (response.data as ResponseBody).stream.asBroadcastStream().listen(streamController.add);
             subscription.onError(streamController.addError);
             subscription.onDone(streamController.close);
             data = streamController.stream as TResponse;
           }
           // if data
           else if (TResponse == File) {
-            data = File(savePath) as TResponse;
+            data = File(savePath!) as TResponse;
           }
         }
       }
     }
-    return HttpResponse<TResponse>(
+    return HttpResponse<TResponse?>(
       data: data,
       extra: response.extra,
       isRedirect: response.isRedirect,
@@ -84,18 +75,16 @@ class DioHelper {
     );
   }
 
-  static Future<Tuple2<dynamic, int>> toValidFileObject(dynamic data) async {
-    assert(!(data as Object).isNullEmptyOrWhitespace());
+  static Future<Tuple2<dynamic, int?>> toValidFileObject(dynamic data) async {
+    assert(!(data as Object?).isNullEmptyOrWhitespace());
     dynamic result;
-    int length;
+    int? length;
     if (data is Map) {
-      var input = ((await DioHelper.toFileCollection(data)) as Map)
-          .cast<String, dynamic>();
+      var input = ((await DioHelper.toFileCollection(data)) as Map).cast<String, dynamic>();
       result = FormData.fromMap(input);
       length = (result as FormData).length;
     } else if (data is Iterable) {
-      result = (await DioHelper.toFileCollection(data) as Iterable)
-          .cast<MultipartFile>();
+      result = (await DioHelper.toFileCollection(data) as Iterable).cast<MultipartFile>();
       // length = (result as Iterable<MultipartFile>)
       //     .fold(0, (l, element) => element.length + l);
     } else {
@@ -108,12 +97,11 @@ class DioHelper {
   @visibleForTesting
   static Future<dynamic> toFileCollection(dynamic data) async {
     assert(data != null);
-    return (data as Object).castAllIn<MultipartFile>(toMultipartFile);
+    return (data as Object).castAllIn<MultipartFile?>(toMultipartFile);
   }
 
   @visibleForTesting
-  static Future<MultipartFile> toMultipartFile(Object value) async {
-    assert(value != null);
+  static Future<MultipartFile?> toMultipartFile(Object value) async {
     // value is File
     if (value is File) {
       return MultipartFile.fromFile(value.path);
@@ -134,8 +122,7 @@ class DioHelper {
     }
   }
 
-  static ResponseType toDioResponseType(
-      response_type.ResponseType responseType) {
+  static ResponseType toDioResponseType(response_type.ResponseType? responseType) {
     switch (responseType) {
       case response_type.ResponseType.json:
         return ResponseType.json;

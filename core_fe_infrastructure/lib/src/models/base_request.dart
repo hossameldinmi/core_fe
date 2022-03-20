@@ -10,63 +10,68 @@ abstract class BaseRequest extends Equatable {
 
 @immutable
 class GetRequest extends BaseRequest {
-  final Map<String, dynamic> queryParams;
-  GetRequest({@required String url, this.queryParams}) : super(url);
+  final Map<String, dynamic>? queryParams;
+  GetRequest({required String url, this.queryParams}) : super(url);
 
   @override
-  List<Object> get props => [super.url, queryParams];
+  List<Object?> get props => [super.url, queryParams];
 }
 
 @immutable
 class PostRequest extends BaseRequest {
   final dynamic body;
-  PostRequest({@required String url, @required this.body}) : super(url);
+  PostRequest({required String url, required this.body}) : super(url);
 
   @override
-  List<Object> get props => [super.url, body];
+  List<Object?> get props => [super.url, body];
+}
+
+@immutable
+class PostMediaRequest extends PostRequest {
+  final int? contentLength;
+  PostMediaRequest({required String url, dynamic body, this.contentLength})
+      : super(
+          url: url,
+          body: body,
+        );
+
+  @override
+  List<Object?> get props => [super.url, super.body, contentLength];
 }
 
 @immutable
 class PutRequest extends BaseRequest {
-  final Map<String, dynamic> queryParams;
+  final Map<String, dynamic>? queryParams;
   final dynamic body;
-  PutRequest({@required String url, @required this.body, this.queryParams})
-      : super(url);
+  PutRequest({required String url, required this.body, this.queryParams}) : super(url);
 
   @override
-  List<Object> get props => [super.url, body, queryParams];
+  List<Object?> get props => [super.url, body, queryParams];
+}
+
+@immutable
+class PutMediaRequest extends PutRequest {
+  final int? contentLength;
+  PutMediaRequest({required String url, dynamic body, Map<String, dynamic>? queryParams, this.contentLength})
+      : super(url: url, body: body, queryParams: queryParams);
+
+  @override
+  List<Object?> get props => [super.url, super.body, super.queryParams, contentLength];
 }
 
 @immutable
 class DeleteRequest extends BaseRequest {
-  final Map<String, dynamic> queryParams;
-  DeleteRequest({@required String url, this.queryParams}) : super(url);
+  final Map<String, dynamic>? queryParams;
+  DeleteRequest({required String url, this.queryParams}) : super(url);
 
   @override
-  List<Object> get props => [super.url, queryParams];
-}
-
-@immutable
-class PostFileRequest extends BaseRequest {
-  final dynamic data;
-  final Map<String, dynamic> queryParams;
-  final int length;
-  PostFileRequest(
-      {@required String url,
-      @required this.data,
-      this.queryParams,
-      this.length})
-      : assert(!(data as Object).isNullEmptyOrWhitespace()),
-        super(url);
-
-  @override
-  List<Object> get props => [super.url, data, queryParams, length];
+  List<Object?> get props => [super.url, queryParams];
 }
 
 @immutable
 class DownloadFileRequest extends BaseRequest {
   final String savePath;
-  DownloadFileRequest({@required String url, @required this.savePath})
+  DownloadFileRequest({required String url, required this.savePath})
       : assert(!savePath.isNullEmptyOrWhitespace()),
         super(url);
 
