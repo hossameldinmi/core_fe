@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-extension StreamExtensions<T> on Stream<T?> {
-  Stream<T?> onEvent(void Function(T?) action) {
+extension StreamExtensions<T> on Stream<T> {
+  Stream<T> onEvent(void Function(T) action) {
     return map((e) {
       action(e);
       return e;
