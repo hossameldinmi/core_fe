@@ -337,7 +337,7 @@ import 'package:flutter_test/flutter_test.dart';
 //   group('Post File', () {
 //     test('upload valid file to google Drive', () async {
 //       var response = await httpProvider.postFile(
-//           request: PostFileRequest(
+//           request: MediaRequest(
 //               url: 'https://www.googleapis.com/upload/drive/v3/files',
 //               data: File(imagePath),
 //               queryParams: {'uploadType': 'multipart', 'API_KEY': 'AIzaSyCscBiYqmCWMcLniZxzFP_aA0qq8B4v6sA'}),

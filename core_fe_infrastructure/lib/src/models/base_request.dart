@@ -27,14 +27,36 @@ class PostRequest extends BaseRequest {
 }
 
 @immutable
+class PostMediaRequest extends PostRequest {
+  final int? contentLength;
+  PostMediaRequest({required String url, dynamic body, this.contentLength})
+      : super(
+          url: url,
+          body: body,
+        );
+
+  @override
+  List<Object?> get props => [super.url, super.body, contentLength];
+}
+
+@immutable
 class PutRequest extends BaseRequest {
   final Map<String, dynamic>? queryParams;
   final dynamic body;
-  PutRequest({required String url, required this.body, this.queryParams})
-      : super(url);
+  PutRequest({required String url, required this.body, this.queryParams}) : super(url);
 
   @override
   List<Object?> get props => [super.url, body, queryParams];
+}
+
+@immutable
+class PutMediaRequest extends PutRequest {
+  final int? contentLength;
+  PutMediaRequest({required String url, dynamic body, Map<String, dynamic>? queryParams, this.contentLength})
+      : super(url: url, body: body, queryParams: queryParams);
+
+  @override
+  List<Object?> get props => [super.url, super.body, super.queryParams, contentLength];
 }
 
 @immutable
@@ -44,23 +66,6 @@ class DeleteRequest extends BaseRequest {
 
   @override
   List<Object?> get props => [super.url, queryParams];
-}
-
-@immutable
-class PostFileRequest extends BaseRequest {
-  final dynamic data;
-  final Map<String, dynamic>? queryParams;
-  final int? length;
-  PostFileRequest(
-      {required String url,
-      required this.data,
-      this.queryParams,
-      this.length})
-      : assert(!(data as Object).isNullEmptyOrWhitespace()),
-        super(url);
-
-  @override
-  List<Object?> get props => [super.url, data, queryParams, length];
 }
 
 @immutable

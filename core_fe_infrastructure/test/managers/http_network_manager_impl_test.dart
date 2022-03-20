@@ -254,9 +254,9 @@ void main() {
 
   group('Post file', () {
     test('valid post file request with valid 200 valid response', () async {
-      var postFileRequest = PostFileRequest(
+      var mediaRequest = PostMediaRequest(
         url: 'https://jsonplaceholder.typicode.com/posts/2',
-        data: file1,
+        body: file1,
       );
       final requestOptions = RequestOptions();
       final httpResponse = HttpResponse<void>(data: null, statusCode: HttpStatus.ok, statusMessage: ok);
@@ -270,7 +270,7 @@ void main() {
       ).thenAnswer((realInvocation) => Future.value(httpResponse));
       when(() => mockHttpHelper.resolveResponse(httpResponse)).thenReturn(BaseResponse.fromHttpResponse(httpResponse));
       var response = await networkManager.postFile<void>(
-        request: postFileRequest,
+        request: mediaRequest,
         requestOptions: requestOptions,
       );
 

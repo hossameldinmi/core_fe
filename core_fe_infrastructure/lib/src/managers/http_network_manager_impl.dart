@@ -1,10 +1,6 @@
 import 'package:core_fe_infrastructure/src/exceptions/network_exceptions.dart';
 import 'package:core_fe_infrastructure/src/interfaces/connectivity.dart';
 import 'package:core_fe_infrastructure/src/interfaces/http_network.dart';
-import 'package:core_fe_infrastructure/src/models/base_request.dart';
-import 'package:core_fe_infrastructure/src/models/base_response.dart';
-import 'package:core_fe_infrastructure/src/models/http_response.dart';
-import 'package:core_fe_infrastructure/src/models/request_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:core_fe_infrastructure/src/constants/error_code.dart';
 import 'package:core_fe_infrastructure/models.dart';
@@ -46,7 +42,7 @@ class HttpNetworkManagerImpl implements IHttpNetworkManager {
 
   @override
   Future<BaseResponse<TResponse?>> postFile<TResponse>({
-    required PostFileRequest request,
+    required PostMediaRequest request,
     RequestOptions? requestOptions,
     ResponseOptions<TResponse>? responseOptions,
   }) {

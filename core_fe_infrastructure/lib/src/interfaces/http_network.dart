@@ -8,7 +8,7 @@ abstract class IHttpNetworkManager {
       {required PostRequest request, RequestOptions? requestOptions, ResponseOptions<TResponse>? responseOptions});
 
   Future<BaseResponse<TResponse?>> postFile<TResponse>(
-      {required PostFileRequest request, RequestOptions? requestOptions, ResponseOptions<TResponse>? responseOptions});
+      {required PostMediaRequest request, RequestOptions? requestOptions, ResponseOptions<TResponse>? responseOptions});
 
   Future<BaseResponse<TResponse?>> put<TResponse>(
       {required PutRequest request, RequestOptions? requestOptions, ResponseOptions<TResponse>? responseOptions});
@@ -44,7 +44,7 @@ abstract class NetworkProvider {
       required ResponseOptions<TResponse> responseOptions});
 
   Future<HttpResponse<TResponse?>> postFile<TResponse>(
-      {required PostFileRequest request,
+      {required PostMediaRequest request,
       required RequestOptions requestOptions,
       required ResponseOptions<TResponse> responseOptions});
 

@@ -29,6 +29,9 @@ class DioHttpProvider implements NetworkProvider {
       {required PostRequest request,
       required RequestOptions requestOptions,
       required ResponseOptions<TResponse> responseOptions}) async {
+    if (request is PostMediaRequest) {
+      return postFile(request: request, requestOptions: requestOptions, responseOptions: responseOptions);
+    }
     return _request<TResponse>(
       requestOptions,
       responseOptions,
@@ -45,6 +48,9 @@ class DioHttpProvider implements NetworkProvider {
       {required PutRequest request,
       required RequestOptions requestOptions,
       required ResponseOptions<TResponse> responseOptions}) async {
+    if (request is PutMediaRequest) {
+      return _putWithMedia(request: request, requestOptions: requestOptions, responseOptions: responseOptions);
+    }
     return _request<TResponse>(
       requestOptions,
       responseOptions,
@@ -71,14 +77,32 @@ class DioHttpProvider implements NetworkProvider {
 
   @override
   Future<HttpResponse<TResponse?>> postFile<TResponse>(
-      {required PostFileRequest request,
+      {required PostMediaRequest request,
       RequestOptions? requestOptions,
       ResponseOptions<TResponse>? responseOptions}) async {
-    return DioHelper.toValidFileObject(request.data).then(
+    requestOptions ?? RequestOptions();
+    return DioHelper.toValidFileObject(request.body).then(
       (tuple) => _request<TResponse>(
         requestOptions!.copyWith(length: tuple.item2),
         responseOptions!,
         (dioOptions) => _dio.post(
+          request.url,
+          data: tuple.item1,
+          options: dioOptions,
+        ),
+      ),
+    );
+  }
+
+  Future<HttpResponse<TResponse?>> _putWithMedia<TResponse>(
+      {required PutMediaRequest request,
+      required RequestOptions requestOptions,
+      required ResponseOptions<TResponse> responseOptions}) async {
+    return DioHelper.toValidFileObject(request.body).then(
+      (tuple) => _request<TResponse>(
+        requestOptions.copyWith(length: tuple.item2),
+        responseOptions,
+        (dioOptions) => _dio.put(
           request.url,
           data: tuple.item1,
           queryParameters: request.queryParams,

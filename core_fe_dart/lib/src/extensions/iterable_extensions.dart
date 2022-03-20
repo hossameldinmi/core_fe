@@ -1,27 +1,26 @@
 import 'package:collection/collection.dart';
 
-extension IterableExtensions<T> on Iterable<T?> {
-  bool isEqual(Iterable<T?> other,
-      {Equality<T?> elementEquality = const DefaultEquality(),
-      bool isOrderEquality = true}) {
+extension IterableExtensions<T> on Iterable<T> {
+  bool isEqual(Iterable<T> other,
+      {Equality<T> elementEquality = const DefaultEquality(), bool isOrderEquality = true}) {
     if (isOrderEquality) {
-      return IterableEquality<T?>(elementEquality).equals(this, other);
+      return IterableEquality<T>(elementEquality).equals(this, other);
     } else {
-      return UnorderedIterableEquality<T?>(elementEquality).equals(this, other);
+      return UnorderedIterableEquality<T>(elementEquality).equals(this, other);
     }
   }
 
-  Iterable<T?> intersection(Iterable<T> other) {
+  Iterable<T> intersection(Iterable<T> other) {
     return where(other.contains);
   }
 
-  Iterable<T?> distinct(Iterable<T> other) {
+  Iterable<T> distinct(Iterable<T> other) {
     var list = where((i) => !other.contains(i)).toList();
     list.addAll(other.where((i) => !contains(i)));
     return list;
   }
 
-  List<R> indexMap<R>(R Function(int, T?) mapFunc) {
+  List<R> indexMap<R>(R Function(int, T) mapFunc) {
     List<R>? list;
     list ??= <R>[];
     for (var i = 0; i < length; i++) {
@@ -54,8 +53,7 @@ extension ListExtension<T> on List<T?> {
     }
   }
 
-  List<T?> replaceManyWith(
-      List<T?> other, bool Function(T? old, T? newItem) test) {
+  List<T?> replaceManyWith(List<T?> other, bool Function(T? old, T? newItem) test) {
     var newList = <T?>[];
     forEach((old) {
       var matchedItem = other.firstWhereOrNull((newItem) {
@@ -70,8 +68,7 @@ extension ListExtension<T> on List<T?> {
     return newList;
   }
 
-  void replaceWhere(
-      bool Function(T?) test, T? Function(T? oldObject) newElementFactory) {
+  void replaceWhere(bool Function(T?) test, T? Function(T? oldObject) newElementFactory) {
     where(test).forEach((old) => replaceWith(old, newElementFactory(old)));
   }
 
@@ -80,8 +77,7 @@ extension ListExtension<T> on List<T?> {
     this[index] = newElement;
   }
 
-  T? firstWhereOrDefaultIndexed(bool Function(T?, int) test,
-      {T? Function()? orElse}) {
+  T? firstWhereOrDefaultIndexed(bool Function(T?, int) test, {T? Function()? orElse}) {
     for (var i = 0; i < length; i++) {
       var item = this[i];
       if (test(this[i], i)) {
@@ -92,8 +88,7 @@ extension ListExtension<T> on List<T?> {
     return orElse();
   }
 
-  Iterable<T?> removeNotExisting(Iterable<T?> updated,
-      [bool Function(T? original, T? updated)? test]) {
+  Iterable<T?> removeNotExisting(Iterable<T?> updated, [bool Function(T? original, T? updated)? test]) {
     test ??= (c, e) => c == e;
     List<T?>? removed;
     if (updated.isEmpty) {

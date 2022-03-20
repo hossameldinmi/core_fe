@@ -2,7 +2,7 @@ name: core_fe_infrastructure
 description: Infrastructure and Data Access Core Layer, and all framework
   specific implementations.
 version: 0.1.2
-homepage: null
+homepage: 'www.hossameldinmi.dev'
 publish_to: none
 
 environment:
